@@ -1,21 +1,29 @@
 "use client";
 
 import { NextUIProvider } from "@nextui-org/react";
-// import { useRouter } from "next/navigation";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { ThemeProviderProps } from "next-themes/dist/types";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import { useRouter } from "next-nprogress-bar";
 
-export function Providers({ children }: { children: React.ReactNode }) {
+export interface ProvidersProps {
+  children: React.ReactNode;
+  themeProps?: ThemeProviderProps;
+}
+
+export function Providers({ children, themeProps }: ProvidersProps) {
   const router = useRouter();
   return (
     <NextUIProvider navigate={router.push}>
-      {children}
-      <ProgressBar
-        height="4px"
-        // color="#fffd00"
-        options={{ showSpinner: false }}
-        shallowRouting
-      />
+      <NextThemesProvider attribute="class" defaultTheme="dark">
+        {children}
+        <ProgressBar
+          height="6px"
+          color="#FF204E"
+          options={{ showSpinner: false }}
+          shallowRouting
+        />
+      </NextThemesProvider>
     </NextUIProvider>
   );
 }

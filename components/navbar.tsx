@@ -11,9 +11,14 @@ import {
   Link,
   Button,
 } from "@nextui-org/react";
+import { ThemeSwitcher } from "@/components/themeSwitcher";
+import { useTheme } from "next-themes";
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const theme = useTheme();
+
+  // console.log("THEME ==>", theme.theme);
 
   const menuItems = [
     {
@@ -30,6 +35,8 @@ export const Navbar = () => {
     },
   ];
 
+  const toggleColor = theme.theme === "dark" ? "white" : "black";
+
   return (
     <NextUINavbar
       isMenuOpen={isMenuOpen}
@@ -40,10 +47,11 @@ export const Navbar = () => {
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          className="sm:hidden"
+          className="sm:hidden bg-background"
+          style={{ color: toggleColor }}
         />
         <NavbarBrand>
-          <Link href="/">
+          <Link href="/" color="foreground">
             <p className="font-bold text-inherit">DummyJSON</p>
           </Link>
         </NavbarBrand>
@@ -70,10 +78,13 @@ export const Navbar = () => {
         <NavbarItem className="hidden lg:flex">
           <Link href="#">Login</Link>
         </NavbarItem>
+        {/*<NavbarItem>*/}
+        {/*  <Button as={Link} color="primary" href="#" variant="flat">*/}
+        {/*    Sign Up*/}
+        {/*  </Button>*/}
+        {/*</NavbarItem>*/}
         <NavbarItem>
-          <Button as={Link} color="primary" href="#" variant="flat">
-            Sign Up
-          </Button>
+          <ThemeSwitcher />
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu>

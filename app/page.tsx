@@ -12,7 +12,7 @@ import { SmallAreaChart } from "@/components/chartTypes";
 
 export default function Home() {
   return (
-    <main className="">
+    <main className="container mx-auto max-w-7xl p-6 flex-grow">
       <Link href="/carts">Carts</Link>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">

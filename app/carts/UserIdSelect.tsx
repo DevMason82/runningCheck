@@ -50,40 +50,38 @@ const UserIdSelect = ({ data }: { data: any }) => {
       </Tabs>
 
       {cartData && (
-        <div>
-          <div className="grid gap-4">
-            {cartData.carts[0].products.map((cart) => {
-              return (
-                <Card key={cart.id}>
-                  <CardHeader className="flex gap-3">
-                    <Image
-                      alt="nextui logo"
-                      height={40}
-                      radius="sm"
-                      src={cart.thumbnail}
-                      width={40}
-                    />
-                    <div className="flex flex-col">
-                      <p className="text-md">{cart.title}</p>
-                    </div>
-                  </CardHeader>
-                  <Divider />
-                  <CardBody className="flex flex-row justify-end">
-                    <dl className="w-2/5 gap-3">
-                      <dt className="float-left mr-1">Price</dt>
-                      <dd className="text-right">{cart.price}</dd>
-                      <dt className="float-left mr-1">Quantity</dt>
-                      <dd className="text-right">{cart.quantity}</dd>
-                    </dl>
-                  </CardBody>
-                  <Divider />
-                  <CardFooter className="justify-end">
-                    <div>Total: {cart.total}</div>
-                  </CardFooter>
-                </Card>
-              );
-            })}
-          </div>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {cartData.carts[0].products.map((cart) => {
+            return (
+              <Card key={cart.id}>
+                <CardHeader className="flex gap-3">
+                  <Image
+                    alt="nextui logo"
+                    height={40}
+                    radius="sm"
+                    src={cart.thumbnail}
+                    width={40}
+                  />
+                  <div className="flex flex-col">
+                    <p className="text-md">{cart.title}</p>
+                  </div>
+                </CardHeader>
+                <Divider />
+                <CardBody className="flex flex-row justify-end">
+                  <dl className="w-2/5 gap-3">
+                    <dt className="float-left mr-1">Price</dt>
+                    <dd className="text-right">{cart.price}</dd>
+                    <dt className="float-left mr-1">Quantity</dt>
+                    <dd className="text-right">{cart.quantity}</dd>
+                  </dl>
+                </CardBody>
+                <Divider />
+                <CardFooter className="justify-end">
+                  <div>Total: {cart.total}</div>
+                </CardFooter>
+              </Card>
+            );
+          })}
         </div>
       )}
     </div>

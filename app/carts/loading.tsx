@@ -2,7 +2,7 @@ import { Skeleton, Card } from "@nextui-org/react";
 
 export default function Loading() {
   return (
-    <div>
+    <main className="container mx-auto max-w-7xl p-6 flex-grow">
       <Skeleton className="w-1/5 rounded-lg mb-5">
         <div className="h-4 w-1/5 rounded-lg bg-default-200"></div>
       </Skeleton>
@@ -61,6 +61,6 @@ export default function Loading() {
           </div>
         </Card>
       </div>
-    </div>
+    </main>
   );
 }

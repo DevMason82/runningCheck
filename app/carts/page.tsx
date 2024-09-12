@@ -6,12 +6,14 @@ import BackBtn from "@/components/backBtn";
 export default async function Page() {
   const data = await getUserCart(33);
   return (
-    <div>
+    <main className="container mx-auto p-6 flex-grow">
       <div className="flex flex-row justify-between">
-        <h3 className="text-lg font-semibold mb-3">Carts List</h3>
+        <h3 className="text-lg text-default-500 font-semibold mb-3">
+          Carts List
+        </h3>
         <BackBtn />
       </div>
       <UserIdSelect data={data} />
-    </div>
+    </main>
   );
 }

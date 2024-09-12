@@ -17,11 +17,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="light">
+    <html suppressHydrationWarning lang="en">
       <body className={inter.className}>
         <Providers>
           <Navbar />
-          <main className="container mx-auto p-6">{children}</main>
+          {children}
         </Providers>
       </body>
     </html>
