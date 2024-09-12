@@ -33,17 +33,6 @@ export default async function Page({
 
       <Search products={products} />
 
-      {/*<div className={"text-amber-50"}>*/}
-      {/*  {products.map((product) => {*/}
-      {/*    return (*/}
-      {/*      <div key={product.id}>*/}
-      {/*        <p>ID: {product.id}</p>*/}
-      {/*        <p>Quantity: {product.quantity}</p>*/}
-      {/*      </div>*/}
-      {/*    );*/}
-      {/*  })}*/}
-      {/*</div>*/}
-
       <Divider className="my-5" />
 
       <div className={"flex justify-center align-middle space-x-2"}>
