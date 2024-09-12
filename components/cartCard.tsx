@@ -3,7 +3,7 @@ import React from "react";
 import { Card, CardBody, CardHeader, Chip, Image } from "@nextui-org/react";
 import { useRouter } from "next-nprogress-bar";
 
-const CartCard = ({ item, index }) => {
+const CartCard = ({ item, index }: { item: any; index: number }) => {
   const {
     id,
     userId,

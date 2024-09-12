@@ -18,8 +18,8 @@ export default async function Page() {
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {carts.map((item, index) => {
-          return <CartCard item={item} index={index} />;
+        {carts.map((item: any, index: number) => {
+          return <CartCard key={item.id} item={item} index={index} />;
         })}
       </div>
     </main>
