@@ -13,13 +13,46 @@ import {
   Link,
   Tabs,
   Tab,
+  Input,
 } from "@nextui-org/react";
 import { getUserCart } from "@/app/carts/actions";
+import { IoMdSearch } from "react-icons/io";
 
 const UserIdSelect = ({ data }: { data: any }) => {
+  const [filterValue, setFilterValue] = React.useState("");
   const [value, setValue] = useState<string>("33");
   const [cartData, setCartData] = useState<any>(data);
   const [isPending, startTransition] = useTransition();
+
+  console.log("CARTDATA ==>>", cartData.carts[0].products);
+
+  const hasSearchFilter = Boolean(filterValue);
+
+  const filteredItems = React.useMemo(() => {
+    let filteredUsers = [...cartData.carts[0].products];
+
+    if (hasSearchFilter) {
+      filteredUsers = filteredUsers.filter((user) =>
+        user.title.toLowerCase().includes(filterValue.toLowerCase()),
+      );
+    }
+
+    return filteredUsers;
+  }, [cartData, filterValue, value]);
+
+  const onSearchChange = React.useCallback((value?: string) => {
+    if (value) {
+      setFilterValue(value);
+      // setPage(1);
+    } else {
+      setFilterValue("");
+    }
+  }, []);
+
+  const onClear = React.useCallback(() => {
+    setFilterValue("");
+    // setPage(1)
+  }, []);
 
   const handleSelectionChange = (key: React.SetStateAction<string>) => {
     console.log("KEY", key);
@@ -37,6 +70,16 @@ const UserIdSelect = ({ data }: { data: any }) => {
         />
       )}
 
+      <Input
+        isClearable
+        className="w-full"
+        placeholder="Search by title..."
+        startContent={<IoMdSearch size={24} />}
+        value={filterValue}
+        onClear={() => onClear()}
+        onValueChange={onSearchChange}
+      />
+
       <Tabs
         variant="underlined"
         aria-label="Tabs variants"
@@ -51,7 +94,7 @@ const UserIdSelect = ({ data }: { data: any }) => {
 
       {cartData && (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {cartData.carts[0].products.map((cart) => {
+          {filteredItems.map((cart) => {
             return (
               <Card key={cart.id}>
                 <CardHeader className="flex gap-3">
