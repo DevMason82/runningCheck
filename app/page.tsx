@@ -1,21 +1,14 @@
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Divider,
-  Link,
-  Image,
-  Button,
-} from "@nextui-org/react";
-import { SmallAreaChart } from "@/components/chartTypes";
+import { getCart } from "@/app/actions";
+import CartCard from "@/components/cartCard";
+import { Button, Link } from "@nextui-org/react";
 
-export default function Home() {
+export default async function Home() {
   return (
     <main className="container mx-auto max-w-7xl p-6 flex-grow">
-      <Link href="/carts">Carts</Link>
-
-      <Link href="/products">Products</Link>
+      {/*<Link href="/carts">Carts</Link>*/}
+      <Button href="/carts" as={Link} color="primary" variant="solid" size="sm">
+        Go to Carts
+      </Button>
     </main>
   );
 }
