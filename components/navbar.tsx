@@ -13,10 +13,12 @@ import {
 } from "@nextui-org/react";
 import { ThemeSwitcher } from "@/components/themeSwitcher";
 import { useTheme } from "next-themes";
+import { useSession, signOut, signIn } from "next-auth/react";
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const theme = useTheme();
+  const { data: session } = useSession();
 
   // console.log("THEME ==>", theme.theme);
 
@@ -77,6 +79,7 @@ export const Navbar = () => {
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
           <Link href="#">Login</Link>
+          <Button onPress={() => signOut()}>{session?.user.name}님</Button>
         </NavbarItem>
         {/*<NavbarItem>*/}
         {/*  <Button as={Link} color="primary" href="#" variant="flat">*/}
@@ -95,8 +98,8 @@ export const Navbar = () => {
                 index === 2
                   ? "primary"
                   : index === menuItems.length - 1
-                    ? "danger"
-                    : "foreground"
+                  ? "danger"
+                  : "foreground"
               }
               className="w-full"
               href={item.href}

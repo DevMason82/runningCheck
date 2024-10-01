@@ -5,6 +5,7 @@ import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { ThemeProviderProps } from "next-themes/dist/types";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import { useRouter } from "next-nprogress-bar";
+import { SessionProvider } from "next-auth/react";
 
 export interface ProvidersProps {
   children: React.ReactNode;
@@ -16,7 +17,7 @@ export function Providers({ children, themeProps }: ProvidersProps) {
   return (
     <NextUIProvider navigate={router.push}>
       <NextThemesProvider attribute="class" defaultTheme="dark">
-        {children}
+        <SessionProvider>{children}</SessionProvider>
         <ProgressBar
           height="6px"
           color="#FF204E"
