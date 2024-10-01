@@ -14,13 +14,13 @@ import {
 import { ThemeSwitcher } from "@/components/themeSwitcher";
 import { useTheme } from "next-themes";
 import { useSession, signOut, signIn } from "next-auth/react";
+import { usePathname } from "next/navigation";
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const theme = useTheme();
   const { data: session } = useSession();
-
-  // console.log("THEME ==>", theme.theme);
+  const pathname = usePathname();
 
   const menuItems = [
     {
@@ -28,13 +28,17 @@ export const Navbar = () => {
       href: "/",
     },
     {
+      label: "Products",
+      href: "/products",
+    },
+    {
       label: "Carts",
       href: "/carts",
     },
-    {
-      label: "Sign in",
-      href: "/signIn",
-    },
+    // {
+    //   label: "Sign in",
+    //   href: "/signIn",
+    // },
   ];
 
   const toggleColor = theme.theme === "dark" ? "white" : "black";
@@ -59,33 +63,32 @@ export const Navbar = () => {
         </NavbarBrand>
       </NavbarContent>
 
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            Features
-          </Link>
-        </NavbarItem>
-        <NavbarItem isActive>
-          <Link href="#" aria-current="page">
-            Customers
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            Integrations
-          </Link>
-        </NavbarItem>
+      <NavbarContent className="hidden sm:flex gap-6" justify="center">
+        {menuItems.map((item, index) => (
+          <NavbarItem
+            key={`${item}-${index}`}
+            isActive={pathname === item.href}
+          >
+            <Link
+              color={"foreground"}
+              href={item.href}
+              onPress={() => setIsMenuOpen(false)}
+            >
+              {item.label}
+            </Link>
+          </NavbarItem>
+        ))}
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
-          <Link href="#">Login</Link>
-          <Button onPress={() => signOut()}>{session?.user.name}님</Button>
+          {session && session.user ? (
+            <Button variant="light" onPress={() => signOut()}>
+              {session?.user.name}님
+            </Button>
+          ) : (
+            <Link href="#">Login</Link>
+          )}
         </NavbarItem>
-        {/*<NavbarItem>*/}
-        {/*  <Button as={Link} color="primary" href="#" variant="flat">*/}
-        {/*    Sign Up*/}
-        {/*  </Button>*/}
-        {/*</NavbarItem>*/}
         <NavbarItem>
           <ThemeSwitcher />
         </NavbarItem>
