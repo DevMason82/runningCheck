@@ -5,8 +5,8 @@ export default async function Page() {
   const products = await data.json();
 
   return (
-    <main className="container mx-auto p-6 flex-grow">
+    <section>
       <DataTable data={products} />
-    </main>
+    </section>
   );
 }

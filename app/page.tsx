@@ -1,14 +1,29 @@
-import { getCart } from "@/app/actions";
-import CartCard from "@/components/cartCard";
 import { Button, Link } from "@nextui-org/react";
 
 export default async function Home() {
+  const [productsResponse, cartsResponse] = await Promise.all([
+    fetch("https://dummyjson.com/products?limit=0"),
+    fetch("https://dummyjson.com/carts?limit=0"),
+  ]);
+
+  const productsData = await productsResponse.json();
+  const cartsData = await cartsResponse.json();
+
   return (
-    <main className="container mx-auto max-w-7xl p-6 flex-grow">
-      {/*<Link href="/carts">Carts</Link>*/}
-      <Button href="/carts" as={Link} color="primary" variant="solid" size="sm">
-        Go to Carts
+    <section>
+      <Button
+        href="/products"
+        as={Link}
+        color="primary"
+        variant="solid"
+        size="sm"
+      >
+        Go to Products {productsData.products.length}
       </Button>
-    </main>
+
+      <Button href="/carts" as={Link} color="primary" variant="solid" size="sm">
+        Go to Carts {cartsData.carts.length}
+      </Button>
+    </section>
   );
 }

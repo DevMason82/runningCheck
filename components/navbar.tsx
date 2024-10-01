@@ -10,6 +10,13 @@ import {
   NavbarMenuItem,
   Link,
   Button,
+  Dropdown,
+  DropdownTrigger,
+  Avatar,
+  DropdownMenu,
+  DropdownItem,
+  DropdownSection,
+  Divider,
 } from "@nextui-org/react";
 import { ThemeSwitcher } from "@/components/themeSwitcher";
 import { useTheme } from "next-themes";
@@ -20,6 +27,7 @@ export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const theme = useTheme();
   const { data: session } = useSession();
+  console.log(session);
   const pathname = usePathname();
 
   const menuItems = [
@@ -28,13 +36,14 @@ export const Navbar = () => {
       href: "/",
     },
     {
-      label: "Products",
-      href: "/products",
-    },
-    {
       label: "Carts",
       href: "/carts",
     },
+    {
+      label: "Products",
+      href: "/products",
+    },
+
     // {
     //   label: "Sign in",
     //   href: "/signIn",
@@ -80,18 +89,56 @@ export const Navbar = () => {
         ))}
       </NavbarContent>
       <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
-          {session && session.user ? (
-            <Button variant="light" onPress={() => signOut()}>
-              {session?.user.name}님
-            </Button>
-          ) : (
-            <Link href="#">Login</Link>
-          )}
-        </NavbarItem>
         <NavbarItem>
           <ThemeSwitcher />
         </NavbarItem>
+
+        {session && session.user ? (
+          <Dropdown placement="bottom-end">
+            <DropdownTrigger>
+              <Avatar
+                isBordered
+                as="button"
+                className="transition-transform"
+                color="success"
+                name={session?.user?.name!}
+                size="sm"
+                src={session?.user?.image!}
+              />
+            </DropdownTrigger>
+            <DropdownMenu
+              aria-label="Profile Actions"
+              variant="flat"
+              className="text-default-700"
+            >
+              <DropdownSection title="User Info" showDivider>
+                <DropdownItem key="profile" className="">
+                  <p className="font-semibold">{session?.user?.name!}</p>
+                </DropdownItem>
+              </DropdownSection>
+
+              <DropdownItem
+                key="logout"
+                color="danger"
+                onPress={() => signOut()}
+                className="text-right"
+              >
+                SignOut
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        ) : (
+          <Link href="/signin">SignIn</Link>
+        )}
+        {/*<NavbarItem className="hidden lg:flex">*/}
+        {/*  {session && session.user ? (*/}
+        {/*    <Button variant="light" onPress={() => signOut()}>*/}
+        {/*      {session?.user.name}님*/}
+        {/*    </Button>*/}
+        {/*  ) : (*/}
+        {/*    <Link href="#">Login</Link>*/}
+        {/*  )}*/}
+        {/*</NavbarItem>*/}
       </NavbarContent>
       <NavbarMenu>
         {menuItems.map((item, index) => (

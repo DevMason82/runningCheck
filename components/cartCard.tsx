@@ -18,7 +18,13 @@ const CartCard = ({ item, index }: { item: any; index: number }) => {
     router.push(`/carts/${id}`);
   };
   return (
-    <Card key={id} isPressable onPress={handleRouter}>
+    <Card
+      key={id}
+      isPressable
+      onPress={handleRouter}
+      shadow="none"
+      classNames={{ base: ["border-1"] }}
+    >
       <CardHeader className="flex gap-3 justify-between">
         <p className="text-md">UserId: {userId}</p>
         <Chip size="sm" color="success">
