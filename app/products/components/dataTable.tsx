@@ -19,8 +19,10 @@ import {
   Selection,
   ChipProps,
   SortDescriptor,
+  Image,
 } from "@nextui-org/react";
 import { columns } from "@/app/products/data";
+import NextImage from "next/image";
 
 const INITIAL_VISIBLE_COLUMNS = ["id", "title", "price", "rating"];
 
@@ -133,9 +135,20 @@ const DataTable = ({ data }: { data: any }) => {
           );
         case "title":
           return (
-            <p className="text-bold text-base capitalize text-default-500">
-              {product.title}
-            </p>
+            <div className="flex items-center gap-2">
+              <Image
+                src={product.thumbnail}
+                alt={product.title}
+                width={40}
+                height={40}
+                as={NextImage}
+              />
+              <div>
+                <span className="text-bold text-base capitalize text-default-500">
+                  {product.title}
+                </span>
+              </div>
+            </div>
           );
         default:
           return (
