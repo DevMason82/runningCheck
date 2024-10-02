@@ -12,7 +12,7 @@ export async function getCart() {
 
     const data = await res.json();
 
-    console.log("Cart Data:", data);
+    // console.log("Cart Data:", data);
 
     revalidatePath("/carts");
 

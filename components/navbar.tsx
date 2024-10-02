@@ -27,7 +27,7 @@ export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const theme = useTheme();
   const { data: session } = useSession();
-  console.log(session);
+  // console.log(session);
   const pathname = usePathname();
 
   const menuItems = [
@@ -43,11 +43,6 @@ export const Navbar = () => {
       label: "Products",
       href: "/products",
     },
-
-    // {
-    //   label: "Sign in",
-    //   href: "/signIn",
-    // },
   ];
 
   const toggleColor = theme.theme === "dark" ? "white" : "black";
@@ -67,7 +62,7 @@ export const Navbar = () => {
         />
         <NavbarBrand>
           <Link href="/" color="foreground">
-            <p className="font-bold text-inherit">DummyJSON</p>
+            <p className="font-bold text-inherit">MasonApp</p>
           </Link>
         </NavbarBrand>
       </NavbarContent>
@@ -81,7 +76,7 @@ export const Navbar = () => {
             <Link
               color={"foreground"}
               href={item.href}
-              onPress={() => setIsMenuOpen(false)}
+              // onPress={() => setIsMenuOpen(false)}
             >
               {item.label}
             </Link>
@@ -151,10 +146,10 @@ export const Navbar = () => {
                   ? "danger"
                   : "foreground"
               }
-              className="w-full"
+              // className="w-full"
               href={item.href}
               size="lg"
-              onPress={() => setIsMenuOpen(false)}
+              // onPress={() => setIsMenuOpen(false)}
             >
               {item.label}
             </Link>

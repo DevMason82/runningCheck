@@ -27,7 +27,7 @@ const CartCard = ({ item, index }: { item: any; index: number }) => {
     >
       <CardHeader className="flex gap-3 justify-between">
         <p className="text-md">UserId: {userId}</p>
-        <Chip size="sm" color="success">
+        <Chip size="sm" variant="flat">
           {totalProducts}EA
         </Chip>
       </CardHeader>
