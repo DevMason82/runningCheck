@@ -57,8 +57,8 @@ export const Navbar = () => {
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          className="sm:hidden bg-background"
-          style={{ color: toggleColor }}
+          className="sm:hidden"
+          // style={{ color: toggleColor }}
         />
         <NavbarBrand>
           <Link href="/" color="foreground">
