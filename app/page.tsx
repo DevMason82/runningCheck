@@ -1,6 +1,7 @@
-import { Button, Link } from "@nextui-org/react";
+import { Button, Divider, Link } from "@nextui-org/react";
 import { headers } from "next/headers";
 import DeviceDetector from "@/components/deviceDetector";
+import Weather from "@/components/weather";
 
 export default async function Home() {
   const [productsResponse, cartsResponse] = await Promise.all([
@@ -14,6 +15,11 @@ export default async function Home() {
   return (
     <section className="flex flex-col items-center justify-center gap-3">
       <DeviceDetector />
+      <Divider />
+
+      <Weather />
+
+      <Divider />
 
       <div className="flex items-center justify-center gap-3">
         <Button
