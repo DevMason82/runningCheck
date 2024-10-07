@@ -1,47 +1,24 @@
-import { Button, Divider, Link } from "@nextui-org/react";
-import { headers } from "next/headers";
+import { Skeleton } from "@nextui-org/react";
 import DeviceDetector from "@/components/deviceDetector";
-import Weather from "@/components/weather";
+
+import dynamic from "next/dynamic";
+
+const LazyWeather = dynamic(() => import("@/components/weather"), {
+  loading: () => <Skeleton className="rounded-lg" />,
+});
+
+const LazyEA = dynamic(() => import("@/components/ea"), {
+  loading: () => <Skeleton className="rounded-lg" />,
+});
 
 export default async function Home() {
-  const [productsResponse, cartsResponse] = await Promise.all([
-    fetch("https://dummyjson.com/products?limit=0"),
-    fetch("https://dummyjson.com/carts?limit=0"),
-  ]);
-
-  const productsData = await productsResponse.json();
-  const cartsData = await cartsResponse.json();
-
   return (
-    <section className="flex flex-col items-center justify-center gap-3">
+    <div className="grid grid-flow-row auto-rows-max gap-4 md:grid-cols-2 xl:grid-cols-4">
       <DeviceDetector />
-      <Divider />
 
-      <Weather />
+      <LazyWeather />
 
-      <Divider />
-
-      <div className="flex items-center justify-center gap-3">
-        <Button
-          href="/carts"
-          as={Link}
-          color="primary"
-          variant="solid"
-          size="sm"
-        >
-          Go to Carts {cartsData.carts.length}EA
-        </Button>
-
-        <Button
-          href="/products"
-          as={Link}
-          color="primary"
-          variant="solid"
-          size="sm"
-        >
-          Go to Products {productsData.products.length}EA
-        </Button>
-      </div>
-    </section>
+      <LazyEA />
+    </div>
   );
 }
