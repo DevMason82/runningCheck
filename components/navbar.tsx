@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Navbar as NextUINavbar,
   NavbarBrand,
@@ -25,10 +25,15 @@ import { usePathname } from "next/navigation";
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const theme = useTheme();
   const { data: session } = useSession();
-  // console.log(session);
+
   const pathname = usePathname();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const menuItems = [
     {
@@ -45,6 +50,10 @@ export const Navbar = () => {
     },
   ];
 
+  if (!mounted) {
+    return null; // 마운트되기 전에는 아무것도 렌더링하지 않음
+  }
+
   const toggleColor = theme.theme === "dark" ? "white" : "black";
 
   return (
@@ -57,8 +66,8 @@ export const Navbar = () => {
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          className="sm:hidden"
-          // style={{ color: toggleColor }}
+          className="sm:hidden bg-background"
+          style={{ color: toggleColor }}
         />
         <NavbarBrand>
           <Link href="/" color="foreground">

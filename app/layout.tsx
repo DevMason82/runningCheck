@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/app/providers";
 import { Navbar } from "@/components/navbar";
-import { isMobileDevice } from "@/libs/responsive";
+// import { isMobileDevice } from "@/libs/responsive";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,9 +17,9 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const mobile = await isMobileDevice();
+  // const mobile = await isMobileDevice();
+  // console.log("Mobile ==>>", mobile);
 
-  console.log("Mobile ==>>", mobile);
   return (
     <html suppressHydrationWarning lang="en">
       <body className={inter.className}>

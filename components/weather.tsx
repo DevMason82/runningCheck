@@ -49,7 +49,7 @@ export default function Weather() {
         throw new Error("Failed to fetch weather data");
       }
       const data = await res.json();
-      console.log("Weather data", data);
+      // console.log("Weather data", data);
       setWeatherData(data);
     } catch (err) {
       setError(err.message);
