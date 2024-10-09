@@ -118,12 +118,12 @@ export default function Weather() {
         <Select
           labelPlacement="outside-left"
           id="city"
-          value={city}
+          selectedKeys={[city]}
           onChange={(e) => handleCityChange(e.target.value)}
           disabled={isPending} // 요청 중일 때 비활성화
+          disabledKeys={[city]}
           placeholder="Select a city"
           aria-label="Select city"
-          defaultSelectedKeys={[city]}
         >
           {cities.map((city) => (
             <SelectItem key={city} value={city} className="text-default-700">
