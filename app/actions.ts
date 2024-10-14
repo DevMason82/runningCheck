@@ -1,6 +1,4 @@
 "use server";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 const API_KEY = process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY;
 
 // 러닝에 적합한 날씨 조건 판단 로직
@@ -23,7 +21,7 @@ export async function getWeather(city: string) {
   try {
     // OpenWeather API로부터 날씨 데이터 가져오기
     const res = await fetch(endPoint, {
-      cache: "no-store", // 최신 데이터를 가져오기 위해 캐시 사용 안 함
+      // cache: "no-store", // 최신 데이터를 가져오기 위해 캐시 사용 안 함
     });
 
     if (!res.ok) {
@@ -41,18 +39,12 @@ export async function getWeather(city: string) {
 
     // 결과 반환
     return {
-      // city,
-      // temp: weatherData.main.temp,
-      // humidity: weatherData.main.humidity,
-      // windSpeed: weatherData.wind.speed,
-      // suitableForRunning,
-
       city,
       temp: weatherData.main.temp,
       humidity: weatherData.main.humidity,
       windSpeed: weatherData.wind.speed,
       weatherDescription: weatherData.weather[0].description,
-      weatherIcon: iconUrl, // 날씨 아이콘 URL 추가
+      weatherIcon: iconUrl,
       suitableForRunning,
     };
   } catch (error) {
