@@ -12,8 +12,7 @@ import {
   SelectItem,
 } from "@nextui-org/react";
 import { WiHumidity, WiStrongWind, WiThermometer } from "react-icons/wi";
-import NextImage from "next/image";
-const apiKey = process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY;
+import { fetchWeather } from "@/app/actions";
 
 export default function Weather() {
   const [city, setCity] = useState("Seoul"); // 기본값으로 'Seoul' 설정
@@ -35,26 +34,26 @@ export default function Weather() {
 
   useEffect(() => {
     startTransition(() => {
-      fetchWeather(city);
+      fetchWeather(city).then((r) => setWeatherData(r));
     });
   }, []);
 
-  const fetchWeather = async (city: React.SetStateAction<string>) => {
-    setError(null);
-    const endPoint = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-
-    try {
-      const res = await fetch(endPoint);
-      if (!res.ok) {
-        throw new Error("Failed to fetch weather data");
-      }
-      const data = await res.json();
-      // console.log("Weather data", data);
-      setWeatherData(data);
-    } catch (err) {
-      setError(err.message);
-    }
-  };
+  // const fetchWeather = async (city: React.SetStateAction<string>) => {
+  //   setError(null);
+  //   const endPoint = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+  //
+  //   try {
+  //     const res = await fetch(endPoint);
+  //     if (!res.ok) {
+  //       throw new Error("Failed to fetch weather data");
+  //     }
+  //     const data = await res.json();
+  //     // console.log("Weather data", data);
+  //     setWeatherData(data);
+  //   } catch (err) {
+  //     setError(err.message);
+  //   }
+  // };
 
   const handleCityChange = (city: SetStateAction<string>) => {
     setCity(city);

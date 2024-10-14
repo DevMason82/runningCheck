@@ -12,6 +12,14 @@ const LazyEA = dynamic(() => import("@/components/ea"), {
 });
 
 export default async function Home() {
+  const res = await fetch("https://jsonplaceholder.typicode.com/posts/1", {
+    next: { revalidate: 10 }, // 10초마다 데이터를 다시 가져옴 (ISR)
+  });
+
+  console.log("Fetching data from server at:", new Date().toLocaleString());
+
+  const data = await res.json();
+
   return (
     <div className="grid grid-flow-row auto-rows-max gap-4 md:grid-cols-2 xl:grid-cols-4">
       <DeviceDetector />
@@ -19,6 +27,8 @@ export default async function Home() {
       <LazyWeather />
 
       <LazyEA />
+
+      <p>Last fetch time: {new Date().toLocaleString()}</p>
     </div>
   );
 }
