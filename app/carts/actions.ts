@@ -14,7 +14,7 @@ export async function getCart() {
 
     // console.log("Cart Data:", data);
 
-    revalidatePath("/carts");
+    // revalidatePath("/carts");
 
     return data;
   } catch (error) {

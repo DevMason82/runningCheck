@@ -17,11 +17,12 @@ const isSuitableForRunning = (weatherData: {
 };
 
 export async function getWeather(city: string) {
-  const endPoint = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`;
+  const endPoint = `https://api.openweathermap.org/data/2.5/weather?q=${city}&lang=kr&appid=${API_KEY}&units=metric`;
   try {
     // OpenWeather API로부터 날씨 데이터 가져오기
     const res = await fetch(endPoint, {
-      // cache: "no-store", // 최신 데이터를 가져오기 위해 캐시 사용 안 함
+      // next: { revalidate: 60 },
+      cache: "no-store", // 최신 데이터를 가져오기 위해 캐시 사용 안 함
     });
 
     if (!res.ok) {
