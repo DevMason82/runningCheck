@@ -1,32 +1,62 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-const apiKey = process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY;
+const API_KEY = process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY;
 
-export async function fetchWeather(city: string) {
-  const endPoint = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+// 러닝에 적합한 날씨 조건 판단 로직
+const isSuitableForRunning = (weatherData: {
+  main: { temp: any; humidity: any };
+  wind: { speed: any };
+}) => {
+  const { temp, humidity } = weatherData.main;
+  const { speed: windSpeed } = weatherData.wind;
+
+  const tempSuitable = temp >= 10 && temp <= 25;
+  const humiditySuitable = humidity >= 30 && humidity <= 70;
+  const windSuitable = windSpeed <= 5;
+
+  return tempSuitable && humiditySuitable && windSuitable;
+};
+
+export async function getWeather(city: string) {
+  const endPoint = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`;
   try {
-    // Fetch cart data from the external API
+    // OpenWeather API로부터 날씨 데이터 가져오기
     const res = await fetch(endPoint, {
-      // cache: "no-store", // Ensures no caching, gets fresh data each time
+      cache: "no-store", // 최신 데이터를 가져오기 위해 캐시 사용 안 함
     });
 
-    // Handle non-2xx response
     if (!res.ok) {
-      throw new Error(`Error fetching cart data `);
+      throw new Error("Failed to fetch weather data");
     }
 
-    const data = await res.json();
+    // 날씨 데이터 파싱
+    const weatherData = await res.json();
 
-    console.log("Weather Data:", data);
+    // 러닝 적합성 여부 판단
+    const suitableForRunning = isSuitableForRunning(weatherData);
 
-    // Revalidate the cache for the `/carts` path after fetching
-    // revalidatePath("/carts");
+    // 날씨 아이콘 URL 생성 (OpenWeather에서 제공하는 아이콘 URL)
+    const iconUrl = `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@4x.png`;
 
-    return data;
+    // 결과 반환
+    return {
+      // city,
+      // temp: weatherData.main.temp,
+      // humidity: weatherData.main.humidity,
+      // windSpeed: weatherData.wind.speed,
+      // suitableForRunning,
+
+      city,
+      temp: weatherData.main.temp,
+      humidity: weatherData.main.humidity,
+      windSpeed: weatherData.wind.speed,
+      weatherDescription: weatherData.weather[0].description,
+      weatherIcon: iconUrl, // 날씨 아이콘 URL 추가
+      suitableForRunning,
+    };
   } catch (error) {
-    console.error(`Failed to fetch cart data`, error);
-    // Optionally, you can handle redirects or specific error responses
-    redirect("/error-page"); // Redirect to an error page or show an error message
+    console.error("Error fetching weather data:", error);
+    throw new Error("Error fetching weather data");
   }
 }
