@@ -16,7 +16,7 @@ import {
 import { WiHumidity, WiStrongWind, WiThermometer } from "react-icons/wi";
 import { getWeather } from "@/app/actions";
 import { FaPersonRunning } from "react-icons/fa6";
-import { weekStartData } from "@internationalized/date/src/weekStartData";
+// import { weekStartData } from "@internationalized/date/src/weekStartData";
 
 export default function Weather({ data }: { data: any }) {
   const [city, setCity] = useState("Seoul"); // 기본값으로 'Seoul' 설정
@@ -35,19 +35,6 @@ export default function Weather({ data }: { data: any }) {
     "Oslo",
   ];
 
-  // useEffect(() => {
-  //   startTransition(async () => {
-  //     try {
-  //       const data = await getWeather(city);
-  //       setWeatherData(data);
-  //     } catch (error) {
-  //       console.error("Error fetching weather data:", error);
-  //     } finally {
-  //       // setLoading(false);
-  //     }
-  //   });
-  // }, []);
-
   const handleCityChange = (city: SetStateAction<string>) => {
     setCity(city);
     startTransition(() => {
@@ -65,33 +52,32 @@ export default function Weather({ data }: { data: any }) {
         />
       )}
       <Card>
-        <CardHeader>{city} - Running Check!</CardHeader>
+        <CardHeader>{city} - Running Info</CardHeader>
         <Divider />
         <CardBody>
-          {/*{JSON.stringify(isPending)}*/}
-          {/*{weatherData === null && <p>OPOPOPOPOP</p>}*/}
-          {/*{isPending && <CircularProgress color="success" />}*/}
-          {/*{JSON.stringify(weatherData)}*/}
-          <div className="flex items-center justify-between mt-3">
-            <div className="flex items-center gap-1">
-              {/*<WiHumidity size={28} />*/}
+          <div className="flex flex-col items-center mt-3">
+            <div className="flex items-center gap-1 mb-3">
               <FaPersonRunning
-                size={26}
-                color={weatherData.suitableForRunning ? "green" : "red"}
+                size={54}
+                // color={
+                //   weatherData.suitableForRunning ? "green" : "text-red-500"
+                // }
+                className={
+                  weatherData.suitableForRunning
+                    ? "text-green-600"
+                    : "text-red-500"
+                }
               />
-              <span>러닝</span>
             </div>
             <p
               className={
                 weatherData.suitableForRunning
-                  ? "text-green-600 font-semibold"
-                  : "text-red-600 font-semibold"
+                  ? "text-green-600 text-lg font-semibold"
+                  : "text-red-500 text-lg font-semibold"
               }
             >
               {weatherData.suitableForRunning ? "Good" : "Bad"}
             </p>
-
-            {/*{JSON.stringify(weatherData.suitableForRunning)}*/}
           </div>
 
           <Divider className="my-5" />
@@ -113,9 +99,10 @@ export default function Weather({ data }: { data: any }) {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1">
               <WiThermometer size={28} />
-              <span>온도</span>
+              <span>온도(체감)</span>
             </div>
-            {weatherData.temp}°C
+            {Math.round(weatherData.temp)}({Math.round(weatherData.feelsLike)}
+            )°C
           </div>
 
           <div className="flex items-center justify-between">
@@ -133,56 +120,6 @@ export default function Weather({ data }: { data: any }) {
             </div>
             {weatherData.humidity}%
           </div>
-
-          {/*{weatherData && !isPending && (*/}
-          {/*  <>*/}
-          {/*    <div className="flex flex-col items-center justify-center mb-5">*/}
-          {/*      {weatherData.weatherIcon && (*/}
-          {/*        <Image*/}
-          {/*          isZoomed*/}
-          {/*          src={weatherData.weatherIcon}*/}
-          {/*          alt={weatherData.weatherDescription}*/}
-          {/*          width={100}*/}
-          {/*        />*/}
-          {/*      )}*/}
-          {/*      <p className="font-semibold">*/}
-          {/*        {weatherData.weatherDescription}*/}
-          {/*      </p>*/}
-          {/*    </div>*/}
-
-          {/*    <div className="flex items-center justify-between">*/}
-          {/*      <div className="flex items-center gap-1">*/}
-          {/*        <WiThermometer size={28} />*/}
-          {/*        <span>온도</span>*/}
-          {/*      </div>*/}
-          {/*      {weatherData.temp}°C*/}
-          {/*    </div>*/}
-
-          {/*    <div className="flex items-center justify-between">*/}
-          {/*      <div className="flex items-center gap-1">*/}
-          {/*        <WiStrongWind size={28} />*/}
-          {/*        <span>바람</span>*/}
-          {/*      </div>*/}
-          {/*      {weatherData.windSpeed} m/s*/}
-          {/*    </div>*/}
-
-          {/*    <div className="flex items-center justify-between">*/}
-          {/*      <div className="flex items-center gap-1">*/}
-          {/*        <WiHumidity size={28} />*/}
-          {/*        <span>습도</span>*/}
-          {/*      </div>*/}
-          {/*      {weatherData.humidity}%*/}
-          {/*    </div>*/}
-
-          {/*    <div className="flex items-center justify-between">*/}
-          {/*      <div className="flex items-center gap-1">*/}
-          {/*        <WiHumidity size={28} />*/}
-          {/*        <span>러닝</span>*/}
-          {/*      </div>*/}
-          {/*      {JSON.stringify(weatherData.suitableForRunning)}%*/}
-          {/*    </div>*/}
-          {/*  </>*/}
-          {/*)}*/}
         </CardBody>
         <CardFooter>
           <Select

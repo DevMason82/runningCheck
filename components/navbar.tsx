@@ -18,22 +18,23 @@ import {
   DropdownSection,
   Divider,
 } from "@nextui-org/react";
-import { ThemeSwitcher } from "@/components/themeSwitcher";
+// import { ThemeSwitcher } from "@/components/themeSwitcher";
+import { ThemeSwitch } from "@/components/theme-switch";
 import { useTheme } from "next-themes";
 import { useSession, signOut, signIn } from "next-auth/react";
 import { usePathname } from "next/navigation";
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const [mounted, setMounted] = useState(true);
   const theme = useTheme();
   const { data: session } = useSession();
 
   const pathname = usePathname();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  // useEffect(() => {
+  //   setMounted(true);
+  // }, []);
 
   const menuItems = [
     {
@@ -71,7 +72,7 @@ export const Navbar = () => {
         />
         <NavbarBrand>
           <Link href="/" color="foreground">
-            <p className="font-bold text-inherit">MasonApp</p>
+            <p className="font-bold text-inherit">Running Check!</p>
           </Link>
         </NavbarBrand>
       </NavbarContent>
@@ -94,7 +95,7 @@ export const Navbar = () => {
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem>
-          <ThemeSwitcher />
+          <ThemeSwitch />
         </NavbarItem>
 
         {session && session.user ? (
