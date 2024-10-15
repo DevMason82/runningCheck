@@ -35,7 +35,7 @@ export async function getWeather(city: string) {
   try {
     // OpenWeather API로부터 날씨 데이터 가져오기
     const res = await fetch(endPoint, {
-      next: { revalidate: 3600 },
+      next: { revalidate: 600 },
       // next: { revalidate: getNextRevalidateTime() },
       // cache: "no-store",
     });

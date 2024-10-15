@@ -12,7 +12,7 @@ const LazyWeather = dynamic(() => import("@/components/weather"), {
 });
 
 export default async function Home() {
-  const data = await getWeather("seoul");
+  const data = await getWeather("Suwon");
   console.log("GET WEATHER INFO ==>>", data);
 
   return (

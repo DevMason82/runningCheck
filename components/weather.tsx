@@ -19,20 +19,31 @@ import { FaPersonRunning } from "react-icons/fa6";
 // import { weekStartData } from "@internationalized/date/src/weekStartData";
 
 export default function Weather({ data }: { data: any }) {
-  const [city, setCity] = useState("Seoul"); // 기본값으로 'Seoul' 설정
+  const [city, setCity] = useState("Suwon"); // 기본값으로 'Seoul' 설정
   const [weatherData, setWeatherData] = useState(data);
   const [isPending, startTransition] = useTransition(); // useTransition 훅 사용
 
   const cities = [
-    "Seoul",
-    "Berlin",
-    "New York",
-    "Izmir",
-    "London",
-    "Tokyo",
-    "Paris",
-    "Shanghai",
-    "Oslo",
+    { name: "Suwon", krName: "수원", isoCode: "KR" },
+    { name: "Goyang", krName: "고양", isoCode: "KR" },
+    { name: "Yongin", krName: "용인", isoCode: "KR" },
+    { name: "Seongnam", krName: "성남", isoCode: "KR" },
+    { name: "Bucheon", krName: "부천", isoCode: "KR" },
+    { name: "Ansan", krName: "안산", isoCode: "KR" },
+    { name: "Anyang", krName: "안양", isoCode: "KR" },
+    { name: "Pyeongtaek", krName: "평택", isoCode: "KR" },
+    { name: "Uijeongbu", krName: "의정부", isoCode: "KR" },
+    { name: "Gwangmyeong", krName: "광명", isoCode: "KR" },
+    { name: "Hanam", krName: "하남", isoCode: "KR" },
+    { name: "Gimpo", krName: "김포", isoCode: "KR" },
+    { name: "Namyangju", krName: "남양주", isoCode: "KR" },
+    { name: "Paju", krName: "파주", isoCode: "KR" },
+    { name: "Uiwang", krName: "의왕", isoCode: "KR" },
+    { name: "Siheung", krName: "시흥", isoCode: "KR" },
+    { name: "Gunpo", krName: "군포", isoCode: "KR" },
+    { name: "Anseong", krName: "안성", isoCode: "KR" },
+    { name: "Pocheon", krName: "포천", isoCode: "KR" },
+    { name: "Yangju", krName: "양주", isoCode: "KR" },
   ];
 
   const handleCityChange = (city: SetStateAction<string>) => {
@@ -133,8 +144,12 @@ export default function Weather({ data }: { data: any }) {
             aria-label="Select city"
           >
             {cities.map((city) => (
-              <SelectItem key={city} value={city} className="text-default-700">
-                {city}
+              <SelectItem
+                key={city.name}
+                value={city.name}
+                className="text-default-700"
+              >
+                {city.krName}
               </SelectItem>
             ))}
           </Select>
