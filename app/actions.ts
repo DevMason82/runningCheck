@@ -7,8 +7,8 @@ export async function getWeather(city: string) {
   try {
     // OpenWeather API로부터 날씨 데이터 가져오기
     const res = await fetch(endPoint, {
-      // next: { revalidate: 0 },
-      cache: "no-store",
+      next: { revalidate: 300 },
+      // cache: "no-store",
     });
 
     if (!res.ok) {
