@@ -12,14 +12,14 @@ const LazyWeather = dynamic(() => import("@/components/weather"), {
 });
 
 export default async function Home() {
-  const data = await getWeather("Suwon");
+  const data = await getWeather("Uijeongbu-si");
   console.log("GET WEATHER INFO ==>>", data);
 
   return (
     <div className="grid grid-flow-row auto-rows-max gap-4 md:grid-cols-2 xl:grid-cols-4">
-      <DeviceDetector />
+      {/*<DeviceDetector />*/}
 
-      <LocationTracker />
+      {/*<LocationTracker />*/}
 
       <LazyWeather data={data} />
     </div>

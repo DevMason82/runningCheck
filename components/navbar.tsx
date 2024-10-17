@@ -23,11 +23,12 @@ import { ThemeSwitch } from "@/components/theme-switch";
 import { useTheme } from "next-themes";
 import { useSession, signOut, signIn } from "next-auth/react";
 import { usePathname } from "next/navigation";
+import { siteConfig } from "@/config/site";
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [mounted, setMounted] = useState(true);
-  const theme = useTheme();
+  // const [mounted, setMounted] = useState(true);
+  // const theme = useTheme();
   const { data: session } = useSession();
 
   const pathname = usePathname();
@@ -37,25 +38,25 @@ export const Navbar = () => {
   // }, []);
 
   const menuItems = [
-    {
-      label: "Home",
-      href: "/",
-    },
-    {
-      label: "Carts",
-      href: "/carts",
-    },
-    {
-      label: "Products",
-      href: "/products",
-    },
+    // {
+    //   label: "Home",
+    //   href: "/",
+    // },
+    // {
+    //   label: "Carts",
+    //   href: "/carts",
+    // },
+    // {
+    //   label: "Products",
+    //   href: "/products",
+    // },
   ];
 
-  if (!mounted) {
-    return null; // 마운트되기 전에는 아무것도 렌더링하지 않음
-  }
+  // if (!mounted) {
+  //   return null; // 마운트되기 전에는 아무것도 렌더링하지 않음
+  // }
 
-  const toggleColor = theme.theme === "dark" ? "white" : "black";
+  // const toggleColor = theme.theme === "dark" ? "white" : "black";
 
   return (
     <NextUINavbar
@@ -65,14 +66,13 @@ export const Navbar = () => {
       isBordered
     >
       <NavbarContent>
-        <NavbarMenuToggle
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          className="sm:hidden bg-background"
-          style={{ color: toggleColor }}
-        />
+        {/*<NavbarMenuToggle*/}
+        {/*  aria-label={isMenuOpen ? "Close menu" : "Open menu"}*/}
+        {/*  className="sm:hidden bg-background"*/}
+        {/*/>*/}
         <NavbarBrand>
           <Link href="/" color="foreground">
-            <p className="font-bold text-inherit">Running Check!</p>
+            <p className="font-bold text-inherit">{siteConfig.name}</p>
           </Link>
         </NavbarBrand>
       </NavbarContent>

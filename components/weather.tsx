@@ -6,6 +6,7 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
+  Chip,
   CircularProgress,
   Divider,
   Image,
@@ -16,35 +17,14 @@ import {
 import { WiHumidity, WiStrongWind, WiThermometer } from "react-icons/wi";
 import { getWeather } from "@/app/actions";
 import { FaPersonRunning } from "react-icons/fa6";
+import { cities } from "@/config/cityLists";
+import { MdVisibility } from "react-icons/md";
 // import { weekStartData } from "@internationalized/date/src/weekStartData";
 
 export default function Weather({ data }: { data: any }) {
-  const [city, setCity] = useState("Suwon"); // 기본값으로 'Seoul' 설정
+  const [city, setCity] = useState("Uijeongbu-si"); // 기본값으로 'Seoul' 설정
   const [weatherData, setWeatherData] = useState(data);
   const [isPending, startTransition] = useTransition(); // useTransition 훅 사용
-
-  const cities = [
-    { name: "Suwon", krName: "수원", isoCode: "KR" },
-    { name: "Goyang-si", krName: "고양", isoCode: "KR" },
-    { name: "Yongin", krName: "용인", isoCode: "KR" },
-    { name: "Seongnam-si", krName: "성남", isoCode: "KR" },
-    { name: "Bucheon-si", krName: "부천", isoCode: "KR" },
-    { name: "Ansan-si", krName: "안산", isoCode: "KR" },
-    { name: "Anyang-si", krName: "안양", isoCode: "KR" },
-    { name: "Pyeongtaek", krName: "평택", isoCode: "KR" },
-    { name: "Uijeongbu-si", krName: "의정부", isoCode: "KR" },
-    { name: "Gwangmyeong-si", krName: "광명", isoCode: "KR" },
-    { name: "Hanam", krName: "하남", isoCode: "KR" },
-    { name: "Gimpo-si", krName: "김포", isoCode: "KR" },
-    { name: "Namyangju", krName: "남양주", isoCode: "KR" },
-    { name: "Paju", krName: "파주", isoCode: "KR" },
-    { name: "Uiwang", krName: "의왕", isoCode: "KR" },
-    { name: "Siheung-si", krName: "시흥", isoCode: "KR" },
-    { name: "Gunpo", krName: "군포", isoCode: "KR" },
-    { name: "Anseong", krName: "안성", isoCode: "KR" },
-    { name: "Pocheon-si", krName: "포천", isoCode: "KR" },
-    { name: "Yangju", krName: "양주", isoCode: "KR" },
-  ];
 
   const handleCityChange = (city: SetStateAction<string>) => {
     setCity(city);
@@ -62,11 +42,13 @@ export default function Weather({ data }: { data: any }) {
           size="lg"
         />
       )}
-      <Card>
-        <CardHeader>{city} - Running Info</CardHeader>
+      <Card shadow="none">
+        <CardHeader className="flex justify-center">
+          {city} Running 상태
+        </CardHeader>
         <Divider />
         <CardBody>
-          <div className="flex flex-col items-center mt-3">
+          <div className="flex flex-col items-center mt-3 mb-5">
             <div className="flex items-center gap-1 mb-3">
               <FaPersonRunning
                 size={54}
@@ -74,63 +56,108 @@ export default function Weather({ data }: { data: any }) {
                 //   weatherData.suitableForRunning ? "green" : "text-red-500"
                 // }
                 className={
-                  weatherData.suitableForRunning
-                    ? "text-green-600"
-                    : "text-red-500"
+                  weatherData.suitableForRunning.rating === "good"
+                    ? "text-success-500"
+                    : weatherData.suitableForRunning.rating === "warning"
+                    ? "text-warning-500"
+                    : "text-danger-500"
                 }
               />
             </div>
             <p
               className={
-                weatherData.suitableForRunning
-                  ? "text-green-600 text-lg font-semibold"
-                  : "text-red-500 text-lg font-semibold"
+                weatherData.suitableForRunning.rating === "good"
+                  ? "text-success-500"
+                  : weatherData.suitableForRunning.rating === "warning"
+                  ? "text-warning-500"
+                  : "text-danger-500"
               }
             >
-              {weatherData.suitableForRunning ? "Good" : "Bad"}
+              {weatherData.suitableForRunning.rating}
             </p>
+            {/*<p>{JSON.stringify(weatherData.suitableForRunning.details)}</p>*/}
           </div>
 
-          <Divider className="my-5" />
+          <div>
+            {weatherData.suitableForRunning.details.map((item, index) => {
+              return (
+                <div key={index.toString()} className="flex flex-col mb-3">
+                  <div className="flex justify-between">
+                    <span>{item.condition}</span>
+                    <span
+                      className={
+                        item.rating === "good"
+                          ? "text-success-500"
+                          : item.rating === "warning"
+                          ? "text-warning-500"
+                          : "text-danger-500"
+                      }
+                    >
+                      {item.rating}
+                    </span>
+                  </div>
 
-          <div className="flex flex-col items-center justify-center">
-            {weatherData.weatherIcon && (
-              <Image
-                isZoomed
-                src={weatherData.weatherIcon}
-                alt={weatherData.weatherDescription}
-                // fallbackSrc="https://via.placeholder.com/100x100"
-                height={100}
-                width={100}
-              />
-            )}
-            <p className="font-semibold">{weatherData.weatherDescription}</p>
+                  <div className="flex justify-end">{item.recommendation}</div>
+                </div>
+              );
+            })}
           </div>
 
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1">
-              <WiThermometer size={28} />
-              <span>온도(체감)</span>
-            </div>
-            {Math.round(weatherData.temp)}({Math.round(weatherData.feelsLike)}
-            )°C
-          </div>
+          {/*<div className="flex items-center justify-between mb-2">*/}
+          {/*  <Chip*/}
+          {/*    startContent={<WiThermometer />}*/}
+          {/*    variant="light"*/}
+          {/*    // color="success"*/}
+          {/*  >*/}
+          {/*    온도(체감)*/}
+          {/*  </Chip>*/}
+          {/*  <div className="flex items-center">*/}
+          {/*    {weatherData.weatherIcon && (*/}
+          {/*      <Image*/}
+          {/*        // isZoomed*/}
+          {/*        src={weatherData.weatherIcon}*/}
+          {/*        alt={weatherData.weatherDescription}*/}
+          {/*        height={35}*/}
+          {/*        width={35}*/}
+          {/*      />*/}
+          {/*    )}*/}
+          {/*    {Math.round(weatherData.temp)}({Math.round(weatherData.feelsLike)}*/}
+          {/*    )°C*/}
+          {/*  </div>*/}
+          {/*</div>*/}
 
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1">
-              <WiStrongWind size={28} />
-              <span>바람</span>
-            </div>
-            {weatherData.windSpeed} m/s
-          </div>
+          {/*<div className="flex items-center justify-between mb-3">*/}
+          {/*  <Chip*/}
+          {/*    startContent={<WiStrongWind />}*/}
+          {/*    variant="light"*/}
+          {/*    // color="success"*/}
+          {/*  >*/}
+          {/*    바람*/}
+          {/*  </Chip>*/}
+          {/*  {weatherData.windSpeed} m/s*/}
+          {/*</div>*/}
 
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1">
-              <WiHumidity size={28} />
-              <span>습도</span>
-            </div>
-            {weatherData.humidity}%
-          </div>
+          {/*<div className="flex items-center justify-between mb-3">*/}
+          {/*  <Chip*/}
+          {/*    startContent={<WiHumidity />}*/}
+          {/*    variant="light"*/}
+          {/*    // color="success"*/}
+          {/*  >*/}
+          {/*    습도*/}
+          {/*  </Chip>*/}
+          {/*  {weatherData.humidity}%*/}
+          {/*</div>*/}
+
+          {/*<div className="flex items-center justify-between">*/}
+          {/*  <Chip*/}
+          {/*    startContent={<MdVisibility />}*/}
+          {/*    variant="light"*/}
+          {/*    // color="success"*/}
+          {/*  >*/}
+          {/*    가시거리*/}
+          {/*  </Chip>*/}
+          {/*  {weatherData.visibility}km*/}
+          {/*</div>*/}
         </CardBody>
         <CardFooter>
           <Select
