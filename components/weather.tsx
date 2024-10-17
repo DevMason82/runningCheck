@@ -44,14 +44,34 @@ export default function Weather({ data }: { data: any }) {
       )}
       <Card shadow="none">
         <CardHeader className="flex justify-center">
-          {city} Running 상태
+          {/*{city} Running 상태*/}
+          <Select
+            labelPlacement="outside-left"
+            id="city"
+            selectedKeys={[city]}
+            onChange={(e) => handleCityChange(e.target.value)}
+            disabled={isPending} // 요청 중일 때 비활성화
+            disabledKeys={[city]}
+            placeholder="Select a city"
+            aria-label="Select city"
+          >
+            {cities.map((city) => (
+              <SelectItem
+                key={city.name}
+                value={city.name}
+                className="text-default-700"
+              >
+                {city.krName}
+              </SelectItem>
+            ))}
+          </Select>
         </CardHeader>
-        <Divider />
+        {/*<Divider />*/}
         <CardBody>
           <div className="flex flex-col items-center mt-3 mb-5">
-            <div className="flex items-center gap-1 mb-3">
+            <div className="flex items-center mb-3">
               <FaPersonRunning
-                size={54}
+                size={74}
                 // color={
                 //   weatherData.suitableForRunning ? "green" : "text-red-500"
                 // }
@@ -64,40 +84,70 @@ export default function Weather({ data }: { data: any }) {
                 }
               />
             </div>
-            <p
-              className={
-                weatherData.suitableForRunning.rating === "good"
-                  ? "text-success-500"
-                  : weatherData.suitableForRunning.rating === "warning"
-                  ? "text-warning-500"
-                  : "text-danger-500"
-              }
-            >
-              {weatherData.suitableForRunning.rating}
-            </p>
+            <div className="flex items-center justify-between w-full">
+              {weatherData.weatherIcon && (
+                <Image
+                  // isZoomed
+                  src={weatherData.weatherIcon}
+                  alt={weatherData.weatherDescription}
+                  // height={120}
+                  width={65}
+                  // className="-mb-20"
+                  // className="absolute top-0 right-0 z-20"
+                />
+              )}
+              <p
+                className={
+                  weatherData.suitableForRunning.rating === "good"
+                    ? "text-success-500 capitalize"
+                    : weatherData.suitableForRunning.rating === "warning"
+                    ? "text-warning-500 capitalize"
+                    : "text-danger-500 capitalize"
+                }
+              >
+                {weatherData.suitableForRunning.rating}
+              </p>
+            </div>
+
             {/*<p>{JSON.stringify(weatherData.suitableForRunning.details)}</p>*/}
+            <Divider />
           </div>
 
           <div>
             {weatherData.suitableForRunning.details.map((item, index) => {
               return (
-                <div key={index.toString()} className="flex flex-col mb-3">
-                  <div className="flex justify-between">
+                <div key={index.toString()} className="flex flex-col mb-5">
+                  <div className="flex justify-between mb-1">
                     <span>{item.condition}</span>
                     <span
                       className={
                         item.rating === "good"
-                          ? "text-success-500"
+                          ? "text-success-500 capitalize"
                           : item.rating === "warning"
-                          ? "text-warning-500"
-                          : "text-danger-500"
+                          ? "text-warning-500 capitalize"
+                          : "text-danger-500 capitalize"
                       }
                     >
                       {item.rating}
                     </span>
                   </div>
 
-                  <div className="flex justify-end">{item.recommendation}</div>
+                  <div
+                    className={
+                      item.rating === "good"
+                        ? "bg-success-500 p-1 px-2 rounded-md"
+                        : item.rating === "warning"
+                        ? "bg-warning-500 p-1 px-2 rounded-md"
+                        : "bg-danger-500 p-1 px-2 rounded-md"
+                    }
+                    // className="bg-success-500 p-3 rounded-md"
+                  >
+                    <p className="flex justify-end text-default-50 text-base subpixel-antialiased">
+                      {item.recommendation}
+                    </p>
+                  </div>
+
+                  {/*<Divider />*/}
                 </div>
               );
             })}
@@ -159,28 +209,28 @@ export default function Weather({ data }: { data: any }) {
           {/*  {weatherData.visibility}km*/}
           {/*</div>*/}
         </CardBody>
-        <CardFooter>
-          <Select
-            labelPlacement="outside-left"
-            id="city"
-            selectedKeys={[city]}
-            onChange={(e) => handleCityChange(e.target.value)}
-            disabled={isPending} // 요청 중일 때 비활성화
-            disabledKeys={[city]}
-            placeholder="Select a city"
-            aria-label="Select city"
-          >
-            {cities.map((city) => (
-              <SelectItem
-                key={city.name}
-                value={city.name}
-                className="text-default-700"
-              >
-                {city.krName}
-              </SelectItem>
-            ))}
-          </Select>
-        </CardFooter>
+        {/*<CardFooter>*/}
+        {/*  <Select*/}
+        {/*    labelPlacement="outside-left"*/}
+        {/*    id="city"*/}
+        {/*    selectedKeys={[city]}*/}
+        {/*    onChange={(e) => handleCityChange(e.target.value)}*/}
+        {/*    disabled={isPending} // 요청 중일 때 비활성화*/}
+        {/*    disabledKeys={[city]}*/}
+        {/*    placeholder="Select a city"*/}
+        {/*    aria-label="Select city"*/}
+        {/*  >*/}
+        {/*    {cities.map((city) => (*/}
+        {/*      <SelectItem*/}
+        {/*        key={city.name}*/}
+        {/*        value={city.name}*/}
+        {/*        className="text-default-700"*/}
+        {/*      >*/}
+        {/*        {city.krName}*/}
+        {/*      </SelectItem>*/}
+        {/*    ))}*/}
+        {/*  </Select>*/}
+        {/*</CardFooter>*/}
       </Card>
     </>
   );

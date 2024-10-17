@@ -1,15 +1,19 @@
 // 러닝에 적합한 날씨 조건을 3단계로 평가하고, 복장 및 장비 추천
 export const isSuitableForRunning = (weatherData: {
-  main: { temp: number; humidity: number };
+  main: { temp: number; feels_like: number; humidity: number };
   wind: { speed: number };
   visibility: number; // 가시거리 (미터 단위)
+  rain?: { "1h": number }; // 1시간 강수량 (mm)
+  snow?: { "1h": number }; // 1시간 적설량 (mm)
 }): {
   rating: string;
   details: { condition: string; rating: string; recommendation: string }[];
 } => {
-  const { temp, humidity } = weatherData.main;
+  const { temp, feels_like, humidity } = weatherData.main;
   const { speed: windSpeed } = weatherData.wind;
-  const visibilityInKm = weatherData.visibility / 1000; // 가시거리를 km 단위로 변환
+  const visibilityInKm = weatherData.visibility / 1000;
+  const rainAmount = weatherData.rain?.["1h"] || 0; // 강수량이 없으면 0으로 설정
+  const snowAmount = weatherData.snow?.["1h"] || 0; // 적설량이 없으면 0으로 설정
 
   const details = [];
 
@@ -41,6 +45,41 @@ export const isSuitableForRunning = (weatherData: {
     condition: `온도: ${temp}°C`,
     rating: tempRating,
     recommendation: tempRecommendation,
+  });
+
+  // 체감온도 평가 및 추천
+  let feelsLikeRating: string;
+  let feelsLikeRecommendation: string;
+  if (feels_like >= 10 && feels_like <= 25) {
+    feelsLikeRating = "good";
+    feelsLikeRecommendation =
+      "쾌적한 날씨입니다. 기본적인 러닝 복장으로 충분합니다.";
+  } else if (
+    (feels_like >= 5 && feels_like < 10) ||
+    (feels_like > 25 && feels_like <= 30)
+  ) {
+    feelsLikeRating = "warning";
+    if (feels_like < 10) {
+      feelsLikeRecommendation =
+        "추위를 느낄 수 있으니 가벼운 자켓을 착용하세요.";
+    } else {
+      feelsLikeRecommendation =
+        "더위를 피하기 위해 물통과 썬크림을 준비하세요.";
+    }
+  } else {
+    feelsLikeRating = "danger";
+    if (feels_like < 5) {
+      feelsLikeRecommendation =
+        "추위로 인한 저체온증을 방지할 수 있도록 충분히 보온하세요.";
+    } else {
+      feelsLikeRecommendation =
+        "더위를 피하기 위해 최대한 가벼운 복장을 착용하고 충분한 수분을 섭취하세요.";
+    }
+  }
+  details.push({
+    condition: `체감온도: ${feels_like}°C`,
+    rating: feelsLikeRating,
+    recommendation: feelsLikeRecommendation,
   });
 
   // 습도 평가 및 추천
@@ -112,6 +151,26 @@ export const isSuitableForRunning = (weatherData: {
     condition: `가시거리: ${visibilityInKm} km`,
     rating: visibilityRating,
     recommendation: visibilityRecommendation,
+  });
+
+  // 강수량 평가 및 추천
+  let rainRating: string;
+  let rainRecommendation: string;
+  if (rainAmount === 0) {
+    rainRating = "good";
+    rainRecommendation = "비가 오지 않아 쾌적한 러닝이 가능합니다.";
+  } else if (rainAmount > 0 && rainAmount <= 2.5) {
+    rainRating = "warning";
+    rainRecommendation = "가벼운 비가 오고 있습니다. 방수 자켓을 착용하세요.";
+  } else {
+    rainRating = "danger";
+    rainRecommendation =
+      "강한 비가 오고 있습니다. 안전을 위해 러닝을 피하세요.";
+  }
+  details.push({
+    condition: `강수량: ${rainAmount} mm`,
+    rating: rainRating,
+    recommendation: rainRecommendation,
   });
 
   // 최종 평가 (모든 조건 중 하나라도 'danger'이면 danger, 아니면 warning, 모두 good이면 good)

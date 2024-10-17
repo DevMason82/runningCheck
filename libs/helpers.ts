@@ -1,85 +1,3 @@
-// 러닝에 적합한 날씨 조건을 3단계로 평가: good, warning, danger
-// export const isSuitableForRunning = (weatherData: {
-//   main: { temp: number; humidity: number };
-//   wind: { speed: number };
-//   visibility: number; // 가시거리 (미터 단위)
-// }): { rating: string; details: { condition: string; rating: string }[] } => {
-//   const { temp, humidity } = weatherData.main;
-//   const { speed: windSpeed } = weatherData.wind;
-//   const visibilityInKm = weatherData.visibility / 1000; // 가시거리를 km 단위로 변환
-//
-//   const details = [];
-//
-//   // 온도 평가
-//   let tempRating: string;
-//   if (temp >= 10 && temp <= 25) {
-//     tempRating = "good";
-//   } else if ((temp >= 5 && temp < 10) || (temp > 25 && temp <= 30)) {
-//     tempRating = "warning";
-//   } else {
-//     tempRating = "danger";
-//   }
-//   details.push({ condition: `온도: ${temp}°C`, rating: tempRating });
-//
-//   // 습도 평가
-//   let humidityRating: string;
-//   if (humidity >= 30 && humidity <= 70) {
-//     humidityRating = "good";
-//   } else if (
-//     (humidity >= 20 && humidity < 30) ||
-//     (humidity > 70 && humidity <= 80)
-//   ) {
-//     humidityRating = "warning";
-//   } else {
-//     humidityRating = "danger";
-//   }
-//   details.push({ condition: `습도: ${humidity}%`, rating: humidityRating });
-//
-//   // 바람 속도 평가
-//   let windRating: string;
-//   if (windSpeed <= 5) {
-//     windRating = "good";
-//   } else if (windSpeed > 5 && windSpeed <= 8) {
-//     windRating = "warning";
-//   } else {
-//     windRating = "danger";
-//   }
-//   details.push({
-//     condition: `바람 속도: ${windSpeed} m/s`,
-//     rating: windRating,
-//   });
-//
-//   // 가시거리 평가
-//   let visibilityRating: string;
-//   if (visibilityInKm >= 1) {
-//     visibilityRating = "good";
-//   } else if (visibilityInKm >= 0.5 && visibilityInKm < 1) {
-//     visibilityRating = "warning";
-//   } else {
-//     visibilityRating = "danger";
-//   }
-//   details.push({
-//     condition: `가시거리: ${visibilityInKm} km`,
-//     rating: visibilityRating,
-//   });
-//
-//   // 최종 평가 (모든 조건 중 하나라도 'danger'이면 danger, 아니면 warning, 모두 good이면 good)
-//   const hasDanger = details.some((detail) => detail.rating === "danger");
-//   const hasWarning = details.some((detail) => detail.rating === "warning");
-//
-//   let overallRating: string;
-//   if (hasDanger) {
-//     overallRating = "danger";
-//   } else if (hasWarning) {
-//     overallRating = "warning";
-//   } else {
-//     overallRating = "good";
-//   }
-//
-//   return { rating: overallRating, details };
-// };
-
-// 정각 또는 30분 간격에 맞춰 revalidate 시간을 동적으로 계산하는 함수
 import { isSuitableForRunning } from "@/libs/isSuitableForRunnibg";
 
 export const getNextRevalidateTime = (): number => {
@@ -112,7 +30,7 @@ export const parseWeatherData = (weatherData: any) => {
     windDirection: weatherData.wind.deg, // 풍향
     windGust: weatherData.wind.gust || null, // 돌풍 (있을 경우)
     clouds: weatherData.clouds.all, // 구름량 (백분율)
-    visibility: weatherData.visibility / 1000, // 가시 거리 (미터)
+    visibility: weatherData.visibility, // 가시 거리 (미터)
     rain1h: weatherData.rain?.["1h"] || 0, // 1시간 강수량
     rain3h: weatherData.rain?.["3h"] || 0, // 3시간 강수량
     snow1h: weatherData.snow?.["1h"] || 0, // 1시간 적설량
