@@ -15,16 +15,18 @@ import {
   Spinner,
 } from "@nextui-org/react";
 import { WiHumidity, WiStrongWind, WiThermometer } from "react-icons/wi";
-import { getWeather } from "@/app/actions";
+import { getWeather, getWeatherByCoords } from "@/app/actions";
 import { FaPersonRunning } from "react-icons/fa6";
 import { cities } from "@/config/cityLists";
 import { MdVisibility } from "react-icons/md";
+import { useWatchPosition } from "@/hooks/useWatchPosition";
 // import { weekStartData } from "@internationalized/date/src/weekStartData";
 
 export default function Weather({ data }: { data: any }) {
   const [city, setCity] = useState("Uijeongbu-si"); // 기본값으로 'Seoul' 설정
   const [weatherData, setWeatherData] = useState(data);
   const [isPending, startTransition] = useTransition(); // useTransition 훅 사용
+  const { location, error } = useWatchPosition();
 
   const handleCityChange = (city: SetStateAction<string>) => {
     setCity(city);
@@ -32,6 +34,17 @@ export default function Weather({ data }: { data: any }) {
       getWeather(city).then((r) => setWeatherData(r));
     });
   };
+
+  // 위치가 변경되면 날씨 데이터를 비동기로 가져옴
+  // useEffect(() => {
+  //   if (location) {
+  //     startTransition(() => {
+  //       getWeatherByCoords(location.lat, location.lon).catch((error) =>
+  //         console.error("Weather fetch error:", error),
+  //       );
+  //     });
+  //   }
+  // }, [location]);
 
   return (
     <>
@@ -67,6 +80,7 @@ export default function Weather({ data }: { data: any }) {
           </Select>
         </CardHeader>
         {/*<Divider />*/}
+
         <CardBody>
           <div className="flex flex-col items-center mt-3 mb-5">
             <div className="flex items-center mb-3">
@@ -87,15 +101,12 @@ export default function Weather({ data }: { data: any }) {
             <div className="flex items-center justify-between w-full">
               {weatherData.weatherIcon && (
                 <Image
-                  // isZoomed
                   src={weatherData.weatherIcon}
                   alt={weatherData.weatherDescription}
-                  // height={120}
                   width={65}
-                  // className="-mb-20"
-                  // className="absolute top-0 right-0 z-20"
                 />
               )}
+
               <p
                 className={
                   weatherData.suitableForRunning.rating === "good"
@@ -108,8 +119,6 @@ export default function Weather({ data }: { data: any }) {
                 {weatherData.suitableForRunning.rating}
               </p>
             </div>
-
-            {/*<p>{JSON.stringify(weatherData.suitableForRunning.details)}</p>*/}
             <Divider />
           </div>
 
@@ -152,62 +161,6 @@ export default function Weather({ data }: { data: any }) {
               );
             })}
           </div>
-
-          {/*<div className="flex items-center justify-between mb-2">*/}
-          {/*  <Chip*/}
-          {/*    startContent={<WiThermometer />}*/}
-          {/*    variant="light"*/}
-          {/*    // color="success"*/}
-          {/*  >*/}
-          {/*    온도(체감)*/}
-          {/*  </Chip>*/}
-          {/*  <div className="flex items-center">*/}
-          {/*    {weatherData.weatherIcon && (*/}
-          {/*      <Image*/}
-          {/*        // isZoomed*/}
-          {/*        src={weatherData.weatherIcon}*/}
-          {/*        alt={weatherData.weatherDescription}*/}
-          {/*        height={35}*/}
-          {/*        width={35}*/}
-          {/*      />*/}
-          {/*    )}*/}
-          {/*    {Math.round(weatherData.temp)}({Math.round(weatherData.feelsLike)}*/}
-          {/*    )°C*/}
-          {/*  </div>*/}
-          {/*</div>*/}
-
-          {/*<div className="flex items-center justify-between mb-3">*/}
-          {/*  <Chip*/}
-          {/*    startContent={<WiStrongWind />}*/}
-          {/*    variant="light"*/}
-          {/*    // color="success"*/}
-          {/*  >*/}
-          {/*    바람*/}
-          {/*  </Chip>*/}
-          {/*  {weatherData.windSpeed} m/s*/}
-          {/*</div>*/}
-
-          {/*<div className="flex items-center justify-between mb-3">*/}
-          {/*  <Chip*/}
-          {/*    startContent={<WiHumidity />}*/}
-          {/*    variant="light"*/}
-          {/*    // color="success"*/}
-          {/*  >*/}
-          {/*    습도*/}
-          {/*  </Chip>*/}
-          {/*  {weatherData.humidity}%*/}
-          {/*</div>*/}
-
-          {/*<div className="flex items-center justify-between">*/}
-          {/*  <Chip*/}
-          {/*    startContent={<MdVisibility />}*/}
-          {/*    variant="light"*/}
-          {/*    // color="success"*/}
-          {/*  >*/}
-          {/*    가시거리*/}
-          {/*  </Chip>*/}
-          {/*  {weatherData.visibility}km*/}
-          {/*</div>*/}
         </CardBody>
         {/*<CardFooter>*/}
         {/*  <Select*/}

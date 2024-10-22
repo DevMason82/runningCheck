@@ -8,12 +8,12 @@ import Weather from "@/components/weather";
 
 const LazyWeather = dynamic(() => import("@/components/weather"), {
   loading: () => <Skeleton className="rounded-lg" />,
-  // ssr: false,
+  ssr: false,
 });
 
 export default async function Home() {
   const data = await getWeather("Uijeongbu-si");
-  console.log("GET WEATHER INFO ==>>", data);
+  // console.log("GET WEATHER INFO ==>>", data);
 
   return (
     <div className="container mx-auto max-w-lg">
@@ -23,6 +23,7 @@ export default async function Home() {
       {/*<LocationTracker />*/}
 
       <LazyWeather data={data} />
+      {/*<LazyWeather />*/}
     </div>
   );
 }
