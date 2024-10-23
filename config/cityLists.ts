@@ -19,4 +19,5 @@ export const cities = [
   { name: "Anseong", krName: "안성", isoCode: "KR" },
   { name: "Pocheon-si", krName: "포천", isoCode: "KR" },
   { name: "Yangju", krName: "양주", isoCode: "KR" },
+  { name: "Gangwon-do", krName: "강원도", isoCode: "KR" },
 ];

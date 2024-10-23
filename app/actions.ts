@@ -1,8 +1,19 @@
 "use server";
+import { cookies } from "next/headers";
+import {
+  setCookie,
+  deleteCookie,
+  hasCookie,
+  getCookie,
+  getCookies,
+} from "cookies-next";
 import { getNextRevalidateTime, parseWeatherData } from "@/libs/helpers";
 const API_KEY = process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY;
 
-export async function getWeather(city: string) {
+export async function getWeather(city: string | undefined) {
+  const getMyPosition = getCookies({ cookies });
+  const { myPosition } = getMyPosition;
+  // console.log(myPosition.myPosition);
   const endPoint = `https://api.openweathermap.org/data/2.5/weather?q=${city}&lang=kr&appid=${API_KEY}&units=metric`;
   try {
     // OpenWeather API로부터 날씨 데이터 가져오기

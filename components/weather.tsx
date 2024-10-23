@@ -18,15 +18,20 @@ import { WiHumidity, WiStrongWind, WiThermometer } from "react-icons/wi";
 import { getWeather, getWeatherByCoords } from "@/app/actions";
 import { FaPersonRunning } from "react-icons/fa6";
 import { cities } from "@/config/cityLists";
+import { getCookies, setCookie, deleteCookie, getCookie } from "cookies-next";
 import { MdVisibility } from "react-icons/md";
 import { useWatchPosition } from "@/hooks/useWatchPosition";
-// import { weekStartData } from "@internationalized/date/src/weekStartData";
 
 export default function Weather({ data }: { data: any }) {
-  const [city, setCity] = useState("Uijeongbu-si"); // 기본값으로 'Seoul' 설정
+  const getMyPosition = getCookie("myPosition");
+  console.log(typeof getMyPosition);
+  const [city, setCity] = useState<string>(data.city); // 기본값으로 'Seoul' 설정
   const [weatherData, setWeatherData] = useState(data);
   const [isPending, startTransition] = useTransition(); // useTransition 훅 사용
-  const { location, error } = useWatchPosition();
+
+  // useEffect(() => {
+  //   return setCity(getMyPosition);
+  // }, []);
 
   const handleCityChange = (city: SetStateAction<string>) => {
     setCity(city);
