@@ -24,6 +24,8 @@ import { useTheme } from "next-themes";
 import { useSession, signOut, signIn } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { siteConfig } from "@/config/site";
+import { deleteCookie, getCookie, setCookie } from "cookies-next";
+import { useRouter } from "next-nprogress-bar";
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -32,6 +34,7 @@ export const Navbar = () => {
   const { data: session } = useSession();
 
   const pathname = usePathname();
+  const router = useRouter();
 
   // useEffect(() => {
   //   setMounted(true);
@@ -57,6 +60,11 @@ export const Navbar = () => {
   // }
 
   // const toggleColor = theme.theme === "dark" ? "white" : "black";
+
+  const handleMyPosition = () => {
+    deleteCookie("myPosition");
+    router.push("/");
+  };
 
   return (
     <NextUINavbar
@@ -121,6 +129,17 @@ export const Navbar = () => {
                   <p className="font-semibold">{session?.user?.name!}</p>
                 </DropdownItem>
               </DropdownSection>
+
+              <DropdownItem
+                key="myPosition"
+                // color="danger"
+                onPress={handleMyPosition}
+                className="text-right"
+              >
+                위치변경
+              </DropdownItem>
+
+              {/*<Divider />*/}
 
               <DropdownItem
                 key="logout"

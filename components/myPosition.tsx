@@ -7,7 +7,8 @@ import React, {
   useEffect,
 } from "react";
 import { deleteCookie, getCookie, setCookie } from "cookies-next";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import {
   Button,
   Card,
