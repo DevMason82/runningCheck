@@ -22,7 +22,7 @@ export default async function Page() {
   const getCity = getCookies({ cookies });
   const { myPosition } = getCity;
   const data = await getWeather(myPosition);
-  console.log(data);
+  // console.log(data);
   return (
     <div className="container mx-auto max-w-lg">
       {/*<div className="grid grid-flow-row auto-rows-max gap-4 md:grid-cols-2 xl:grid-cols-4">*/}
