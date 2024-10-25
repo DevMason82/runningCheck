@@ -25,14 +25,8 @@ import { useSearchParams } from "next/navigation";
 import { getStorage } from "@/libs/localStorage";
 
 export default function Weather({ data }: { data: any }) {
-  const getMyPosition = getCookie("myPosition");
-  console.log("CITY ==>>", data.city);
   const searchParams = useSearchParams();
   const getCity = searchParams.get("city");
-  console.log("GET CITY ==>>", getCity);
-
-  const ddd = getStorage("myPosition");
-  console.log("My position Client ==>>", ddd);
 
   const [city, setCity] = useState<string>(data.city);
   const [weatherData, setWeatherData] = useState(data);
@@ -45,17 +39,6 @@ export default function Weather({ data }: { data: any }) {
     });
   };
 
-  // 위치가 변경되면 날씨 데이터를 비동기로 가져옴
-  // useEffect(() => {
-  //   if (location) {
-  //     startTransition(() => {
-  //       getWeatherByCoords(location.lat, location.lon).catch((error) =>
-  //         console.error("Weather fetch error:", error),
-  //       );
-  //     });
-  //   }
-  // }, [location]);
-
   return (
     <>
       {isPending && (
@@ -66,10 +49,11 @@ export default function Weather({ data }: { data: any }) {
         />
       )}
       <Card shadow="none">
-        <CardHeader className="flex justify-center">
-          {/*{city} Running 상태*/}
+        <CardHeader className="flex flex-col gap-3 justify-center">
+          <h3 className="font-semibold text-lg">{getCity}</h3>
           <Select
-            labelPlacement="outside-left"
+            // label="다른 지역 확인"
+            // labelPlacement="outside-left"
             id="city"
             selectedKeys={[city]}
             onChange={(e) => handleCityChange(e.target.value)}

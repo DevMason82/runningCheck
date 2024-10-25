@@ -55,14 +55,8 @@ export const Navbar = () => {
     // },
   ];
 
-  // if (!mounted) {
-  //   return null; // 마운트되기 전에는 아무것도 렌더링하지 않음
-  // }
-
-  // const toggleColor = theme.theme === "dark" ? "white" : "black";
-
   const handleMyPosition = () => {
-    deleteCookie("myPosition");
+    // deleteCookie("myPosition");
     // setCookie("myPosition", "");
     router.push("/");
   };

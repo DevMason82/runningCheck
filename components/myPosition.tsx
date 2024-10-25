@@ -6,8 +6,7 @@ import React, {
   useTransition,
   useEffect,
 } from "react";
-import { deleteCookie, getCookie, setCookie } from "cookies-next";
-// import { useRouter } from "next/navigation";
+// import { deleteCookie, getCookie, setCookie } from "cookies-next";
 import { useRouter } from "next-nprogress-bar";
 import {
   Button,
@@ -19,6 +18,7 @@ import {
   Spinner,
 } from "@nextui-org/react";
 import { cities } from "@/config/cityLists";
+import { getStorage, setStorage } from "@/libs/localStorage";
 
 const MyPosition = () => {
   const router = useRouter();
@@ -27,8 +27,8 @@ const MyPosition = () => {
 
   // 컴포넌트 마운트 시 쿠키에서 위치 정보 가져오기
   useEffect(() => {
-    const savedPosition = getCookie("myPosition") as string | null;
-    if (savedPosition) setCity(savedPosition);
+    const storedCity = getStorage("myPosition");
+    if (storedCity) setCity(storedCity);
   }, []);
 
   // 도시 변경 핸들러
@@ -37,12 +37,10 @@ const MyPosition = () => {
   };
 
   // 쿠키 설정 및 페이지 이동 핸들러
-  const handleSetCookie = () => {
+  const handleSetStorage = () => {
     if (!city) return; // 도시가 선택되지 않은 경우 처리
     startTransition(() => {
-      deleteCookie("myPosition"); // 기존 쿠키 삭제
-      setCookie("myPosition", city); // 새로운 위치 설정
-      localStorage.setItem("myPosition", city);
+      setStorage("myPosition", city);
       router.push(`/runningStatusInfo?city=${city}`); // 페이지 이동
     });
   };
@@ -51,7 +49,8 @@ const MyPosition = () => {
     <Card shadow="sm">
       <CardBody>
         <Select
-          labelPlacement="outside-left"
+          label="러닝을 주로 하는 지역 선택"
+          labelPlacement="outside"
           id="city"
           selectedKeys={city ? [city] : []}
           onChange={(e) => handleCityChange(e.target.value)}
@@ -76,10 +75,10 @@ const MyPosition = () => {
         <Button
           color="success"
           fullWidth
-          onPress={handleSetCookie}
+          onPress={handleSetStorage}
           disabled={isPending || !city} // 로딩 중이거나 도시 선택되지 않은 경우 비활성화
         >
-          {isPending ? <Spinner size="sm" /> : "위치 선택"}
+          {isPending ? <Spinner size="sm" /> : "확인"}
         </Button>
       </CardFooter>
     </Card>
