@@ -1,5 +1,5 @@
 export const cities = [
-  { name: "Suwon", krName: "수원", isoCode: "KR" },
+  { name: "Suwon-si", krName: "수원", isoCode: "KR" },
   { name: "Goyang-si", krName: "고양", isoCode: "KR" },
   { name: "Yongin", krName: "용인", isoCode: "KR" },
   { name: "Seongnam-si", krName: "성남", isoCode: "KR" },

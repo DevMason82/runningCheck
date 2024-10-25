@@ -21,17 +21,22 @@ import { cities } from "@/config/cityLists";
 import { getCookies, setCookie, deleteCookie, getCookie } from "cookies-next";
 import { MdVisibility } from "react-icons/md";
 import { useWatchPosition } from "@/hooks/useWatchPosition";
+import { useSearchParams } from "next/navigation";
+import { getStorage } from "@/libs/localStorage";
 
 export default function Weather({ data }: { data: any }) {
   const getMyPosition = getCookie("myPosition");
-  console.log(typeof getMyPosition);
-  const [city, setCity] = useState<string>(data.city); // 기본값으로 'Seoul' 설정
-  const [weatherData, setWeatherData] = useState(data);
-  const [isPending, startTransition] = useTransition(); // useTransition 훅 사용
+  console.log("CITY ==>>", data.city);
+  const searchParams = useSearchParams();
+  const getCity = searchParams.get("city");
+  console.log("GET CITY ==>>", getCity);
 
-  // useEffect(() => {
-  //   return setCity(getMyPosition);
-  // }, []);
+  const ddd = getStorage("myPosition");
+  console.log("My position Client ==>>", ddd);
+
+  const [city, setCity] = useState<string>(data.city);
+  const [weatherData, setWeatherData] = useState(data);
+  const [isPending, startTransition] = useTransition();
 
   const handleCityChange = (city: SetStateAction<string>) => {
     setCity(city);

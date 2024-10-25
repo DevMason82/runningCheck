@@ -42,7 +42,8 @@ const MyPosition = () => {
     startTransition(() => {
       deleteCookie("myPosition"); // 기존 쿠키 삭제
       setCookie("myPosition", city); // 새로운 위치 설정
-      router.push("/runningStatusInfo"); // 페이지 이동
+      localStorage.setItem("myPosition", city);
+      router.push(`/runningStatusInfo?city=${city}`); // 페이지 이동
     });
   };
 
@@ -55,7 +56,7 @@ const MyPosition = () => {
           selectedKeys={city ? [city] : []}
           onChange={(e) => handleCityChange(e.target.value)}
           disabled={isPending} // 요청 중일 때 비활성화
-          disabledKeys={[city]}
+          disabledKeys={city ? [city] : []}
           placeholder="Select a city"
           aria-label="Select city"
         >

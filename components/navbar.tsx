@@ -63,6 +63,7 @@ export const Navbar = () => {
 
   const handleMyPosition = () => {
     deleteCookie("myPosition");
+    // setCookie("myPosition", "");
     router.push("/");
   };
 
@@ -125,7 +126,11 @@ export const Navbar = () => {
               className="text-default-700"
             >
               <DropdownSection title="User Info" showDivider>
-                <DropdownItem key="profile" className="">
+                <DropdownItem
+                  key="profile"
+                  className=""
+                  textValue={session?.user?.name!}
+                >
                   <p className="font-semibold">{session?.user?.name!}</p>
                 </DropdownItem>
               </DropdownSection>
@@ -138,8 +143,6 @@ export const Navbar = () => {
               >
                 위치변경
               </DropdownItem>
-
-              {/*<Divider />*/}
 
               <DropdownItem
                 key="logout"
