@@ -73,10 +73,10 @@ export const Navbar = () => {
         {/*  aria-label={isMenuOpen ? "Close menu" : "Open menu"}*/}
         {/*  className="sm:hidden bg-background"*/}
         {/*/>*/}
-        <NavbarBrand>
-          <Link href="/" color="foreground">
-            <p className="font-bold text-inherit">{siteConfig.name}</p>
-          </Link>
+        <NavbarBrand className="text-default-800">
+          {/*<Link href="/" color="foreground">*/}
+          <p className="font-bold text-inherit">{siteConfig.name}</p>
+          {/*</Link>*/}
         </NavbarBrand>
       </NavbarContent>
 

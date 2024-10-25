@@ -56,7 +56,7 @@ const MyPosition = () => {
           onChange={(e) => handleCityChange(e.target.value)}
           disabled={isPending} // 요청 중일 때 비활성화
           disabledKeys={city ? [city] : []}
-          placeholder="Select a city"
+          placeholder="지역 선택"
           aria-label="Select city"
         >
           {cities.map((city) => (
