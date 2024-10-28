@@ -153,10 +153,9 @@ export const isSuitableForRunningKMA = (weatherData) => {
     temperature,
     humidity,
     windSpeed,
-    windDirection,
+    precipitation,
     rain1h,
-    weatherCondition,
-    visibility,
+    windDirection,
   } = weatherData;
 
   const details = [];
@@ -164,12 +163,12 @@ export const isSuitableForRunningKMA = (weatherData) => {
   // 1. 기온 평가 및 조언
   const tempRecommendation =
     temperature < 0
-      ? "추운 날씨입니다. 보온에 신경 쓰고, 장갑과 모자를 착용하세요."
+      ? "추운 날씨입니다. 따뜻한 옷과 장갑을 준비하세요."
       : temperature >= 0 && temperature < 10
-      ? "서늘한 날씨입니다. 워밍업을 충분히 하고 보온에 신경 쓰세요."
+      ? "서늘한 날씨입니다. 보온을 유지하며 워밍업을 충분히 하세요."
       : temperature >= 10 && temperature <= 25
-      ? "쾌적한 날씨입니다. 러닝하기 좋은 조건입니다!"
-      : "더운 날씨입니다. 물을 충분히 섭취하고 무리하지 마세요.";
+      ? "쾌적한 날씨입니다. 러닝하기 좋은 날입니다!"
+      : "더운 날씨입니다. 충분한 수분 섭취를 잊지 마세요.";
 
   details.push({
     condition: `기온: ${temperature}°C`,
@@ -185,10 +184,10 @@ export const isSuitableForRunningKMA = (weatherData) => {
   // 2. 습도 평가 및 조언
   const humidityRecommendation =
     humidity < 30
-      ? "건조한 날씨입니다. 수분을 충분히 섭취하고, 보습에 신경 쓰세요."
+      ? "건조한 날씨입니다. 수분 섭취에 신경 쓰세요."
       : humidity <= 70
-      ? "적절한 습도입니다. 러닝에 최적입니다."
-      : "습도가 높아 체온 조절이 어려울 수 있습니다. 수분 섭취에 유의하세요.";
+      ? "적절한 습도입니다. 러닝하기 좋은 날입니다."
+      : "습도가 높아 체온 조절이 어려울 수 있습니다. 수분을 충분히 섭취하세요.";
 
   details.push({
     condition: `습도: ${humidity}%`,
@@ -204,10 +203,10 @@ export const isSuitableForRunningKMA = (weatherData) => {
   // 3. 풍속 및 풍향 평가
   const windRecommendation =
     windSpeed < 5
-      ? "바람이 거의 없습니다. 쾌적한 러닝을 즐기세요."
+      ? "바람이 약해 쾌적합니다."
       : windSpeed <= 8
-      ? "바람이 다소 불고 있습니다. 바람막이 자켓을 착용하세요."
-      : "강한 바람입니다. 안전을 위해 러닝을 피하거나 코스를 조정하세요.";
+      ? "바람이 다소 불고 있습니다. 바람막이를 준비하세요."
+      : "강한 바람이 불고 있습니다. 안전을 위해 조심하세요.";
 
   details.push({
     condition: `풍속: ${windSpeed} m/s, 풍향: ${windDirection}°`,
@@ -217,36 +216,16 @@ export const isSuitableForRunningKMA = (weatherData) => {
 
   // 4. 강수량 평가 및 조언
   const rainRecommendation =
-    weatherCondition === 0
+    precipitation === "비"
       ? rain1h === 0
-        ? "비가 오지 않습니다. 러닝에 최적입니다."
-        : "가벼운 비가 내리고 있습니다. 방수 자켓을 준비하세요."
-      : "강수량이 많습니다. 안전을 위해 러닝을 피하세요.";
+        ? "비가 오지 않아 러닝하기 좋습니다."
+        : "비가 조금 내리고 있습니다. 방수 자켓을 준비하세요."
+      : "비가 많이 내립니다. 러닝을 피하는 것이 좋습니다.";
 
   details.push({
     condition: `강수량: ${rain1h} mm`,
     rating: rain1h > 2.5 ? "danger" : rain1h === 0 ? "good" : "warning",
     recommendation: rainRecommendation,
-  });
-
-  // 5. 가시거리 평가 및 조언
-  const visibilityInKm = visibility / 1000;
-  const visibilityRecommendation =
-    visibilityInKm >= 1
-      ? "시야가 좋아 안전하게 러닝할 수 있습니다."
-      : visibilityInKm >= 0.5
-      ? "시야가 다소 제한적입니다. 밝은 옷과 반사띠를 착용하세요."
-      : "시야가 매우 나쁩니다. 라이트를 사용하고 주의를 기울이세요.";
-
-  details.push({
-    condition: `가시거리: ${visibilityInKm} km`,
-    rating:
-      visibilityInKm < 0.5
-        ? "danger"
-        : visibilityInKm >= 1
-        ? "good"
-        : "warning",
-    recommendation: visibilityRecommendation,
   });
 
   // 최종 평가

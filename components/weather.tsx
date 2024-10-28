@@ -30,10 +30,10 @@ export default function Weather({
   kmaData: any;
 }) {
   const searchParams = useSearchParams();
-  const getCity = searchParams.get("city");
+  const getCity = searchParams.get("krName");
 
-  const [city, setCity] = useState<string>(data.city);
-  const [weatherData, setWeatherData] = useState(data);
+  // const [city, setCity] = useState<string>(data.city);
+  const [weatherData, setWeatherData] = useState(kmaData);
   const [isPending, startTransition] = useTransition();
 
   console.log("KMA", kmaData);
