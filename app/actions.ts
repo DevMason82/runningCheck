@@ -11,6 +11,7 @@ import {
 import { getNextRevalidateTime, parseWeatherData } from "@/libs/helpers";
 import { getStorage } from "@/libs/localStorage";
 const API_KEY = process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY;
+const API_KEY_KMA = process.env.NEXT_PUBLIC_KMA_API_KEY;
 
 export async function getWeather(city: string | undefined) {
   // const getMyPosition = getCookies({ cookies });
@@ -93,5 +94,31 @@ export async function getWeatherByCoords(lat: any, lon: any) {
   } catch (error) {
     console.error("Error fetching weather data:", error);
     throw new Error("Error fetching weather data");
+  }
+}
+
+// 기상청 API 호출 함수 (격자 X, Y 좌표로 요청)
+export async function getUltraSrtNcst(
+  nx: number | null,
+  ny: number | null,
+  baseDate: string,
+  baseTime: string,
+) {
+  const url = `https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey=${API_KEY_KMA}&base_date=${baseDate}&base_time=${baseTime}&nx=${nx}&ny=${ny}&dataType=JSON`;
+
+  try {
+    const response = await fetch(url, {
+      cache: "no-store", // 캐싱 방지
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch weather data from KMA");
+    }
+
+    const data = await response.json();
+    return data.response.body.items.item;
+  } catch (error) {
+    console.error("Error fetching KMA weather data:", error);
+    throw new Error("Failed to fetch weather data.");
   }
 }

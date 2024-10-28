@@ -12,6 +12,7 @@
 // });
 
 import MyPosition from "@/components/myPosition";
+import LocationTracker from "@/components/locationTracker";
 
 export default async function Home() {
   // const data = await getWeather("Uijeongbu-si");
@@ -22,8 +23,6 @@ export default async function Home() {
       <MyPosition />
       {/*<div className="grid grid-flow-row auto-rows-max gap-4 md:grid-cols-2 xl:grid-cols-4">*/}
       {/*<DeviceDetector />*/}
-
-      {/*<LocationTracker />*/}
 
       {/*<LazyWeather data={data} />*/}
       {/*<LazyWeather />*/}

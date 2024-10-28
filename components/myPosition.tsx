@@ -19,6 +19,7 @@ import {
 } from "@nextui-org/react";
 import { cities } from "@/config/cityLists";
 import { getStorage, setStorage } from "@/libs/localStorage";
+import LocationTracker from "@/components/locationTracker";
 
 const MyPosition = () => {
   const router = useRouter();
@@ -46,42 +47,45 @@ const MyPosition = () => {
   };
 
   return (
-    <Card shadow="sm">
-      <CardBody>
-        <Select
-          label="러닝을 주로 하는 지역 선택"
-          labelPlacement="outside"
-          id="city"
-          selectedKeys={city ? [city] : []}
-          onChange={(e) => handleCityChange(e.target.value)}
-          disabled={isPending} // 요청 중일 때 비활성화
-          disabledKeys={city ? [city] : []}
-          placeholder="지역 선택"
-          aria-label="Select city"
-        >
-          {cities.map((city) => (
-            <SelectItem
-              key={city.name}
-              value={city.name}
-              className="text-default-700"
-            >
-              {city.krName}
-            </SelectItem>
-          ))}
-        </Select>
-      </CardBody>
+    <>
+      <Card shadow="sm">
+        <CardBody>
+          <Select
+            label="러닝을 주로 하는 지역 선택"
+            labelPlacement="outside"
+            id="city"
+            selectedKeys={city ? [city] : []}
+            onChange={(e) => handleCityChange(e.target.value)}
+            disabled={isPending} // 요청 중일 때 비활성화
+            disabledKeys={city ? [city] : []}
+            placeholder="지역 선택"
+            aria-label="Select city"
+          >
+            {cities.map((city) => (
+              <SelectItem
+                key={city.name}
+                value={city.name}
+                className="text-default-700"
+              >
+                {city.krName}
+              </SelectItem>
+            ))}
+          </Select>
+        </CardBody>
 
-      <CardFooter>
-        <Button
-          color="success"
-          fullWidth
-          onPress={handleSetStorage}
-          disabled={isPending || !city} // 로딩 중이거나 도시 선택되지 않은 경우 비활성화
-        >
-          {isPending ? <Spinner size="sm" /> : "확인"}
-        </Button>
-      </CardFooter>
-    </Card>
+        <CardFooter>
+          <Button
+            color="success"
+            fullWidth
+            onPress={handleSetStorage}
+            disabled={isPending || !city} // 로딩 중이거나 도시 선택되지 않은 경우 비활성화
+          >
+            {isPending ? <Spinner size="sm" /> : "확인"}
+          </Button>
+        </CardFooter>
+      </Card>
+      <LocationTracker />
+    </>
   );
 };
 
