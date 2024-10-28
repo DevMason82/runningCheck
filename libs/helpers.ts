@@ -1,4 +1,7 @@
-import { isSuitableForRunning } from "@/libs/isSuitableForRunnibg";
+import {
+  isSuitableForRunning,
+  isSuitableForRunningKMA,
+} from "@/libs/isSuitableForRunnibg";
 
 export const getNextRevalidateTime = (): number => {
   const now = new Date();
@@ -41,4 +44,73 @@ export const parseWeatherData = (weatherData: any) => {
     sunset: new Date(weatherData.sys.sunset * 1000).toLocaleTimeString(), // 일몰 시간
     suitableForRunning: isSuitableForRunning(weatherData), // 러닝 적합성 여부
   };
+};
+
+export const parseWeatherKMAData = (weatherData: any) => {
+  const parsedData = {
+    temperature: null,
+    humidity: null,
+    precipitation: null,
+    windSpeed: null,
+    windDirection: null,
+    windUComponent: null,
+    windVComponent: null,
+    rain1h: null,
+    weatherCondition: null,
+  };
+  // API 응답의 각 항목을 분류하여 매핑
+  weatherData.forEach((item) => {
+    const { category, obsrValue } = item;
+
+    switch (category) {
+      case "T1H": // 기온
+        parsedData.temperature = parseFloat(obsrValue);
+        break;
+      case "REH": // 습도
+        parsedData.humidity = parseInt(obsrValue, 10);
+        break;
+      case "PTY": // 강수 형태 (0: 없음, 1: 비, 2: 비/눈, 3: 눈)
+        parsedData.weatherCondition = parseInt(obsrValue, 10);
+        break;
+      case "RN1": // 1시간 강수량
+        parsedData.rain1h = parseFloat(obsrValue);
+        break;
+      case "WSD": // 풍속
+        parsedData.windSpeed = parseFloat(obsrValue);
+        break;
+      case "VEC": // 풍향
+        parsedData.windDirection = parseInt(obsrValue, 10);
+        break;
+      case "UUU": // 동서풍 성분
+        parsedData.windUComponent = parseFloat(obsrValue);
+        break;
+      case "VVV": // 남북풍 성분
+        parsedData.windVComponent = parseFloat(obsrValue);
+        break;
+      default:
+        console.warn(`Unknown category: ${category}`);
+        break;
+    }
+  });
+
+  // 러닝 적합성 평가 함수 호출
+  const suitableForRunning = isSuitableForRunningKMA(parsedData);
+
+  return {
+    ...parsedData,
+    suitableForRunning, // 러닝 적합성 여부 포함
+  };
+};
+
+const mapSkyCondition = (skyCode) => {
+  switch (skyCode) {
+    case 1:
+      return "맑음";
+    case 3:
+      return "구름 많음";
+    case 4:
+      return "흐림";
+    default:
+      return "정보 없음";
+  }
 };

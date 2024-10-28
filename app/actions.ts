@@ -1,7 +1,11 @@
 "use server";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { getNextRevalidateTime, parseWeatherData } from "@/libs/helpers";
+import {
+  getNextRevalidateTime,
+  parseWeatherData,
+  parseWeatherKMAData,
+} from "@/libs/helpers";
 import { getStorage } from "@/libs/localStorage";
 const API_KEY = process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY;
 const API_KEY_KMA = process.env.NEXT_PUBLIC_KMA_API_KEY;
@@ -82,7 +86,9 @@ export async function getUltraSrtNcst(
     }
 
     const data = await response.json();
-    return data.response.body.items.item;
+    // return data.response.body.items.item;
+    console.log("KMA data ==>>", data.response.body.items.item);
+    return parseWeatherKMAData(data.response.body.items.item);
   } catch (error) {
     console.error("Error fetching KMA weather data:", error);
     throw new Error("Failed to fetch weather data.");

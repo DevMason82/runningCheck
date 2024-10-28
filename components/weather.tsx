@@ -22,13 +22,21 @@ import { MdVisibility } from "react-icons/md";
 import { useSearchParams } from "next/navigation";
 import { getStorage } from "@/libs/localStorage";
 
-export default function Weather({ data }: { data: any }) {
+export default function Weather({
+  data,
+  kmaData,
+}: {
+  data: any;
+  kmaData: any;
+}) {
   const searchParams = useSearchParams();
   const getCity = searchParams.get("city");
 
   const [city, setCity] = useState<string>(data.city);
   const [weatherData, setWeatherData] = useState(data);
   const [isPending, startTransition] = useTransition();
+
+  console.log("KMA", kmaData);
 
   const handleCityChange = (city: SetStateAction<string>) => {
     setCity(city);
@@ -49,27 +57,25 @@ export default function Weather({ data }: { data: any }) {
       <Card shadow="none">
         <CardHeader className="flex flex-col gap-3 justify-center">
           <h3 className="font-semibold text-lg">{getCity}</h3>
-          <Select
-            // label="다른 지역 확인"
-            // labelPlacement="outside-left"
-            id="city"
-            selectedKeys={[city]}
-            onChange={(e) => handleCityChange(e.target.value)}
-            disabled={isPending} // 요청 중일 때 비활성화
-            disabledKeys={[city]}
-            placeholder="Select a city"
-            aria-label="Select city"
-          >
-            {cities.map((city) => (
-              <SelectItem
-                key={city.name}
-                value={city.name}
-                className="text-default-700"
-              >
-                {city.krName}
-              </SelectItem>
-            ))}
-          </Select>
+          {/*<Select*/}
+          {/*  id="city"*/}
+          {/*  selectedKeys={[city]}*/}
+          {/*  onChange={(e) => handleCityChange(e.target.value)}*/}
+          {/*  disabled={isPending} // 요청 중일 때 비활성화*/}
+          {/*  disabledKeys={[city]}*/}
+          {/*  placeholder="Select a city"*/}
+          {/*  aria-label="Select city"*/}
+          {/*>*/}
+          {/*  {cities.map((city) => (*/}
+          {/*    <SelectItem*/}
+          {/*      key={city.name}*/}
+          {/*      value={city.name}*/}
+          {/*      className="text-default-700"*/}
+          {/*    >*/}
+          {/*      {city.krName}*/}
+          {/*    </SelectItem>*/}
+          {/*  ))}*/}
+          {/*</Select>*/}
         </CardHeader>
         {/*<Divider />*/}
 

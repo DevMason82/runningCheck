@@ -20,7 +20,7 @@ export default async function Page({
   console.log("kmaData ==>>", kmaData);
   return (
     <div className="container mx-auto max-w-lg">
-      <LazyWeather data={data} />
+      <LazyWeather data={data} kmaData={kmaData} />
     </div>
   );
 }
