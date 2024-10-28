@@ -15,12 +15,10 @@ import {
   Spinner,
 } from "@nextui-org/react";
 import { WiHumidity, WiStrongWind, WiThermometer } from "react-icons/wi";
-import { getWeather, getWeatherByCoords } from "@/app/actions";
+import { getWeather } from "@/app/actions";
 import { FaPersonRunning } from "react-icons/fa6";
 import { cities } from "@/config/cityLists";
-import { getCookies, setCookie, deleteCookie, getCookie } from "cookies-next";
 import { MdVisibility } from "react-icons/md";
-import { useWatchPosition } from "@/hooks/useWatchPosition";
 import { useSearchParams } from "next/navigation";
 import { getStorage } from "@/libs/localStorage";
 
@@ -156,28 +154,6 @@ export default function Weather({ data }: { data: any }) {
             })}
           </div>
         </CardBody>
-        {/*<CardFooter>*/}
-        {/*  <Select*/}
-        {/*    labelPlacement="outside-left"*/}
-        {/*    id="city"*/}
-        {/*    selectedKeys={[city]}*/}
-        {/*    onChange={(e) => handleCityChange(e.target.value)}*/}
-        {/*    disabled={isPending} // 요청 중일 때 비활성화*/}
-        {/*    disabledKeys={[city]}*/}
-        {/*    placeholder="Select a city"*/}
-        {/*    aria-label="Select city"*/}
-        {/*  >*/}
-        {/*    {cities.map((city) => (*/}
-        {/*      <SelectItem*/}
-        {/*        key={city.name}*/}
-        {/*        value={city.name}*/}
-        {/*        className="text-default-700"*/}
-        {/*      >*/}
-        {/*        {city.krName}*/}
-        {/*      </SelectItem>*/}
-        {/*    ))}*/}
-        {/*  </Select>*/}
-        {/*</CardFooter>*/}
       </Card>
     </>
   );
