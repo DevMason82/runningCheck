@@ -219,8 +219,12 @@ export const isSuitableForRunningKMA = (weatherData) => {
     precipitation === "비"
       ? rain1h === 0
         ? "비가 오지 않아 러닝하기 좋습니다."
-        : "비가 조금 내리고 있습니다. 방수 자켓을 준비하세요."
-      : "비가 많이 내립니다. 러닝을 피하는 것이 좋습니다.";
+        : rain1h <= 2.5
+        ? "가벼운 비가 내리고 있습니다. 방수 자켓을 준비하세요."
+        : "비가 많이 내립니다. 러닝을 피하는 것이 좋습니다."
+      : precipitation === "비/눈" || precipitation === "눈"
+      ? "눈이 내리고 있습니다. 미끄럼에 주의하세요."
+      : "비나 눈이 오지 않습니다. 러닝하기 좋은 날씨입니다.";
 
   details.push({
     condition: `강수량: ${rain1h} mm`,
