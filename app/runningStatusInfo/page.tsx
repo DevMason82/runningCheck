@@ -13,14 +13,14 @@ export default async function Page({
   searchParams: { [key: string]: string };
 }) {
   const cityName = searchParams.city;
-  const { city, nx, ny, baseDate, baseTime } = searchParams;
+  const { city, nx, ny } = searchParams;
   console.log("CITY NAME ==>>", cityName);
   const data = await getWeather(city);
-  const kmaData = await getUltraSrtNcst(nx, ny);
+  // const kmaData = await getUltraSrtNcst(nx, ny);
   // console.log("kmaData ==>>", kmaData);
   return (
     <div className="container mx-auto max-w-lg">
-      <LazyWeather data={data} kmaData={kmaData} />
+      <LazyWeather data={data} />
     </div>
   );
 }

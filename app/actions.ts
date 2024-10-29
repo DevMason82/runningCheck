@@ -23,8 +23,8 @@ export async function getWeather(city: string | undefined) {
   try {
     // OpenWeather API로부터 날씨 데이터 가져오기
     const res = await fetch(endPoint, {
-      next: { revalidate: 300 },
-      // cache: "no-store",
+      // next: { revalidate: 300 },
+      cache: "no-store",
     });
 
     if (!res.ok) {
@@ -71,11 +71,13 @@ export async function getWeather2(request: Request) {
 // 기상청 API 호출 함수 (격자 X, Y 좌표로 요청)
 export async function getUltraSrtNcst(nx: number | null, ny: number | null) {
   const { baseDate, baseTime } = getCurrentDateTime();
+  console.log("BASETIME", baseTime);
   const url = `https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey=${API_KEY_KMA}&base_date=${baseDate}&base_time=${baseTime}&nx=${nx}&ny=${ny}&dataType=JSON`;
 
   try {
     const response = await fetch(url, {
-      cache: "no-store", // 캐싱 방지
+      // cache: "no-store", // 캐싱 방지
+      next: { revalidate: 3600 },
     });
 
     if (!response.ok) {

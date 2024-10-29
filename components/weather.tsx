@@ -31,17 +31,16 @@ import { useRouter } from "next-nprogress-bar";
 import { useBaseDateTime } from "@/hooks/useBaseDateTime";
 
 export default function Weather({
-  data,
-  kmaData,
+  data, // kmaData,
 }: {
   data: any;
-  kmaData: any;
+  // kmaData: any;
 }) {
   const searchParams = useSearchParams();
   const getCity = searchParams.get("krName");
 
   // const [city, setCity] = useState<string>(data.city);
-  const [weatherData, setWeatherData] = useState(kmaData);
+  const [weatherData, setWeatherData] = useState(data);
   const [refreshTime, setRefreshTime] = useState<string>("");
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
@@ -120,17 +119,27 @@ export default function Weather({
 
         <CardBody>
           <div className="flex flex-col items-center mb-5">
-            <div className="flex items-center mb-5">
+            <div className="flex items-center mb-5 relative">
               <FaPersonRunning
-                size={82}
+                size={100}
                 className={
                   weatherData.suitableForRunning.rating === "good"
-                    ? "text-success-500"
+                    ? "text-success-500 z-10"
                     : weatherData.suitableForRunning.rating === "warning"
-                    ? "text-warning-500"
-                    : "text-danger-500"
+                    ? "text-warning-500 z-10"
+                    : "text-danger-500 z-10"
                 }
               />
+              {weatherData.weatherIcon && (
+                <div className="absolute -top-10 -left-12 z-0">
+                  <Image
+                    src={weatherData.weatherIcon}
+                    alt={weatherData.weatherDescription}
+                    width={120}
+                    className="z-10"
+                  />
+                </div>
+              )}
             </div>
             {/*<div className="flex items-center justify-between w-full">*/}
             {/*  {weatherData.weatherIcon && (*/}
