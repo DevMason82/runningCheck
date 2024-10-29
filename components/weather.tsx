@@ -36,7 +36,7 @@ export default function Weather({
   const [weatherData, setWeatherData] = useState(kmaData);
   const [isPending, startTransition] = useTransition();
 
-  console.log("KMA", kmaData);
+  // console.log("KMA", kmaData);
 
   const handleCityChange = (city: SetStateAction<string>) => {
     setCity(city);

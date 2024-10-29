@@ -7,6 +7,7 @@ import {
   parseWeatherKMAData,
 } from "@/libs/helpers";
 import { getStorage } from "@/libs/localStorage";
+import { getCurrentDateTime } from "@/libs/getCurrentDateTime";
 const API_KEY = process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY;
 const API_KEY_KMA = process.env.NEXT_PUBLIC_KMA_API_KEY;
 
@@ -68,12 +69,8 @@ export async function getWeather2(request: Request) {
 }
 
 // 기상청 API 호출 함수 (격자 X, Y 좌표로 요청)
-export async function getUltraSrtNcst(
-  nx: number | null,
-  ny: number | null,
-  baseDate: string,
-  baseTime: string,
-) {
+export async function getUltraSrtNcst(nx: number | null, ny: number | null) {
+  const { baseDate, baseTime } = getCurrentDateTime();
   const url = `https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey=${API_KEY_KMA}&base_date=${baseDate}&base_time=${baseTime}&nx=${nx}&ny=${ny}&dataType=JSON`;
 
   try {

@@ -139,7 +139,7 @@ const MyPosition = () => {
 
       // 페이지 이동
       router.push(
-        `/runningStatusInfo?city=${city}&krName=${krName}&nx=${x}&ny=${y}&baseDate=${baseDate}&baseTime=${baseTime}`,
+        `/runningStatusInfo?city=${city}&krName=${krName}&nx=${x}&ny=${y}`,
       );
     });
   };

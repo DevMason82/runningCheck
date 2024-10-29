@@ -16,8 +16,8 @@ export default async function Page({
   const { city, nx, ny, baseDate, baseTime } = searchParams;
   console.log("CITY NAME ==>>", cityName);
   const data = await getWeather(city);
-  const kmaData = await getUltraSrtNcst(nx, ny, baseDate, baseTime);
-  console.log("kmaData ==>>", kmaData);
+  const kmaData = await getUltraSrtNcst(nx, ny);
+  // console.log("kmaData ==>>", kmaData);
   return (
     <div className="container mx-auto max-w-lg">
       <LazyWeather data={data} kmaData={kmaData} />
