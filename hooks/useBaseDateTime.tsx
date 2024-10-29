@@ -60,7 +60,7 @@ export function useBaseDateTime() {
         baseDate: getBaseDate(),
         baseTime: getBaseTime(),
       });
-    }, 1800 * 1000); // 30분마다 갱신
+    }, 60 * 1000); // 30분마다 갱신
 
     return () => clearInterval(interval); // 컴포넌트 언마운트 시 인터벌 제거
   }, []);

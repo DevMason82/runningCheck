@@ -2,6 +2,7 @@
 
 import { SetStateAction, useEffect, useState, useTransition } from "react";
 import {
+  Button,
   Card,
   CardBody,
   CardFooter,
@@ -14,13 +15,20 @@ import {
   SelectItem,
   Spinner,
 } from "@nextui-org/react";
-import { WiHumidity, WiStrongWind, WiThermometer } from "react-icons/wi";
+import {
+  WiCloudRefresh,
+  WiHumidity,
+  WiStrongWind,
+  WiThermometer,
+} from "react-icons/wi";
 import { getWeather } from "@/app/actions";
 import { FaPersonRunning } from "react-icons/fa6";
 import { cities } from "@/config/cityLists";
-import { MdVisibility } from "react-icons/md";
+import { MdOutlineRefresh, MdVisibility } from "react-icons/md";
 import { useSearchParams } from "next/navigation";
 import { getStorage } from "@/libs/localStorage";
+import { useRouter } from "next-nprogress-bar";
+import { useBaseDateTime } from "@/hooks/useBaseDateTime";
 
 export default function Weather({
   data,
@@ -34,16 +42,28 @@ export default function Weather({
 
   // const [city, setCity] = useState<string>(data.city);
   const [weatherData, setWeatherData] = useState(kmaData);
+  const [refreshTime, setRefreshTime] = useState<string>("");
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+
+  // Refresh 버튼 클릭 시 호출되는 함수
+  const handleRefresh = () => {
+    startTransition(() => {
+      router.refresh(); // 페이지 새로고침
+      const now = new Date();
+      setRefreshTime(now.toLocaleTimeString()); // 새로고침 시간 업데이트
+    });
+  };
+  const { baseDate } = useBaseDateTime(); // 날짜 및 시간 가져오기
 
   // console.log("KMA", kmaData);
 
-  const handleCityChange = (city: SetStateAction<string>) => {
-    setCity(city);
-    startTransition(() => {
-      getWeather(city).then((r) => setWeatherData(r));
-    });
-  };
+  // const handleCityChange = (city: SetStateAction<string>) => {
+  //   setCity(city);
+  //   startTransition(() => {
+  //     getWeather(city).then((r) => setWeatherData(r));
+  //   });
+  // };
 
   return (
     <>
@@ -55,8 +75,27 @@ export default function Weather({
         />
       )}
       <Card shadow="none">
-        <CardHeader className="flex flex-col gap-3 justify-center">
-          <h3 className="font-semibold text-lg">{getCity}</h3>
+        <CardHeader className="flex flex-col justify-center">
+          <div className="w-full flex items-center justify-between">
+            <p className="text-xs text-default-700">{baseDate}</p>
+
+            <div className="flex items-center justify-between">
+              <span className="ml-2 text-xs text-default-500">
+                {refreshTime ? `업데이트: ${refreshTime}` : null}
+              </span>
+              <Button
+                isIconOnly
+                variant="light"
+                onPress={handleRefresh}
+                aria-label="새로고침"
+                size="sm"
+              >
+                <MdOutlineRefresh size={20} />
+              </Button>
+            </div>
+          </div>
+          <h3 className="font-semibold text-lg mt-3">{getCity}</h3>
+
           {/*<Select*/}
           {/*  id="city"*/}
           {/*  selectedKeys={[city]}*/}
@@ -80,13 +119,10 @@ export default function Weather({
         {/*<Divider />*/}
 
         <CardBody>
-          <div className="flex flex-col items-center mt-3 mb-5">
-            <div className="flex items-center mb-3">
+          <div className="flex flex-col items-center mb-5">
+            <div className="flex items-center mb-5">
               <FaPersonRunning
-                size={74}
-                // color={
-                //   weatherData.suitableForRunning ? "green" : "text-red-500"
-                // }
+                size={82}
                 className={
                   weatherData.suitableForRunning.rating === "good"
                     ? "text-success-500"
@@ -96,27 +132,27 @@ export default function Weather({
                 }
               />
             </div>
-            <div className="flex items-center justify-between w-full">
-              {weatherData.weatherIcon && (
-                <Image
-                  src={weatherData.weatherIcon}
-                  alt={weatherData.weatherDescription}
-                  width={65}
-                />
-              )}
+            {/*<div className="flex items-center justify-between w-full">*/}
+            {/*  {weatherData.weatherIcon && (*/}
+            {/*    <Image*/}
+            {/*      src={weatherData.weatherIcon}*/}
+            {/*      alt={weatherData.weatherDescription}*/}
+            {/*      width={65}*/}
+            {/*    />*/}
+            {/*  )}*/}
 
-              <p
-                className={
-                  weatherData.suitableForRunning.rating === "good"
-                    ? "text-success-500 capitalize"
-                    : weatherData.suitableForRunning.rating === "warning"
-                    ? "text-warning-500 capitalize"
-                    : "text-danger-500 capitalize"
-                }
-              >
-                {weatherData.suitableForRunning.rating}
-              </p>
-            </div>
+            {/*  <p*/}
+            {/*    className={*/}
+            {/*      weatherData.suitableForRunning.rating === "good"*/}
+            {/*        ? "text-success-500 capitalize"*/}
+            {/*        : weatherData.suitableForRunning.rating === "warning"*/}
+            {/*        ? "text-warning-500 capitalize"*/}
+            {/*        : "text-danger-500 capitalize"*/}
+            {/*    }*/}
+            {/*  >*/}
+            {/*    {weatherData.suitableForRunning.rating}*/}
+            {/*  </p>*/}
+            {/*</div>*/}
             <Divider />
           </div>
 
