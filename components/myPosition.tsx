@@ -135,11 +135,11 @@ const MyPosition = () => {
       setStorage("myPosition", JSON.stringify(cityArray)); // 배열로 저장
 
       const { city, krName, latitude, longitude } = selectedLocation;
-      const { x, y } = latLonToGrid(latitude, longitude);
+      // const { x, y } = latLonToGrid(latitude, longitude);
 
       // 페이지 이동
       router.push(
-        `/runningStatusInfo?city=${city}&krName=${krName}&nx=${x}&ny=${y}`,
+        `/runningStatusInfo?city=${city}&krName=${krName}&latitude=${latitude}&longitude=${longitude}`,
       );
     });
   };
