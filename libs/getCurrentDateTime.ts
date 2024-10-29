@@ -7,23 +7,19 @@ export function getCurrentDateTime() {
   const month = String(now.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1
   const day = String(now.getDate()).padStart(2, "0");
 
+  const hours = now.getHours(); // 현재 시간 (0-23)
+  const minutes = now.getMinutes(); // 현재 분 (0-59)
+
   const baseDate = `${year}${month}${day}`;
 
   // 시간 (정시 기준으로 HH00)
-  let hours = now.getHours();
-  const minutes = now.getMinutes();
+  // let hours = now.getHours();
+  // const minutes = now.getMinutes();
+  // 시간을 두 자리 형식으로 맞춤 (예: "09", "14")
+  const formattedHours = String(hours).padStart(2, "0");
+  const formattedMinutes = String(minutes).padStart(2, "0");
 
-  // 정각보다 30분 이전일 경우 한 시간 전으로 조정
-  if (minutes < 30) {
-    hours -= 1;
-  }
-
-  // 자정 처리 (23시로 설정)
-  if (hours < 0) {
-    hours = 23;
-  }
-
-  const baseTime = `${String(hours).padStart(2, "0")}00`;
+  const baseTime = `${formattedHours}${formattedMinutes}`;
 
   return { baseDate, baseTime };
 }
