@@ -15,18 +15,18 @@ import {
   SelectItem,
   Spinner,
 } from "@nextui-org/react";
-import {
-  WiCloudRefresh,
-  WiHumidity,
-  WiStrongWind,
-  WiThermometer,
-} from "react-icons/wi";
+// import {
+//   WiCloudRefresh,
+//   WiHumidity,
+//   WiStrongWind,
+//   WiThermometer,
+// } from "react-icons/wi";
 import { getWeather } from "@/app/actions";
 import { FaPersonRunning } from "react-icons/fa6";
-import { cities } from "@/config/cityLists";
+// import { cities } from "@/config/cityLists";
 import { MdOutlineRefresh, MdVisibility } from "react-icons/md";
 import { useSearchParams } from "next/navigation";
-import { getStorage } from "@/libs/localStorage";
+// import { getStorage } from "@/libs/localStorage";
 import { useRouter } from "next-nprogress-bar";
 import { useBaseDateTime } from "@/hooks/useBaseDateTime";
 
@@ -44,6 +44,8 @@ export default function Weather({
   const [refreshTime, setRefreshTime] = useState<string>("");
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+
+  console.log("data ==>>", weatherData);
 
   // Refresh 버튼 클릭 시 호출되는 함수
   const handleRefresh = () => {
@@ -75,22 +77,22 @@ export default function Weather({
       )}
       <Card shadow="none">
         <CardHeader className="flex flex-col justify-center">
-          <div className="w-full flex items-center justify-between">
-            <p className="text-xs text-default-700">{baseDate}</p>
+          <div className="w-full flex items-center justify-end mb-2">
+            {/*<p className="text-xs text-default-700">{baseDate}</p>*/}
 
             <div className="flex items-center justify-between">
               <span className="ml-2 text-xs text-default-500">
-                {refreshTime ? `업데이트: ${refreshTime}` : null}
+                {`업데이트: ${weatherData.timestamp}`}
               </span>
-              <Button
-                isIconOnly
-                variant="light"
-                onPress={handleRefresh}
-                aria-label="새로고침"
-                size="sm"
-              >
-                <MdOutlineRefresh size={20} />
-              </Button>
+              {/*<Button*/}
+              {/*  isIconOnly*/}
+              {/*  variant="light"*/}
+              {/*  onPress={handleRefresh}*/}
+              {/*  aria-label="새로고침"*/}
+              {/*  size="sm"*/}
+              {/*>*/}
+              {/*  <MdOutlineRefresh size={20} />*/}
+              {/*</Button>*/}
             </div>
           </div>
           <h3 className="font-semibold text-lg mt-3">{getCity}</h3>
@@ -130,11 +132,11 @@ export default function Weather({
                     : "text-danger-500 z-10"
                 }
               />
-              {weatherData.weatherIcon && (
+              {weatherData.weather[0].iconUrl && (
                 <div className="absolute -top-10 -left-12 z-0">
                   <Image
-                    src={weatherData.weatherIcon}
-                    alt={weatherData.weatherDescription}
+                    src={weatherData.weather[0].iconUrl}
+                    alt={weatherData.weather[0].description}
                     width={120}
                     className="z-10"
                   />

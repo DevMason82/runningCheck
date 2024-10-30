@@ -15,7 +15,7 @@ export default async function Page({
   const cityName = searchParams.city;
   const { city, latitude, longitude } = searchParams;
   console.log("CITY NAME ==>>", cityName);
-  const data = await getWeather(city);
+  // const data = await getWeather(city);
   const data2 = await getWeather2(latitude, longitude);
   console.log("DATA2", data2);
   // const kmaData = await getUltraSrtNcst(nx, ny);

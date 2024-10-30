@@ -1,6 +1,7 @@
 import {
   isSuitableForRunning,
   isSuitableForRunningKMA,
+  isSuitableForRunningNew,
 } from "@/libs/isSuitableForRunnibg";
 
 export const getNextRevalidateTime = (): number => {
@@ -14,6 +15,40 @@ export const getNextRevalidateTime = (): number => {
   const remainingSeconds = remainingMinutes * 60 - now.getSeconds();
 
   return remainingSeconds; // 다음 정각 또는 30분까지 남은 초 반환
+};
+
+export const parseWeatherDataNew = (weatherData) => {
+  const { current, lat, lon, timezone } = weatherData;
+
+  const parsedData = {
+    latitude: lat,
+    longitude: lon,
+    timezone: timezone,
+    timestamp: new Date(current.dt * 1000).toLocaleString(),
+    sunrise: new Date(current.sunrise * 1000).toLocaleTimeString(),
+    sunset: new Date(current.sunset * 1000).toLocaleTimeString(),
+    temperature: current.temp.toFixed(1), // 온도 소수점 한 자리
+    feelsLike: current.feels_like.toFixed(1), // 체감 온도
+    pressure: current.pressure, // 기압
+    humidity: current.humidity, // 습도
+    dewPoint: current.dew_point.toFixed(1), // 이슬점
+    uvi: current.uvi, // 자외선 지수
+    clouds: `${current.clouds}%`, // 구름량
+    visibility: `${(current.visibility / 1000).toFixed(1)} km`, // 가시 거리
+    windSpeed: `${current.wind_speed.toFixed(1)} m/s`, // 풍속
+    windDirection: `${current.wind_deg}°`, // 풍향
+    windGust: current.wind_gust
+      ? `${current.wind_gust.toFixed(1)} m/s`
+      : "없음", // 돌풍 유무
+    weather: current.weather.map((w) => ({
+      main: w.main, // 날씨 상태 요약
+      description: w.description, // 상세 설명
+      iconUrl: `https://openweathermap.org/img/wn/${w.icon}@4x.png`, // 날씨 아이콘 URL
+    })),
+    suitableForRunning: isSuitableForRunningNew(weatherData), // 러닝 적합성 여부
+  };
+
+  return parsedData;
 };
 
 // API에서 받은 날씨 데이터로 필요한 정보만 추출하는 함수
