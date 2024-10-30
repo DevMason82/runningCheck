@@ -21,7 +21,7 @@ import {
 //   WiStrongWind,
 //   WiThermometer,
 // } from "react-icons/wi";
-import { getWeather } from "@/app/actions";
+import { getWeather, getWeather2 } from "@/app/actions";
 import { FaPersonRunning } from "react-icons/fa6";
 // import { cities } from "@/config/cityLists";
 import { MdOutlineRefresh, MdVisibility } from "react-icons/md";
@@ -38,6 +38,8 @@ export default function Weather({
 }) {
   const searchParams = useSearchParams();
   const getCity = searchParams.get("krName");
+  const latitude = searchParams.get("latitude");
+  const longitude = searchParams.get("longitude");
 
   // const [city, setCity] = useState<string>(data.city);
   const [weatherData, setWeatherData] = useState(data);
@@ -50,12 +52,12 @@ export default function Weather({
   // Refresh 버튼 클릭 시 호출되는 함수
   const handleRefresh = () => {
     startTransition(() => {
-      router.refresh(); // 페이지 새로고침
-      const now = new Date();
-      setRefreshTime(now.toLocaleTimeString()); // 새로고침 시간 업데이트
+      getWeather2(latitude, longitude).then((res) => setWeatherData(res));
+      // const now = new Date();
+      // setRefreshTime(now.toLocaleTimeString()); // 새로고침 시간 업데이트
     });
   };
-  const { baseDate } = useBaseDateTime(); // 날짜 및 시간 가져오기
+  // const { baseDate } = useBaseDateTime(); // 날짜 및 시간 가져오기
 
   // console.log("KMA", kmaData);
 
@@ -84,15 +86,15 @@ export default function Weather({
               <span className="ml-2 text-xs text-default-500">
                 {`업데이트: ${weatherData.timestamp}`}
               </span>
-              {/*<Button*/}
-              {/*  isIconOnly*/}
-              {/*  variant="light"*/}
-              {/*  onPress={handleRefresh}*/}
-              {/*  aria-label="새로고침"*/}
-              {/*  size="sm"*/}
-              {/*>*/}
-              {/*  <MdOutlineRefresh size={20} />*/}
-              {/*</Button>*/}
+              <Button
+                isIconOnly
+                variant="light"
+                onPress={handleRefresh}
+                aria-label="새로고침"
+                size="sm"
+              >
+                <MdOutlineRefresh size={20} />
+              </Button>
             </div>
           </div>
           <h3 className="font-semibold text-lg mt-3">{getCity}</h3>
@@ -129,6 +131,8 @@ export default function Weather({
                     ? "text-success-500 z-10"
                     : weatherData.suitableForRunning.rating === "warning"
                     ? "text-warning-500 z-10"
+                    : weatherData.suitableForRunning.rating === "caution"
+                    ? "text-yellow-500 z-10"
                     : "text-danger-500 z-10"
                 }
               />
@@ -179,6 +183,8 @@ export default function Weather({
                           ? "text-success-500 capitalize"
                           : item.rating === "warning"
                           ? "text-warning-500 capitalize"
+                          : item.rating === "caution"
+                          ? "text-yellow-500 capitalize"
                           : "text-danger-500 capitalize"
                       }
                     >
@@ -192,6 +198,8 @@ export default function Weather({
                         ? "bg-success-500 p-1 px-2 rounded-md"
                         : item.rating === "warning"
                         ? "bg-warning-500 p-1 px-2 rounded-md"
+                        : item.rating === "caution"
+                        ? "bg-yellow-500 p-1 px-2 rounded-md"
                         : "bg-danger-500 p-1 px-2 rounded-md"
                     }
                     // className="bg-success-500 p-3 rounded-md"

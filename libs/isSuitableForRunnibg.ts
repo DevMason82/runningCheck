@@ -150,48 +150,78 @@ export const isSuitableForRunning = (weatherData: {
 
 export const isSuitableForRunningNew = (weatherData) => {
   const { current } = weatherData;
-
-  const {
-    temp,
-    feels_like,
-    humidity,
-    wind_speed,
-    wind_gust,
-    visibility,
-    uvi,
-    weather,
-  } = current;
+  const { temp, feels_like, humidity, wind_speed, visibility, uvi, weather } =
+    current;
 
   const details = [];
 
-  // 7. Weather Condition Evaluation
+  // Weather Condition Evaluation
   const weatherCondition = weather[0].main;
-  const weatherRecommendation =
-    weatherCondition === "Rain"
-      ? "비가 내리고 있습니다. 방수 장비를 착용하세요."
-      : weatherCondition === "Snow"
-      ? "눈이 내립니다. 미끄럼 주의하세요."
-      : "맑은 날씨입니다. 러닝하기에 좋습니다.";
+  const weatherConditions = {
+    Clear: { recommendation: "맑고 화창한 날씨입니다.", rating: "good" },
+    Clouds: {
+      recommendation: "구름이 많습니다. 주의하며 운동하세요.",
+      rating: "caution",
+    },
+    Rain: {
+      recommendation: "비가 내립니다. 방수 장비가 필요합니다.",
+      rating: "warning",
+    },
+    Drizzle: {
+      recommendation: "이슬비가 내립니다. 가볍게 조심하세요.",
+      rating: "caution",
+    },
+    Thunderstorm: {
+      recommendation: "천둥번개가 있습니다. 실내에서 운동하세요.",
+      rating: "danger",
+    },
+    Snow: {
+      recommendation: "눈이 내립니다. 미끄럼 주의하세요.",
+      rating: "warning",
+    },
+    Mist: { recommendation: "안개가 짙어 시야가 나쁩니다.", rating: "caution" },
+    Haze: { recommendation: "옅은 안개가 낀 날씨입니다.", rating: "caution" },
+    Dust: {
+      recommendation: "먼지나 황사가 심합니다. 마스크를 착용하세요.",
+      rating: "danger",
+    },
+  };
 
-  const weatherRating = weatherCondition === "Clear" ? "good" : "warning";
+  const weatherEval = weatherConditions[weatherCondition] || {
+    recommendation: "날씨 상태를 확인할 수 없습니다.",
+    rating: "warning",
+  };
 
   details.push({
     condition: `날씨 상태: ${weatherCondition}`,
-    rating: weatherRating,
-    recommendation: weatherRecommendation,
+    rating: weatherEval.rating,
+    recommendation: weatherEval.recommendation,
   });
 
-  // 1. Temperature Evaluation
+  // Temperature Evaluation
   const tempRecommendation =
-    temp < 0
-      ? "추운 날씨입니다. 보온에 신경 쓰고 장갑과 모자를 착용하세요."
-      : temp < 10
-      ? "서늘한 날씨입니다. 워밍업과 보온에 유의하세요."
-      : temp <= 25
-      ? "쾌적한 날씨입니다. 즐겁게 러닝하세요!"
-      : "더운 날씨입니다. 수분을 충분히 섭취하세요.";
+    temp < -10
+      ? "매우 추워요. 보호 장비가 필수입니다."
+      : temp < 0
+      ? "추운 날씨입니다. 보온에 유의하세요."
+      : temp < 15
+      ? "쾌적한 날씨입니다. 즐겁게 운동하세요!"
+      : temp < 25
+      ? "약간 더운 날씨입니다. 수분 섭취에 신경 쓰세요."
+      : temp < 30
+      ? "덥습니다. 무리하지 마세요."
+      : "매우 덥습니다. 실내 운동을 추천합니다.";
 
-  const tempRating = temp < 0 || temp > 30 ? "danger" : "good";
+  const tempRating =
+    temp < -10
+      ? "danger"
+      : temp < 0
+      ? "warning"
+      : temp < 15
+      ? "good"
+      : temp < 30
+      ? "caution"
+      : "danger";
 
   details.push({
     condition: `기온: ${temp.toFixed(1)}°C`,
@@ -199,29 +229,24 @@ export const isSuitableForRunningNew = (weatherData) => {
     recommendation: tempRecommendation,
   });
 
-  // 2. Feels Like Temperature Evaluation
-  const feelsLikeRecommendation =
-    feels_like < 0
-      ? "체감 온도가 낮습니다. 보온에 신경 쓰세요."
-      : feels_like <= 25
-      ? "체감 온도가 적절합니다. 운동하기 좋습니다."
-      : "더운 날씨가 느껴집니다. 수분 보충에 유의하세요.";
-
-  details.push({
-    condition: `체감 온도: ${feels_like.toFixed(1)}°C`,
-    rating: feels_like > 30 ? "warning" : "good",
-    recommendation: feelsLikeRecommendation,
-  });
-
-  // 3. Humidity Evaluation
+  // Humidity Evaluation
   const humidityRecommendation =
     humidity < 30
-      ? "건조한 날씨입니다. 수분을 충분히 섭취하세요."
-      : humidity <= 70
-      ? "습도가 적절합니다. 러닝에 최적입니다."
-      : "높은 습도로 인해 체온 조절이 어려울 수 있습니다.";
+      ? "건조한 날씨입니다. 수분을 섭취하세요."
+      : humidity <= 60
+      ? "적절한 습도입니다. 운동하기 좋습니다."
+      : humidity <= 80
+      ? "습도가 높습니다. 무리하지 마세요."
+      : "매우 높은 습도로 위험할 수 있습니다.";
 
-  const humidityRating = humidity > 80 ? "warning" : "good";
+  const humidityRating =
+    humidity < 30
+      ? "warning"
+      : humidity <= 60
+      ? "good"
+      : humidity <= 80
+      ? "caution"
+      : "danger";
 
   details.push({
     condition: `습도: ${humidity}%`,
@@ -229,15 +254,24 @@ export const isSuitableForRunningNew = (weatherData) => {
     recommendation: humidityRecommendation,
   });
 
-  // 4. Wind Speed and Gust Evaluation
+  // Wind Speed Evaluation
   const windRecommendation =
-    wind_speed < 5
-      ? "바람이 거의 없습니다. 쾌적한 러닝을 즐기세요."
-      : wind_speed <= 8
-      ? "바람이 다소 불고 있습니다. 바람막이 자켓을 착용하세요."
-      : "강한 바람입니다. 러닝 코스를 조정하거나 실내 운동을 고려하세요.";
+    wind_speed < 2
+      ? "바람이 거의 없습니다. 쾌적합니다."
+      : wind_speed < 8
+      ? "바람이 다소 불고 있습니다. 조심하세요."
+      : wind_speed < 14
+      ? "강한 바람입니다. 바람에 유의하세요."
+      : "매우 강한 바람입니다. 외출을 피하세요.";
 
-  const windRating = wind_speed > 8 ? "danger" : "good";
+  const windRating =
+    wind_speed < 2
+      ? "good"
+      : wind_speed < 8
+      ? "caution"
+      : wind_speed < 14
+      ? "warning"
+      : "danger";
 
   details.push({
     condition: `풍속: ${wind_speed.toFixed(1)} m/s`,
@@ -245,16 +279,17 @@ export const isSuitableForRunningNew = (weatherData) => {
     recommendation: windRecommendation,
   });
 
-  // 5. Visibility Evaluation
+  // Visibility Evaluation
   const visibilityInKm = (visibility / 1000).toFixed(1);
   const visibilityRecommendation =
     visibilityInKm >= 1
-      ? "시야가 좋아 안전한 러닝이 가능합니다."
+      ? "시야가 좋습니다. 안전하게 운동하세요."
       : visibilityInKm >= 0.5
-      ? "시야가 다소 제한적입니다. 밝은 옷을 착용하세요."
-      : "시야가 매우 나쁩니다. 안전에 주의하세요.";
+      ? "시야가 다소 제한적입니다. 주의하세요."
+      : "시야가 매우 나쁩니다. 조심하세요.";
 
-  const visibilityRating = visibilityInKm < 0.5 ? "danger" : "good";
+  const visibilityRating =
+    visibilityInKm < 0.5 ? "danger" : visibilityInKm >= 1 ? "good" : "caution";
 
   details.push({
     condition: `가시 거리: ${visibilityInKm} km`,
@@ -262,15 +297,20 @@ export const isSuitableForRunningNew = (weatherData) => {
     recommendation: visibilityRecommendation,
   });
 
-  // 6. UV Index Evaluation
+  // UV Index Evaluation
   const uvRecommendation =
     uvi < 3
-      ? "자외선 지수가 낮아 안전하게 운동할 수 있습니다."
-      : uvi <= 6
-      ? "자외선 지수가 높습니다. 선크림을 바르세요."
-      : "자외선 지수가 매우 높습니다. 모자와 선글라스를 착용하세요.";
+      ? "자외선 지수가 낮아 안전합니다."
+      : uvi < 6
+      ? "자외선 지수가 중간입니다. 선크림을 바르세요."
+      : uvi < 8
+      ? "자외선이 강합니다. 보호 장비를 착용하세요."
+      : uvi < 11
+      ? "자외선이 매우 강합니다. 외출을 피하세요."
+      : "위험한 수준의 자외선입니다. 실내 운동을 추천합니다.";
 
-  const uvRating = uvi > 6 ? "warning" : "good";
+  const uvRating =
+    uvi < 3 ? "good" : uvi < 6 ? "caution" : uvi < 8 ? "warning" : "danger";
 
   details.push({
     condition: `자외선 지수: ${uvi}`,
@@ -278,11 +318,18 @@ export const isSuitableForRunningNew = (weatherData) => {
     recommendation: uvRecommendation,
   });
 
-  // Overall Rating
+  // Overall Rating Logic
   const hasDanger = details.some((detail) => detail.rating === "danger");
   const hasWarning = details.some((detail) => detail.rating === "warning");
+  const hasCaution = details.some((detail) => detail.rating === "caution");
 
-  const overallRating = hasDanger ? "danger" : hasWarning ? "warning" : "good";
+  const overallRating = hasDanger
+    ? "danger"
+    : hasWarning
+    ? "warning"
+    : hasCaution
+    ? "caution"
+    : "good";
 
   return { rating: overallRating, details };
 };
