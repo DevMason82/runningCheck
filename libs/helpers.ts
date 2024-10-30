@@ -20,32 +20,39 @@ export const getNextRevalidateTime = (): number => {
 export const parseWeatherDataNew = (weatherData) => {
   const { current, lat, lon, timezone } = weatherData;
 
+  // Helper function to convert a UNIX timestamp to KST (UTC+9)
+  const convertToKST = (timestamp) => {
+    const kstOffset = 9 * 60 * 60 * 1000; // UTC+9 in milliseconds
+    const date = new Date(timestamp * 1000 + kstOffset);
+    return date.toLocaleTimeString("ko-KR", { timeZone: "Asia/Seoul" });
+  };
+
   const parsedData = {
-    latitude: lat,
-    longitude: lon,
-    timezone: timezone,
-    timestamp: new Date(current.dt * 1000).toLocaleString(),
-    sunrise: new Date(current.sunrise * 1000).toLocaleTimeString(),
-    sunset: new Date(current.sunset * 1000).toLocaleTimeString(),
-    temperature: current.temp.toFixed(1), // 온도 소수점 한 자리
-    feelsLike: current.feels_like.toFixed(1), // 체감 온도
-    pressure: current.pressure, // 기압
-    humidity: current.humidity, // 습도
-    dewPoint: current.dew_point.toFixed(1), // 이슬점
-    uvi: current.uvi, // 자외선 지수
-    clouds: `${current.clouds}%`, // 구름량
-    visibility: `${(current.visibility / 1000).toFixed(1)} km`, // 가시 거리
-    windSpeed: `${current.wind_speed.toFixed(1)} m/s`, // 풍속
-    windDirection: `${current.wind_deg}°`, // 풍향
+    latitude: lat.toFixed(2),
+    longitude: lon.toFixed(2),
+    timezone: "Asia/Seoul",
+    timestamp: convertToKST(current.dt), // Current time in KST
+    sunrise: convertToKST(current.sunrise), // Sunrise in KST
+    sunset: convertToKST(current.sunset), // Sunset in KST
+    temperature: current.temp.toFixed(1), // Temperature with one decimal place
+    feelsLike: current.feels_like.toFixed(1), // Feels-like temperature
+    pressure: current.pressure, // Pressure in hPa
+    humidity: current.humidity, // Humidity in %
+    dewPoint: current.dew_point.toFixed(1), // Dew point in °C
+    uvi: current.uvi, // UV index
+    clouds: `${current.clouds}%`, // Cloud cover in percentage
+    visibility: `${(current.visibility / 1000).toFixed(1)} km`, // Visibility in km
+    windSpeed: `${current.wind_speed.toFixed(1)} m/s`, // Wind speed in m/s
+    windDirection: `${current.wind_deg}°`, // Wind direction in degrees
     windGust: current.wind_gust
       ? `${current.wind_gust.toFixed(1)} m/s`
-      : "없음", // 돌풍 유무
+      : "없음", // Wind gust presence
     weather: current.weather.map((w) => ({
-      main: w.main, // 날씨 상태 요약
-      description: w.description, // 상세 설명
-      iconUrl: `https://openweathermap.org/img/wn/${w.icon}@4x.png`, // 날씨 아이콘 URL
+      main: w.main, // Main weather description
+      description: w.description, // Detailed weather description
+      iconUrl: `https://openweathermap.org/img/wn/${w.icon}@4x.png`, // Weather icon URL
     })),
-    suitableForRunning: isSuitableForRunningNew(weatherData), // 러닝 적합성 여부
+    suitableForRunning: isSuitableForRunningNew(weatherData), // Running suitability check
   };
 
   return parsedData;
