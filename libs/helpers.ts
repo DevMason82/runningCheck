@@ -20,13 +20,25 @@ export const getNextRevalidateTime = (): number => {
 export const parseWeatherDataNew = (weatherData) => {
   const { current, lat, lon, timezone } = weatherData;
 
+  // Helper to format UNIX timestamp to local time
+  const formatToLocalTime = (timestamp, timeZone) =>
+    new Intl.DateTimeFormat("ko-KR", {
+      timeZone: timeZone,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    }).format(new Date(timestamp * 1000));
+
   const parsedData = {
-    latitude: lat,
-    longitude: lon,
-    timezone: timezone,
-    timestamp: new Date(current.dt * 1000).toLocaleString(),
-    sunrise: new Date(current.sunrise * 1000).toLocaleTimeString(),
-    sunset: new Date(current.sunset * 1000).toLocaleTimeString(),
+    latitude: lat.toFixed(2),
+    longitude: lon.toFixed(2),
+    timezone,
+    timestamp: formatToLocalTime(current.dt, timezone),
+    sunrise: formatToLocalTime(current.sunrise, timezone),
+    sunset: formatToLocalTime(current.sunset, timezone),
     temperature: current.temp.toFixed(1), // 온도 소수점 한 자리
     feelsLike: current.feels_like.toFixed(1), // 체감 온도
     pressure: current.pressure, // 기압
