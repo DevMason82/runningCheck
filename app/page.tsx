@@ -19,7 +19,7 @@ export default async function Home() {
   // console.log("GET WEATHER INFO ==>>", data);
 
   return (
-    <div className="container mx-auto max-w-lg">
+    <div className="max-w">
       <MyPosition />
       {/*<div className="grid grid-flow-row auto-rows-max gap-4 md:grid-cols-2 xl:grid-cols-4">*/}
       {/*<DeviceDetector />*/}

@@ -21,7 +21,7 @@ export default async function Page({
   // const kmaData = await getUltraSrtNcst(nx, ny);
   // console.log("kmaData ==>>", kmaData);
   return (
-    <div className="container mx-auto max-w-lg">
+    <div className="max-w">
       <LazyWeather data={data2} />
     </div>
   );
