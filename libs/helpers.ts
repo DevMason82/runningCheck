@@ -93,67 +93,67 @@ export const parseWeatherData = (weatherData: any) => {
   };
 };
 
-export const parseWeatherKMAData = (weatherData) => {
-  console.log("@@@@@@@@@@", weatherData);
-  const parsedData = {
-    temperature: 0, // 기본값 0으로 초기화
-    humidity: 0,
-    precipitation: "없음",
-    windSpeed: 0,
-    windDirection: 0,
-    windUComponent: 0,
-    windVComponent: 0,
-    rain1h: 0,
-    weatherCondition: "맑음", // 기본값 설정
-  };
-
-  // API 응답의 각 항목을 분류하여 매핑
-  weatherData.forEach((item) => {
-    const { category, obsrValue } = item;
-
-    switch (category) {
-      case "T1H": // 기온
-        parsedData.temperature = parseFloat(obsrValue);
-        break;
-      case "REH": // 습도
-        parsedData.humidity = parseInt(obsrValue, 10);
-        break;
-      case "PTY": // 강수 형태
-        parsedData.precipitation =
-          parseInt(obsrValue, 10) === 1
-            ? "비"
-            : parseInt(obsrValue, 10) === 2
-            ? "비/눈"
-            : parseInt(obsrValue, 10) === 3
-            ? "눈"
-            : "없음";
-        break;
-      case "RN1": // 1시간 강수량
-        parsedData.rain1h = parseFloat(obsrValue) || 0;
-        break;
-      case "WSD": // 풍속
-        parsedData.windSpeed = parseFloat(obsrValue);
-        break;
-      case "VEC": // 풍향
-        parsedData.windDirection = parseInt(obsrValue, 10);
-        break;
-      case "UUU": // 동서풍 성분
-        parsedData.windUComponent = parseFloat(obsrValue);
-        break;
-      case "VVV": // 남북풍 성분
-        parsedData.windVComponent = parseFloat(obsrValue);
-        break;
-      default:
-        console.warn(`알 수 없는 카테고리: ${category}`);
-        break;
-    }
-  });
-
-  // 러닝 적합성 평가 함수 호출
-  const suitableForRunning = isSuitableForRunningKMA(parsedData);
-
-  return {
-    ...parsedData,
-    suitableForRunning, // 러닝 적합성 여부 포함
-  };
-};
+// export const parseWeatherKMAData = (weatherData) => {
+//   console.log("@@@@@@@@@@", weatherData);
+//   const parsedData = {
+//     temperature: 0, // 기본값 0으로 초기화
+//     humidity: 0,
+//     precipitation: "없음",
+//     windSpeed: 0,
+//     windDirection: 0,
+//     windUComponent: 0,
+//     windVComponent: 0,
+//     rain1h: 0,
+//     weatherCondition: "맑음", // 기본값 설정
+//   };
+//
+//   // API 응답의 각 항목을 분류하여 매핑
+//   weatherData.forEach((item) => {
+//     const { category, obsrValue } = item;
+//
+//     switch (category) {
+//       case "T1H": // 기온
+//         parsedData.temperature = parseFloat(obsrValue);
+//         break;
+//       case "REH": // 습도
+//         parsedData.humidity = parseInt(obsrValue, 10);
+//         break;
+//       case "PTY": // 강수 형태
+//         parsedData.precipitation =
+//           parseInt(obsrValue, 10) === 1
+//             ? "비"
+//             : parseInt(obsrValue, 10) === 2
+//             ? "비/눈"
+//             : parseInt(obsrValue, 10) === 3
+//             ? "눈"
+//             : "없음";
+//         break;
+//       case "RN1": // 1시간 강수량
+//         parsedData.rain1h = parseFloat(obsrValue) || 0;
+//         break;
+//       case "WSD": // 풍속
+//         parsedData.windSpeed = parseFloat(obsrValue);
+//         break;
+//       case "VEC": // 풍향
+//         parsedData.windDirection = parseInt(obsrValue, 10);
+//         break;
+//       case "UUU": // 동서풍 성분
+//         parsedData.windUComponent = parseFloat(obsrValue);
+//         break;
+//       case "VVV": // 남북풍 성분
+//         parsedData.windVComponent = parseFloat(obsrValue);
+//         break;
+//       default:
+//         console.warn(`알 수 없는 카테고리: ${category}`);
+//         break;
+//     }
+//   });
+//
+//   // 러닝 적합성 평가 함수 호출
+//   const suitableForRunning = isSuitableForRunningKMA(parsedData);
+//
+//   return {
+//     ...parsedData,
+//     suitableForRunning, // 러닝 적합성 여부 포함
+//   };
+// };
