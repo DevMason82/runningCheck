@@ -4,7 +4,6 @@ import "./globals.css";
 import { Providers } from "@/app/providers";
 import { Navbar } from "@/components/navbar";
 import { siteConfig } from "@/config/site";
-// import { isMobileDevice } from "@/libs/responsive";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,8 +13,33 @@ export const metadata: Metadata = {
     template: `%s - ${siteConfig.name}`,
   },
   description: siteConfig.description,
+  keywords: siteConfig.keywords,
+  // openGraph: {
+  //   title: "기본 사이트 이름",
+  //   description: "이 사이트의 기본 Open Graph 설명입니다.",
+  //   url: "https://yourwebsite.com",
+  //   images: [
+  //     {
+  //       url: "https://yourwebsite.com/images/default-og-image.png",
+  //       width: 800,
+  //       height: 600,
+  //       alt: "기본 Open Graph 이미지",
+  //     },
+  //   ],
+  //   siteName: "사이트 이름",
+  // },
+  // twitter: {
+  //   card: "summary_large_image",
+  //   title: "기본 사이트 이름",
+  //   description: "기본 Twitter 카드 설명입니다.",
+  //   images: ["https://yourwebsite.com/images/default-twitter-image.png"],
+  // },
   icons: {
     icon: "/favicon.ico",
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 
@@ -24,6 +48,10 @@ export const viewport: Viewport = {
     { media: "(prefers-color-scheme: light)", color: "white" },
     { media: "(prefers-color-scheme: dark)", color: "black" },
   ],
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default async function RootLayout({
