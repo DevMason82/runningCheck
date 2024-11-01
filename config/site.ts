@@ -1,7 +1,8 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  name: "러닝 체크 - Running Check",
+  name: "러닝 체크",
+  title: "러닝 체크 - Running Check",
   description:
     "러닝 체크 서비스는 날씨 데이터를 기반으로 오늘 러닝하기 좋은 상태인지 확인해주는 맞춤형 러닝 가이드입니다. 온도, 강수량, 습도 등을 종합 분석하여 최적의 러닝 타이밍을 추천해드립니다. 날씨와 함께 러닝을 계획하세요!",
   keywords:
