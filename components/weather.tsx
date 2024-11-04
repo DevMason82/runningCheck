@@ -8,6 +8,7 @@ import {
   CardHeader,
   Divider,
   Image,
+  Link,
 } from "@nextui-org/react";
 import { getWeather2 } from "@/app/actions";
 import { FaPersonRunning } from "react-icons/fa6";
@@ -109,11 +110,70 @@ export default function Weather({ data }: { data: any }) {
               <TbTemperatureCelsius />
             </div>
           </div>
-          {/*{weatherData.suitableForRunning.rating}*/}
-          {/*</div>*/}
         </CardBody>
       </Card>
-      <Card shadow="none">
+
+      <Link href="https://link.coupang.com/a/bY0LkW" isExternal>
+        jjjjjj
+      </Link>
+
+      <div className="grid grid-cols-2 gap-6">
+        <Card>
+          <CardHeader>날씨</CardHeader>
+          <Divider />
+          <CardBody className="flex items-center justify-center">
+            {weatherData.weather[0].iconUrl && (
+              <div className="">
+                <Image
+                  src={weatherData.weather[0].iconUrl}
+                  alt={weatherData.weather[0].description}
+                  width={90}
+                />
+              </div>
+            )}
+            <p className="text-sm">
+              {weatherData.weather[0].description}({weatherData.weather[0].main}
+              )
+            </p>
+          </CardBody>
+        </Card>
+
+        <Card>
+          <CardHeader>체감 온도</CardHeader>
+          <Divider />
+          <CardBody className="flex items-center justify-center">
+            <div className="flex flex-col">
+              <div className="flex items-center text-3xl">
+                {weatherData.feelsLike}
+                <TbTemperatureCelsius size={36} />
+              </div>
+              <div className="flex items-center text-xs text-default-500">
+                <span>실제: {weatherData.temperature}</span>
+                <TbTemperatureCelsius />
+              </div>
+            </div>
+          </CardBody>
+        </Card>
+
+        <Card>
+          <CardHeader>습도</CardHeader>
+          <Divider />
+          <CardBody className="flex items-center justify-center">
+            <div className="flex flex-col">
+              <div className="flex items-center text-3xl">
+                {weatherData.humidity}
+                <TbTemperatureCelsius size={36} />
+              </div>
+              {/*<div className="flex items-center text-xs text-default-500">*/}
+              {/*  <span>실제: {weatherData.temperature}</span>*/}
+              {/*  <TbTemperatureCelsius />*/}
+              {/*</div>*/}
+            </div>
+          </CardBody>
+        </Card>
+      </div>
+
+      <Card shadow="none" className="hidden">
         {/*<CardHeader className="flex flex-col justify-center">*/}
         {/*  <div className="w-full flex items-center justify-end mb-2">*/}
         {/*    <div className="flex items-center justify-between">*/}
