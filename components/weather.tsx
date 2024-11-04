@@ -19,6 +19,7 @@ import { useRouter } from "next-nprogress-bar";
 import HvCenterSpinner from "@/components/hvCenterSpinner";
 import { BiCurrentLocation } from "react-icons/bi";
 import { TbTemperatureCelsius } from "react-icons/tb";
+import { PiPercentBold } from "react-icons/pi";
 
 export default function Weather({ data }: { data: any }) {
   const searchParams = useSearchParams();
@@ -70,6 +71,7 @@ export default function Weather({ data }: { data: any }) {
           </Button>
         </div>
       </div>
+
       <Card className="mb-6">
         <CardHeader>
           <div className="w-full flex items-center justify-between">
@@ -113,13 +115,25 @@ export default function Weather({ data }: { data: any }) {
         </CardBody>
       </Card>
 
-      <Link href="https://link.coupang.com/a/bY0LkW" isExternal>
-        jjjjjj
-      </Link>
+      {/*<Link href="https://link.coupang.com/a/bY0LkW" isExternal>*/}
+      {/*  jjjjjj*/}
+      {/*</Link>*/}
 
       <div className="grid grid-cols-2 gap-6">
         <Card>
-          <CardHeader>날씨</CardHeader>
+          <CardHeader
+            className={
+              weatherData.suitableForRunning.details[0].rating === "good"
+                ? "text-success-400"
+                : weatherData.suitableForRunning.details[0].rating === "warning"
+                ? "text-warning-400"
+                : weatherData.suitableForRunning.details[0].rating === "caution"
+                ? "text-yellow-400"
+                : "text-danger-400"
+            }
+          >
+            날씨
+          </CardHeader>
           <Divider />
           <CardBody className="flex items-center justify-center">
             {weatherData.weather[0].iconUrl && (
@@ -132,14 +146,27 @@ export default function Weather({ data }: { data: any }) {
               </div>
             )}
             <p className="text-sm">
-              {weatherData.weather[0].description}({weatherData.weather[0].main}
-              )
+              흐림 {weatherData.clouds}
+              {/*{weatherData.weather[0].description}({weatherData.weather[0].main}*/}
+              {/*)*/}
             </p>
           </CardBody>
         </Card>
 
         <Card>
-          <CardHeader>체감 온도</CardHeader>
+          <CardHeader
+            className={
+              weatherData.suitableForRunning.details[1].rating === "good"
+                ? "text-success-400"
+                : weatherData.suitableForRunning.details[1].rating === "warning"
+                ? "text-warning-400"
+                : weatherData.suitableForRunning.details[1].rating === "caution"
+                ? "text-yellow-400"
+                : "text-danger-400"
+            }
+          >
+            체감 온도
+          </CardHeader>
           <Divider />
           <CardBody className="flex items-center justify-center">
             <div className="flex flex-col">
@@ -156,18 +183,108 @@ export default function Weather({ data }: { data: any }) {
         </Card>
 
         <Card>
-          <CardHeader>습도</CardHeader>
+          <CardHeader
+            className={
+              weatherData.suitableForRunning.details[2].rating === "good"
+                ? "text-success-400"
+                : weatherData.suitableForRunning.details[2].rating === "warning"
+                ? "text-warning-400"
+                : weatherData.suitableForRunning.details[2].rating === "caution"
+                ? "text-yellow-400"
+                : "text-danger-400"
+            }
+          >
+            습도
+          </CardHeader>
           <Divider />
           <CardBody className="flex items-center justify-center">
             <div className="flex flex-col">
               <div className="flex items-center text-3xl">
                 {weatherData.humidity}
-                <TbTemperatureCelsius size={36} />
+                <PiPercentBold size={30} />
               </div>
-              {/*<div className="flex items-center text-xs text-default-500">*/}
-              {/*  <span>실제: {weatherData.temperature}</span>*/}
-              {/*  <TbTemperatureCelsius />*/}
-              {/*</div>*/}
+            </div>
+          </CardBody>
+        </Card>
+
+        <Card>
+          <CardHeader
+            className={
+              weatherData.suitableForRunning.details[3].rating === "good"
+                ? "text-success-400"
+                : weatherData.suitableForRunning.details[3].rating === "warning"
+                ? "text-warning-400"
+                : weatherData.suitableForRunning.details[3].rating === "caution"
+                ? "text-yellow-400"
+                : "text-danger-400"
+            }
+          >
+            풍속
+          </CardHeader>
+          <Divider />
+          <CardBody className="flex items-center justify-center">
+            <div className="flex flex-col">
+              <div className="flex items-center text-3xl">
+                {weatherData.windSpeed}
+              </div>
+              <div className="flex items-center text-xs text-default-500">
+                <span>돌풍: {weatherData.windGust}</span>
+                <TbTemperatureCelsius />
+              </div>
+              <div className="flex items-center text-xs text-default-500">
+                <span>풍향: {weatherData.windDirection}</span>
+                <TbTemperatureCelsius />
+              </div>
+            </div>
+          </CardBody>
+        </Card>
+
+        <Card>
+          <CardHeader
+            className={
+              weatherData.suitableForRunning.details[5].rating === "good"
+                ? "text-success-400"
+                : weatherData.suitableForRunning.details[5].rating === "warning"
+                ? "text-warning-400"
+                : weatherData.suitableForRunning.details[5].rating === "caution"
+                ? "text-yellow-400"
+                : "text-danger-400"
+            }
+          >
+            자외선 지수
+          </CardHeader>
+          <Divider />
+          <CardBody className="flex items-center justify-center">
+            <div className="flex flex-col">
+              <div className="flex items-center text-3xl">
+                {weatherData.uvi}
+                {/*<PiPercentBold size={30} />*/}
+              </div>
+            </div>
+          </CardBody>
+        </Card>
+
+        <Card>
+          <CardHeader
+            className={
+              weatherData.suitableForRunning.details[4].rating === "good"
+                ? "text-success-400"
+                : weatherData.suitableForRunning.details[4].rating === "warning"
+                ? "text-warning-400"
+                : weatherData.suitableForRunning.details[4].rating === "caution"
+                ? "text-yellow-400"
+                : "text-danger-400"
+            }
+          >
+            가시거리
+          </CardHeader>
+          <Divider />
+          <CardBody className="flex items-center justify-center">
+            <div className="flex flex-col">
+              <div className="flex items-center text-3xl">
+                {weatherData.visibility}
+                {/*<PiPercentBold size={30} />*/}
+              </div>
             </div>
           </CardBody>
         </Card>
