@@ -4,6 +4,7 @@ import "./globals.css";
 import { Providers } from "@/app/providers";
 import { Navbar } from "@/components/navbar";
 import { siteConfig } from "@/config/site";
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -69,6 +70,7 @@ export default async function RootLayout({
           <Navbar />
           <main className="container mx-auto max-w-md p-6">{children}</main>
         </Providers>
+        <Analytics />
       </body>
     </html>
   );

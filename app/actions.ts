@@ -5,7 +5,6 @@ import {
   getNextRevalidateTime,
   parseWeatherData,
   parseWeatherDataNew,
-  parseWeatherKMAData,
 } from "@/libs/helpers";
 import { getStorage } from "@/libs/localStorage";
 import { getCurrentDateTime } from "@/libs/getCurrentDateTime";
@@ -38,7 +37,6 @@ export async function getWeather(city: string | undefined) {
 }
 
 export async function getWeather2(latitude: number, longitude: number) {
-  // https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&appid={API key}
   const endPoint = `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,hourly,daily&appid=${API_KEY}&lang=kr&units=metric`;
   try {
     // OpenWeather API로부터 날씨 데이터 가져오기
@@ -54,7 +52,7 @@ export async function getWeather2(latitude: number, longitude: number) {
     // 날씨 데이터 파싱
     const weatherData = await res.json();
 
-    console.log("@@@@@", weatherData);
+    // console.log("@@@@@", weatherData);
 
     // 결과 반환
     return parseWeatherDataNew(weatherData);
