@@ -156,61 +156,118 @@ export const isSuitableForRunningNew = (weatherData) => {
   const details = [];
 
   // Weather Condition Evaluation
+  // Weather Condition Evaluation
   const weatherCondition = weather[0].main;
+
   const weatherConditions = {
-    Clear: { recommendation: "맑고 화창한 날씨입니다.", rating: "good" },
+    Clear: {
+      message: "맑고 화창한 날씨입니다.",
+      rating: "good",
+      items: "썬크림, 모자, 스포츠 선글라스",
+      shoes: "",
+    },
     Clouds: {
-      recommendation: "구름이 많습니다. 주의하며 운동하세요.",
+      message: "구름이 많습니다. 주의하며 운동하세요.",
       rating: "caution",
+      items: "가벼운 바람막이 자켓, 반사 소재 액세서리 (시야 확보)",
+      shoes: "",
     },
     Rain: {
-      recommendation: "비가 내립니다. 방수 장비가 필요합니다.",
+      message: "비가 내립니다. 방수 장비(GORE-TEX)가 필요합니다.",
       rating: "warning",
+      items: "방수 자켓, 방수 러닝화 (GORE-TEX 소재), 방수 캡 또는 모자",
+      shoes: "",
     },
     Drizzle: {
-      recommendation: "이슬비가 내립니다. 가볍게 조심하세요.",
+      message: "이슬비가 내립니다. 가볍게 조심하세요.",
       rating: "caution",
+      items: "얇은 방수 자켓, 캡 또는 모자",
+      shoes: "",
     },
     Thunderstorm: {
-      recommendation: "천둥번개가 있습니다. 실내에서 운동하세요.",
+      message: "천둥번개가 있습니다. 실내에서 운동하세요.",
       rating: "danger",
+      items: "실내 운동복, 수건, 물병",
+      shoes: "",
     },
     Snow: {
-      recommendation: "눈이 내립니다. 미끄럼 주의하세요.",
+      message: "눈이 내립니다. 미끄럼 주의하세요.",
       rating: "warning",
+      items: "방한 자켓, 겨울용 방수 러닝화, 장갑, 모자",
+      shoes: "",
     },
-    Mist: { recommendation: "안개가 짙어 시야가 나쁩니다.", rating: "caution" },
-    Haze: { recommendation: "옅은 안개가 낀 날씨입니다.", rating: "caution" },
+    Mist: {
+      message: "안개가 짙어 시야가 나쁩니다.",
+      rating: "caution",
+      items: "반사 소재 액세서리, 밝은 색상의 옷, 모자",
+      shoes: "",
+    },
+    Haze: {
+      message: "옅은 안개가 낀 날씨입니다.",
+      rating: "caution",
+      items: "반사 소재 액세서리, 모자",
+      shoes: "",
+    },
     Dust: {
-      recommendation: "먼지나 황사가 심합니다. 마스크를 착용하세요.",
+      message: "먼지나 황사가 심합니다. 마스크를 착용하세요.",
       rating: "danger",
+      items: "황사 마스크, 모자, 운동 후 클렌징 용품",
+      shoes: "",
     },
   };
 
-  const weatherEval = weatherConditions[weatherCondition] || {
-    recommendation: "날씨 상태를 확인할 수 없습니다.",
-    rating: "warning",
-  };
+  const weatherEval = weatherConditions[weatherCondition];
 
   details.push({
     condition: `날씨 상태: ${weatherCondition}`,
     rating: weatherEval.rating,
-    recommendation: weatherEval.recommendation,
+    recommendation: {
+      message: weatherEval.message,
+      items: weatherEval.items,
+      shoes: weatherEval.shoes,
+    },
   });
 
   // Temperature Evaluation
   const tempRecommendation =
     temp < -10
-      ? "매우 추워요. 보호 장비가 필수입니다."
+      ? {
+          message:
+            "매우 추워요. 실내 트레드밀이나 다른 대체 유산소 운동을 하는 것을 권장드립니다.",
+          items: "두꺼운 방한 자켓, 기모 레깅스, 겨울용 장갑 및 모자, 목도리",
+          shoes: "방한 기능이 있는 러닝화 또는 겨울용 트레일 러닝화",
+        }
       : temp < 0
-      ? "추운 날씨입니다. 보온에 유의하세요."
+      ? {
+          message: "추운 날씨입니다. 보온에 유의하세요.",
+          items: "보온 자켓, 따뜻한 레이어드 옷, 장갑과 모자",
+          shoes: "발열 깔창이나 보온 기능이 있는 러닝화",
+        }
       : temp < 15
-      ? "쾌적한 날씨입니다. 즐겁게 운동하세요!"
+      ? {
+          message: "쾌적한 날씨입니다. 즐겁게 운동하세요!",
+          items: "긴팔 러닝 티셔츠, 얇은 바람막이 자켓",
+          shoes: "통기성과 쿠셔닝이 좋은 일반 러닝화",
+        }
       : temp < 25
-      ? "약간 더운 날씨입니다. 수분 섭취에 신경 쓰세요."
+      ? {
+          message: "약간 더운 날씨입니다. 수분 섭취에 신경 쓰세요.",
+          items: "반팔 티셔츠, 반바지, 모자, 썬크림",
+          shoes: "가벼운 메쉬 소재 러닝화",
+        }
       : temp < 30
-      ? "덥습니다. 무리하지 마세요."
-      : "매우 덥습니다. 실내 운동을 추천합니다.";
+      ? {
+          message: "덥습니다. 무리하지 마세요.",
+          items:
+            "통풍이 잘 되는 티셔츠, 반바지, 모자, 스포츠 선글라스, 수분 보충 음료",
+          shoes: "통풍과 경량성에 우수한 메쉬 러닝화",
+        }
+      : {
+          message:
+            "매우 덥습니다. 실내 트레드밀이나 다른 대체 유산소 운동을 하는 것을 권장드립니다.",
+          items: "실내 운동복, 수건, 물병, 쿨링 스프레이",
+          shoes: "통기성이 좋은 실내 러닝화",
+        };
 
   const tempRating =
     temp < -10
@@ -230,14 +287,18 @@ export const isSuitableForRunningNew = (weatherData) => {
   });
 
   // Humidity Evaluation
-  const humidityRecommendation =
-    humidity < 30
-      ? "건조한 날씨입니다. 수분을 섭취하세요."
-      : humidity <= 60
-      ? "적절한 습도입니다. 운동하기 좋습니다."
-      : humidity <= 80
-      ? "습도가 높습니다. 무리하지 마세요."
-      : "매우 높은 습도로 위험할 수 있습니다.";
+  const humidityRecommendation = {
+    message:
+      humidity < 30
+        ? "건조한 날씨입니다. 수분을 섭취하세요."
+        : humidity <= 60
+        ? "적절한 습도입니다. 운동하기 좋습니다."
+        : humidity <= 80
+        ? "습도가 높습니다. 무리하지 마세요."
+        : "매우 높은 습도로 위험할 수 있습니다.",
+    items: humidity < 30 || humidity > 60 ? "물병" : "", // 예시로 습도가 낮거나 높을 때 물병을 추천
+    shoes: "",
+  };
 
   const humidityRating =
     humidity < 30
@@ -255,14 +316,18 @@ export const isSuitableForRunningNew = (weatherData) => {
   });
 
   // Wind Speed Evaluation
-  const windRecommendation =
-    wind_speed < 2
-      ? "바람이 거의 없습니다. 쾌적합니다."
-      : wind_speed < 8
-      ? "바람이 다소 불고 있습니다. 조심하세요."
-      : wind_speed < 14
-      ? "강한 바람입니다. 바람에 유의하세요."
-      : "매우 강한 바람입니다. 외출을 피하세요.";
+  const windRecommendation = {
+    message:
+      wind_speed < 2
+        ? "바람이 거의 없습니다. 쾌적합니다."
+        : wind_speed < 8
+        ? "바람이 다소 불고 있습니다. 조심하세요."
+        : wind_speed < 14
+        ? "강한 바람입니다. 바람에 유의하세요."
+        : "매우 강한 바람입니다. 외출을 피하세요.",
+    items: wind_speed >= 8 ? "바람막이 자켓" : "", // 예시로 바람이 강할 때 바람막이 추천
+    shoes: "",
+  };
 
   const windRating =
     wind_speed < 2
@@ -281,12 +346,16 @@ export const isSuitableForRunningNew = (weatherData) => {
 
   // Visibility Evaluation
   const visibilityInKm = (visibility / 1000).toFixed(1);
-  const visibilityRecommendation =
-    visibilityInKm >= 1
-      ? "시야가 좋습니다. 안전하게 운동하세요."
-      : visibilityInKm >= 0.5
-      ? "시야가 다소 제한적입니다. 주의하세요."
-      : "시야가 매우 나쁩니다. 조심하세요.";
+  const visibilityRecommendation = {
+    message:
+      visibilityInKm >= 1
+        ? "시야가 좋습니다. 안전하게 운동하세요."
+        : visibilityInKm >= 0.5
+        ? "시야가 다소 제한적입니다. 주의하세요."
+        : "시야가 매우 나쁩니다. 조심하세요.",
+    items: visibilityInKm < 1 ? "반사 소재 액세서리" : "", // 예시로 시야가 나쁠 때 반사 액세서리 추천
+    shoes: "",
+  };
 
   const visibilityRating =
     visibilityInKm < 0.5 ? "danger" : visibilityInKm >= 1 ? "good" : "caution";
@@ -298,16 +367,20 @@ export const isSuitableForRunningNew = (weatherData) => {
   });
 
   // UV Index Evaluation
-  const uvRecommendation =
-    uvi < 3
-      ? "자외선 지수가 낮아 안전합니다."
-      : uvi < 6
-      ? "자외선 지수가 중간입니다. 선크림을 바르세요."
-      : uvi < 8
-      ? "자외선이 강합니다. 보호 장비를 착용하세요."
-      : uvi < 11
-      ? "자외선이 매우 강합니다. 외출을 피하세요."
-      : "위험한 수준의 자외선입니다. 실내 운동을 추천합니다.";
+  const uvRecommendation = {
+    message:
+      uvi < 3
+        ? "자외선 지수가 낮아 안전합니다."
+        : uvi < 6
+        ? "자외선 지수가 중간입니다. 선크림을 바르세요."
+        : uvi < 8
+        ? "자외선이 강합니다. 보호 장비를 착용하세요."
+        : uvi < 11
+        ? "자외선이 매우 강합니다. 외출을 피하세요."
+        : "위험한 수준의 자외선입니다. 실내 운동을 추천합니다.",
+    items: uvi >= 6 ? "선크림, 모자, 스포츠 선글라스" : "", // 자외선 지수에 따른 보호 장비 추천
+    shoes: "",
+  };
 
   const uvRating =
     uvi < 3 ? "good" : uvi < 6 ? "caution" : uvi < 8 ? "warning" : "danger";

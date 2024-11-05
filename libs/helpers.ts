@@ -1,6 +1,6 @@
 import {
   isSuitableForRunning,
-  isSuitableForRunningKMA,
+  // isSuitableForRunningKMA,
   isSuitableForRunningNew,
 } from "@/libs/isSuitableForRunnibg";
 

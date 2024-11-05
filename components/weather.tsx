@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { SetStateAction, useState, useTransition } from "react";
 import {
   Button,
   Card,
@@ -9,6 +9,7 @@ import {
   Divider,
   Image,
   Link,
+  useDisclosure,
 } from "@nextui-org/react";
 import { getWeather2 } from "@/app/actions";
 import { FaPersonRunning } from "react-icons/fa6";
@@ -20,17 +21,20 @@ import HvCenterSpinner from "@/components/hvCenterSpinner";
 import { BiCurrentLocation } from "react-icons/bi";
 import { TbTemperatureCelsius } from "react-icons/tb";
 import { PiPercentBold } from "react-icons/pi";
+import ModalDetail from "@/app/runningStatusInfo/components/modalDetail";
 
 export default function Weather({ data }: { data: any }) {
   const searchParams = useSearchParams();
-  const getCity = searchParams.get("krName");
+  const city = searchParams.get("city");
+  const krName = searchParams.get("krName");
   const latitude = searchParams.get("latitude");
   const longitude = searchParams.get("longitude");
 
   const [weatherData, setWeatherData] = useState(data);
+  const [weatherIndex, setWeatherIndex] = useState(0);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
-
+  const { isOpen, onOpen, onClose } = useDisclosure();
   console.log("data ==>>", weatherData);
 
   // Refresh 버튼 클릭 시 호출되는 함수
@@ -52,6 +56,11 @@ export default function Weather({ data }: { data: any }) {
   //   });
   // };
 
+  const handleModalOpen = (runId: SetStateAction<number>) => {
+    setWeatherIndex(runId);
+    onOpen();
+  };
+
   return (
     <>
       {isPending && <HvCenterSpinner />}
@@ -72,8 +81,18 @@ export default function Weather({ data }: { data: any }) {
         </div>
       </div>
 
-      <Card className="mb-6">
-        <CardHeader>
+      <Card className="mb-3">
+        <CardHeader
+          className={
+            weatherData.suitableForRunning.rating === "good"
+              ? "text-success-400"
+              : weatherData.suitableForRunning.rating === "warning"
+              ? "text-warning-400"
+              : weatherData.suitableForRunning.rating === "caution"
+              ? "text-yellow-400"
+              : "text-danger-400"
+          }
+        >
           <div className="w-full flex items-center justify-between">
             <span>러닝 상태</span>
             <Button
@@ -93,16 +112,16 @@ export default function Weather({ data }: { data: any }) {
             size={68}
             className={
               weatherData.suitableForRunning.rating === "good"
-                ? "text-success-500 z-10"
+                ? "text-success-400"
                 : weatherData.suitableForRunning.rating === "warning"
-                ? "text-warning-500 z-10"
+                ? "text-warning-400"
                 : weatherData.suitableForRunning.rating === "caution"
-                ? "text-yellow-500 z-10"
-                : "text-danger-500 z-10"
+                ? "text-yellow-400"
+                : "text-danger-400"
             }
           />
           <div className="flex flex-col">
-            <div className="text-base">{getCity}</div>
+            <div className="text-base">{krName}</div>
             <div className="flex items-center text-3xl">
               {weatherData.temperature}
               <TbTemperatureCelsius size={36} />
@@ -115,12 +134,8 @@ export default function Weather({ data }: { data: any }) {
         </CardBody>
       </Card>
 
-      {/*<Link href="https://link.coupang.com/a/bY0LkW" isExternal>*/}
-      {/*  jjjjjj*/}
-      {/*</Link>*/}
-
-      <div className="grid grid-cols-2 gap-6">
-        <Card>
+      <div className="grid grid-cols-2 gap-3">
+        <Card isPressable onPress={() => handleModalOpen(0)}>
           <CardHeader
             className={
               weatherData.suitableForRunning.details[0].rating === "good"
@@ -153,7 +168,7 @@ export default function Weather({ data }: { data: any }) {
           </CardBody>
         </Card>
 
-        <Card>
+        <Card isPressable onPress={() => handleModalOpen(1)}>
           <CardHeader
             className={
               weatherData.suitableForRunning.details[1].rating === "good"
@@ -182,7 +197,7 @@ export default function Weather({ data }: { data: any }) {
           </CardBody>
         </Card>
 
-        <Card>
+        <Card isPressable onPress={() => handleModalOpen(2)}>
           <CardHeader
             className={
               weatherData.suitableForRunning.details[2].rating === "good"
@@ -203,11 +218,15 @@ export default function Weather({ data }: { data: any }) {
                 {weatherData.humidity}
                 <PiPercentBold size={30} />
               </div>
+              <div className="flex items-center text-xs text-default-500">
+                <span>이슬점: {weatherData.dewPoint}</span>
+                <TbTemperatureCelsius />
+              </div>
             </div>
           </CardBody>
         </Card>
 
-        <Card>
+        <Card isPressable onPress={() => handleModalOpen(3)}>
           <CardHeader
             className={
               weatherData.suitableForRunning.details[3].rating === "good"
@@ -239,7 +258,7 @@ export default function Weather({ data }: { data: any }) {
           </CardBody>
         </Card>
 
-        <Card>
+        <Card isPressable onPress={() => handleModalOpen(5)}>
           <CardHeader
             className={
               weatherData.suitableForRunning.details[5].rating === "good"
@@ -264,7 +283,7 @@ export default function Weather({ data }: { data: any }) {
           </CardBody>
         </Card>
 
-        <Card>
+        <Card isPressable onPress={() => handleModalOpen(4)}>
           <CardHeader
             className={
               weatherData.suitableForRunning.details[4].rating === "good"
@@ -289,6 +308,15 @@ export default function Weather({ data }: { data: any }) {
           </CardBody>
         </Card>
       </div>
+
+      {isOpen && (
+        <ModalDetail
+          isOpen={isOpen}
+          onClose={onClose}
+          result={weatherData.suitableForRunning.details}
+          weatherIndex={weatherIndex}
+        />
+      )}
 
       <Card shadow="none" className="hidden">
         {/*<CardHeader className="flex flex-col justify-center">*/}
@@ -381,46 +409,46 @@ export default function Weather({ data }: { data: any }) {
           {/*  <Divider />*/}
           {/*</div>*/}
 
-          <div>
-            {weatherData.suitableForRunning.details.map((item, index) => {
-              return (
-                <div key={index.toString()} className="flex flex-col mb-5">
-                  <div className="flex justify-between mb-1">
-                    <span>{item.condition}</span>
-                    <span
-                      className={
-                        item.rating === "good"
-                          ? "text-success-500 capitalize"
-                          : item.rating === "warning"
-                          ? "text-warning-500 capitalize"
-                          : item.rating === "caution"
-                          ? "text-yellow-500 capitalize"
-                          : "text-danger-500 capitalize"
-                      }
-                    >
-                      {item.rating}
-                    </span>
-                  </div>
+          {/*<div>*/}
+          {/*  {weatherData.suitableForRunning.details.map((item, index) => {*/}
+          {/*    return (*/}
+          {/*      <div key={index.toString()} className="flex flex-col mb-5">*/}
+          {/*        <div className="flex justify-between mb-1">*/}
+          {/*          <span>{item.condition}</span>*/}
+          {/*          <span*/}
+          {/*            className={*/}
+          {/*              item.rating === "good"*/}
+          {/*                ? "text-success-500 capitalize"*/}
+          {/*                : item.rating === "warning"*/}
+          {/*                ? "text-warning-500 capitalize"*/}
+          {/*                : item.rating === "caution"*/}
+          {/*                ? "text-yellow-500 capitalize"*/}
+          {/*                : "text-danger-500 capitalize"*/}
+          {/*            }*/}
+          {/*          >*/}
+          {/*            {item.rating}*/}
+          {/*          </span>*/}
+          {/*        </div>*/}
 
-                  <div
-                    className={
-                      item.rating === "good"
-                        ? "bg-success-500 p-1 px-2 rounded-md"
-                        : item.rating === "warning"
-                        ? "bg-warning-500 p-1 px-2 rounded-md"
-                        : item.rating === "caution"
-                        ? "bg-yellow-500 p-1 px-2 rounded-md"
-                        : "bg-danger-500 p-1 px-2 rounded-md"
-                    }
-                  >
-                    <p className="flex justify-end text-default-50 text-base subpixel-antialiased">
-                      {item.recommendation}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+          {/*        <div*/}
+          {/*          className={*/}
+          {/*            item.rating === "good"*/}
+          {/*              ? "bg-success-500 p-1 px-2 rounded-md"*/}
+          {/*              : item.rating === "warning"*/}
+          {/*              ? "bg-warning-500 p-1 px-2 rounded-md"*/}
+          {/*              : item.rating === "caution"*/}
+          {/*              ? "bg-yellow-500 p-1 px-2 rounded-md"*/}
+          {/*              : "bg-danger-500 p-1 px-2 rounded-md"*/}
+          {/*          }*/}
+          {/*        >*/}
+          {/*          <p className="flex justify-end text-default-50 text-base subpixel-antialiased">*/}
+          {/*            {item.recommendation}*/}
+          {/*          </p>*/}
+          {/*        </div>*/}
+          {/*      </div>*/}
+          {/*    );*/}
+          {/*  })}*/}
+          {/*</div>*/}
         </CardBody>
       </Card>
     </>
