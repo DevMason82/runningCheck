@@ -12,6 +12,7 @@ import {
   Divider,
   Chip,
 } from "@nextui-org/react";
+import { IoClose } from "react-icons/io5";
 
 const ModalDetail = ({ isOpen, onClose, result, weatherIndex }) => {
   // const { isOpen, onOpen, onClose } = useDisclosure();
@@ -22,10 +23,12 @@ const ModalDetail = ({ isOpen, onClose, result, weatherIndex }) => {
   return (
     <Modal
       backdrop="blur"
-      size="md"
+      size="sm"
       isOpen={isOpen}
       onClose={onClose}
       className="text-default-700"
+      placement="bottom"
+      closeButton={<IoClose size={45} color="white" />}
     >
       <ModalContent>
         {(onClose) => (
@@ -33,20 +36,26 @@ const ModalDetail = ({ isOpen, onClose, result, weatherIndex }) => {
             <ModalHeader className="flex flex-col gap-1">
               {selectedResult.condition}
             </ModalHeader>
-            <ModalBody>
-              <Chip
-                className={
-                  selectedResult.rating === "good"
-                    ? "bg-success-400"
-                    : selectedResult.rating === "caution"
-                    ? "bg-amber-300 text-black"
-                    : selectedResult.rating === "warning"
-                    ? "bg-warning-400"
-                    : "bg-danger-400"
-                }
-              >
-                {selectedResult.rating}
-              </Chip>
+            <ModalBody className="gap-5">
+              <div>
+                <span className="font-semibold">상태</span>
+                <div className="ml-2">
+                  <Chip
+                    className={
+                      selectedResult.rating === "good"
+                        ? "bg-success-400"
+                        : selectedResult.rating === "caution"
+                        ? "bg-amber-300 text-black"
+                        : selectedResult.rating === "warning"
+                        ? "bg-warning-400"
+                        : "bg-danger-400"
+                    }
+                    size="sm"
+                  >
+                    {selectedResult.rating}
+                  </Chip>
+                </div>
+              </div>
               {/*<p>{selectedResult.rating}</p>*/}
               <div>
                 <span className="font-semibold">메세지</span>
