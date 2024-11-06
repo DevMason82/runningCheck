@@ -22,7 +22,7 @@ const ModalDetail = ({ isOpen, onClose, result, weatherIndex }) => {
   return (
     <Modal
       backdrop="blur"
-      size="sm"
+      size="md"
       isOpen={isOpen}
       onClose={onClose}
       className="text-default-700"
