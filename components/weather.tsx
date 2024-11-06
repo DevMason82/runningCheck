@@ -6,6 +6,7 @@ import {
   Card,
   CardBody,
   CardHeader,
+  Chip,
   Divider,
   Image,
   Link,
@@ -22,6 +23,7 @@ import { BiCurrentLocation } from "react-icons/bi";
 import { TbTemperatureCelsius } from "react-icons/tb";
 import { PiPercentBold } from "react-icons/pi";
 import ModalDetail from "@/app/runningStatusInfo/components/modalDetail";
+import { FaAngleUp } from "react-icons/fa";
 
 export default function Weather({ data }: { data: any }) {
   const searchParams = useSearchParams();
@@ -89,12 +91,12 @@ export default function Weather({ data }: { data: any }) {
               : weatherData.suitableForRunning.rating === "warning"
               ? "text-warning-400"
               : weatherData.suitableForRunning.rating === "caution"
-              ? "text-yellow-400"
+              ? "text-amber-300"
               : "text-danger-400"
           }
         >
           <div className="w-full flex items-center justify-between">
-            <span>러닝 상태</span>
+            <span className="font-semibold">러닝 상태</span>
             <Button
               isIconOnly
               variant="light"
@@ -107,19 +109,36 @@ export default function Weather({ data }: { data: any }) {
           </div>
         </CardHeader>
         <Divider />
-        <CardBody className="flex flex-row items-center justify-center">
-          <FaPersonRunning
-            size={68}
-            className={
-              weatherData.suitableForRunning.rating === "good"
-                ? "text-success-400"
-                : weatherData.suitableForRunning.rating === "warning"
-                ? "text-warning-400"
-                : weatherData.suitableForRunning.rating === "caution"
-                ? "text-yellow-400"
-                : "text-danger-400"
-            }
-          />
+        <CardBody className="flex flex-row items-center justify-center gap-3">
+          <div className="flex flex-col gap-2">
+            <FaPersonRunning
+              size={68}
+              className={
+                weatherData.suitableForRunning.rating === "good"
+                  ? "text-success-400"
+                  : weatherData.suitableForRunning.rating === "warning"
+                  ? "text-warning-400"
+                  : weatherData.suitableForRunning.rating === "caution"
+                  ? "text-amber-300"
+                  : "text-danger-400"
+              }
+            />
+            <Chip
+              size="sm"
+              className={
+                weatherData.suitableForRunning.rating === "good"
+                  ? "bg-success-400"
+                  : weatherData.suitableForRunning.rating === "caution"
+                  ? "bg-amber-300 text-black"
+                  : weatherData.suitableForRunning.rating === "warning"
+                  ? "bg-warning-400"
+                  : "bg-danger-400"
+              }
+            >
+              {weatherData.suitableForRunning.rating}
+            </Chip>
+          </div>
+
           <div className="flex flex-col">
             <div className="text-base">{krName}</div>
             <div className="flex items-center text-3xl">
@@ -143,11 +162,14 @@ export default function Weather({ data }: { data: any }) {
                 : weatherData.suitableForRunning.details[0].rating === "warning"
                 ? "text-warning-400"
                 : weatherData.suitableForRunning.details[0].rating === "caution"
-                ? "text-yellow-400"
+                ? "text-amber-300"
                 : "text-danger-400"
             }
           >
-            날씨
+            <div className="w-full flex items-center justify-between">
+              <span className="font-semibold">날씨</span>
+              <FaAngleUp className="text-white" size={20} />
+            </div>
           </CardHeader>
           <Divider />
           <CardBody className="flex items-center justify-center">
@@ -176,11 +198,14 @@ export default function Weather({ data }: { data: any }) {
                 : weatherData.suitableForRunning.details[1].rating === "warning"
                 ? "text-warning-400"
                 : weatherData.suitableForRunning.details[1].rating === "caution"
-                ? "text-yellow-400"
+                ? "text-amber-300"
                 : "text-danger-400"
             }
           >
-            체감 온도
+            <div className="w-full flex items-center justify-between">
+              <span className="font-semibold">체감 온도</span>
+              <FaAngleUp className="text-white" size={20} />
+            </div>
           </CardHeader>
           <Divider />
           <CardBody className="flex items-center justify-center">
@@ -205,11 +230,14 @@ export default function Weather({ data }: { data: any }) {
                 : weatherData.suitableForRunning.details[2].rating === "warning"
                 ? "text-warning-400"
                 : weatherData.suitableForRunning.details[2].rating === "caution"
-                ? "text-yellow-400"
+                ? "text-amber-300"
                 : "text-danger-400"
             }
           >
-            습도
+            <div className="w-full flex items-center justify-between">
+              <span className="font-semibold">습도</span>
+              <FaAngleUp className="text-white" size={20} />
+            </div>
           </CardHeader>
           <Divider />
           <CardBody className="flex items-center justify-center">
@@ -234,11 +262,14 @@ export default function Weather({ data }: { data: any }) {
                 : weatherData.suitableForRunning.details[3].rating === "warning"
                 ? "text-warning-400"
                 : weatherData.suitableForRunning.details[3].rating === "caution"
-                ? "text-yellow-400"
+                ? "text-amber-300"
                 : "text-danger-400"
             }
           >
-            풍속
+            <div className="w-full flex items-center justify-between">
+              <span className="font-semibold">풍속</span>
+              <FaAngleUp className="text-white" size={20} />
+            </div>
           </CardHeader>
           <Divider />
           <CardBody className="flex items-center justify-center">
@@ -266,11 +297,14 @@ export default function Weather({ data }: { data: any }) {
                 : weatherData.suitableForRunning.details[5].rating === "warning"
                 ? "text-warning-400"
                 : weatherData.suitableForRunning.details[5].rating === "caution"
-                ? "text-yellow-400"
+                ? "text-amber-300"
                 : "text-danger-400"
             }
           >
-            자외선 지수
+            <div className="w-full flex items-center justify-between">
+              <span className="font-semibold">자외선 지수</span>
+              <FaAngleUp className="text-white" size={20} />
+            </div>
           </CardHeader>
           <Divider />
           <CardBody className="flex items-center justify-center">
@@ -291,11 +325,14 @@ export default function Weather({ data }: { data: any }) {
                 : weatherData.suitableForRunning.details[4].rating === "warning"
                 ? "text-warning-400"
                 : weatherData.suitableForRunning.details[4].rating === "caution"
-                ? "text-yellow-400"
+                ? "text-amber-300"
                 : "text-danger-400"
             }
           >
-            가시거리
+            <div className="w-full flex items-center justify-between">
+              <span className="font-semibold">가시거리</span>
+              <FaAngleUp className="text-white" size={20} />
+            </div>
           </CardHeader>
           <Divider />
           <CardBody className="flex items-center justify-center">
