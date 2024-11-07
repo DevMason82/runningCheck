@@ -127,12 +127,12 @@ export default function Weather({ data }: { data: any }) {
               size="sm"
               className={
                 weatherData.suitableForRunning.rating === "good"
-                  ? "bg-success-400"
+                  ? "bg-success-400 capitalize"
                   : weatherData.suitableForRunning.rating === "caution"
-                  ? "bg-amber-300 text-black"
+                  ? "bg-amber-300 text-black capitalize"
                   : weatherData.suitableForRunning.rating === "warning"
-                  ? "bg-warning-400"
-                  : "bg-danger-400"
+                  ? "bg-warning-400 capitalize"
+                  : "bg-danger-400 capitalize"
               }
             >
               {weatherData.suitableForRunning.rating}

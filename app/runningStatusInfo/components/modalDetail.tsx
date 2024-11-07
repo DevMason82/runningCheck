@@ -43,12 +43,12 @@ const ModalDetail = ({ isOpen, onClose, result, weatherIndex }) => {
                   <Chip
                     className={
                       selectedResult.rating === "good"
-                        ? "bg-success-400"
+                        ? "bg-success-400 capitalize"
                         : selectedResult.rating === "caution"
-                        ? "bg-amber-300 text-black"
+                        ? "bg-amber-300 text-black capitalize"
                         : selectedResult.rating === "warning"
-                        ? "bg-warning-400"
-                        : "bg-danger-400"
+                        ? "bg-warning-400 capitalize"
+                        : "bg-danger-400 capitalize"
                     }
                     size="sm"
                   >
