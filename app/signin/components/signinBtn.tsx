@@ -18,12 +18,21 @@ const SigninBtn = () => {
   }
 
   return (
-    <Button
-      className="w-full transform rounded-md bg-yellow-400 tracking-wide text-default font-semibold"
-      onPress={() => signIn("kakao", { redirect: true, callbackUrl: "/" })}
-    >
-      kakao login
-    </Button>
+    <div className="flex flex-col items-center gap-3">
+      <Button
+        className="w-full transform rounded-md bg-yellow-400 tracking-wide text-default font-semibold"
+        onPress={() => signIn("kakao", { redirect: true, callbackUrl: "/" })}
+      >
+        KAKAO login
+      </Button>
+
+      <Button
+        className="w-full transform rounded-md bg-green-400 tracking-wide text-default font-semibold"
+        onPress={() => signIn("naver", { redirect: true, callbackUrl: "/" })}
+      >
+        NAVER login
+      </Button>
+    </div>
   );
 };
 

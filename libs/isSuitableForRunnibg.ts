@@ -156,7 +156,6 @@ export const isSuitableForRunningNew = (weatherData) => {
   const details = [];
 
   // Weather Condition Evaluation
-  // Weather Condition Evaluation
   const weatherCondition = weather[0].main;
 
   const weatherConditions = {
@@ -176,7 +175,7 @@ export const isSuitableForRunningNew = (weatherData) => {
       message: "비가 내립니다. 방수 장비(GORE-TEX)가 필요합니다.",
       rating: "warning",
       items: "방수 자켓, 방수 러닝화 (GORE-TEX 소재), 방수 캡 또는 모자",
-      shoes: "",
+      shoes: "방수 러닝화 (GORE-TEX 소재)",
     },
     Drizzle: {
       message: "이슬비가 내립니다. 가볍게 조심하세요.",
@@ -193,8 +192,8 @@ export const isSuitableForRunningNew = (weatherData) => {
     Snow: {
       message: "눈이 내립니다. 미끄럼 주의하세요.",
       rating: "warning",
-      items: "방한 자켓, 겨울용 방수 러닝화, 장갑, 모자",
-      shoes: "",
+      items: "방한 자켓, 장갑, 모자",
+      shoes: "겨울용 방수 러닝화",
     },
     Mist: {
       message: "안개가 짙어 시야가 나쁩니다.",
@@ -230,53 +229,72 @@ export const isSuitableForRunningNew = (weatherData) => {
 
   // Temperature Evaluation
   const tempRecommendation =
-    temp < -10
+    temp <= 5
       ? {
           message:
-            "매우 추워요. 실내 트레드밀이나 다른 대체 유산소 운동을 하는 것을 권장드립니다.",
-          items: "두꺼운 방한 자켓, 기모 레깅스, 겨울용 장갑 및 모자, 목도리",
+            "추운 날씨입니다.\n" +
+            "근육이 수축하고, 체온 유지에 더 많은 에너지를 소비하게 됩니다.\n" +
+            "추운 날씨에 적응되지 않은 러너는 자제하는 것이 좋습니다.",
+          items: "여러 겹의 옷, 손과 귀를 보호할 수 있는 장갑과 모자",
           shoes: "방한 기능이 있는 러닝화 또는 겨울용 트레일 러닝화",
+          // tips: "옷을 여러 겹 입고 손과 귀를 보호하세요. 추운 날씨에 적응되지 않은 러너는 자제하는 것이 좋습니다.",
         }
-      : temp < 0
+      : temp <= 10
       ? {
-          message: "추운 날씨입니다. 보온에 유의하세요.",
-          items: "보온 자켓, 따뜻한 레이어드 옷, 장갑과 모자",
-          shoes: "발열 깔창이나 보온 기능이 있는 러닝화",
-        }
-      : temp < 15
-      ? {
-          message: "쾌적한 날씨입니다. 즐겁게 운동하세요!",
-          items: "긴팔 러닝 티셔츠, 얇은 바람막이 자켓",
+          message:
+            "시원한 날씨입니다.\n" + "페이스를 일정하게 유지하기 좋습니다.",
+          // "페이스를 일정하게 유지하기 좋습니다.",
+          items: "장갑, 얇은 모자, 얇은 윈드브레이커 또는 긴팔 옷",
           shoes: "통기성과 쿠셔닝이 좋은 일반 러닝화",
+          // tips: "장갑과 얇은 모자를 착용하고 얇은 윈드브레이커나 긴팔을 입는 것이 좋습니다.",
         }
-      : temp < 25
+      : temp <= 15
       ? {
-          message: "약간 더운 날씨입니다. 수분 섭취에 신경 쓰세요.",
-          items: "반팔 티셔츠, 반바지, 모자, 썬크림",
+          message:
+            "체온 조절에 이상적이며 장시간 달리기에 적합합니다.\n" +
+            "페이스 조절에 좋은 날씨로 추천됩니다.",
+          items: "얇은 긴팔 또는 반팔, 얇은 재킷",
+          shoes: "쿠셔닝이 좋은 일반 러닝화",
+          // tips: "체온 조절에 이상적이며 장시간 달리기에 적합합니다. 페이스 조절에 좋은 날씨로 추천됩니다.",
+        }
+      : temp <= 20
+      ? {
+          message:
+            "가장 이상적인 러닝 날씨입니다.\n" +
+            "반팔, 반바지 착용이 적합하며, 물을 자주 마시며 수분을 충분히 섭취하는 것이 좋습니다.",
+          items: "반팔, 반바지",
           shoes: "가벼운 메쉬 소재 러닝화",
+          // tips: "반팔, 반바지 착용이 적합하며, 물을 자주 마시며 수분을 충분히 섭취하는 것이 좋습니다.",
         }
-      : temp < 30
+      : temp <= 25
       ? {
-          message: "덥습니다. 무리하지 마세요.",
-          items:
-            "통풍이 잘 되는 티셔츠, 반바지, 모자, 스포츠 선글라스, 수분 보충 음료",
-          shoes: "통풍과 경량성에 우수한 메쉬 러닝화",
+          message:
+            "약간 더운 날씨입니다.\n" +
+            "체온이 쉽게 올라가므로 적응이 필요합니다.\n" +
+            "물을 자주 섭취하고 체온 조절을 위해 페이스 조절이 필요할 수 있습니다.",
+          items: "얇은 반팔, 반바지, 모자, 물병",
+          shoes: "통풍이 잘 되는 메쉬 러닝화",
+          // tips: "물을 자주 섭취하고 체온 조절을 위해 페이스 조절이 필요할 수 있습니다.",
         }
       : {
           message:
-            "매우 덥습니다. 실내 트레드밀이나 다른 대체 유산소 운동을 하는 것을 권장드립니다.",
-          items: "실내 운동복, 수건, 물병, 쿨링 스프레이",
-          shoes: "통기성이 좋은 실내 러닝화",
+            "러닝을 피하거나 이른 아침이나 늦은 저녁에 하세요.\n" +
+            "항상 물병을 소지하고 중간에 수분을 보충하세요.",
+          items: "얇은 운동복, 물병, 쿨링 스프레이",
+          shoes: "통기성이 좋은 러닝화",
+          // tips: "러닝을 피하거나 이른 아침이나 늦은 저녁에 하세요. 항상 물병을 소지하고 중간에 수분을 보충하세요.",
         };
 
   const tempRating =
-    temp < -10
-      ? "danger"
-      : temp < 0
+    temp <= 5
       ? "warning"
-      : temp < 15
+      : temp <= 10
       ? "good"
-      : temp < 30
+      : temp <= 15
+      ? "good"
+      : temp <= 20
+      ? "good"
+      : temp <= 25
       ? "caution"
       : "danger";
 
