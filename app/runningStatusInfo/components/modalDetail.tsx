@@ -36,10 +36,10 @@ const ModalDetail = ({ isOpen, onClose, result, weatherIndex }) => {
             <ModalHeader className="flex flex-col gap-1">
               {selectedResult.condition}
             </ModalHeader>
-            <ModalBody className="gap-5">
+            <ModalBody className="gap-6">
               <div>
-                <span className="font-semibold">상태</span>
-                <div className="ml-2">
+                <span className="font-semibold">러닝상태</span>
+                <div className="ml-3">
                   <Chip
                     className={
                       selectedResult.rating === "good"
@@ -58,16 +58,16 @@ const ModalDetail = ({ isOpen, onClose, result, weatherIndex }) => {
               </div>
               {/*<p>{selectedResult.rating}</p>*/}
               <div>
-                <span className="font-semibold">메세지</span>
-                <p className="text-base ml-2">
+                <span className="font-semibold">러닝코멘트</span>
+                <p className="text-base ml-4 whitespace-pre-wrap">
                   {selectedResult.recommendation.message}
                 </p>
               </div>
 
               {selectedResult.recommendation.items !== "" && (
                 <div>
-                  <span className="font-semibold">아이템</span>
-                  <p className="text-base ml-2">
+                  <span className="font-semibold">러닝의류</span>
+                  <p className="text-base ml-4">
                     {selectedResult.recommendation.items}
                   </p>
                 </div>
@@ -75,8 +75,8 @@ const ModalDetail = ({ isOpen, onClose, result, weatherIndex }) => {
 
               {selectedResult.recommendation.shoes !== "" && (
                 <div>
-                  <span className="font-semibold">러닝슈즈</span>
-                  <p className="text-base ml-2">
+                  <span className="font-semibold">러닝화</span>
+                  <p className="text-base ml-4">
                     {selectedResult.recommendation.shoes}
                   </p>
                 </div>
