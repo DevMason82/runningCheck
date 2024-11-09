@@ -149,7 +149,7 @@ export const isSuitableForRunning = (weatherData: {
 };
 
 export const isSuitableForRunningNew = (weatherData) => {
-  const { current } = weatherData;
+  const { current, hourly } = weatherData;
   const { temp, feels_like, humidity, wind_speed, visibility, uvi, weather } =
     current;
 
@@ -407,6 +407,44 @@ export const isSuitableForRunningNew = (weatherData) => {
     condition: `자외선 지수: ${uvi}`,
     rating: uvRating,
     recommendation: uvRecommendation,
+  });
+
+  // Running Time Recommendation Logic
+  const recommendRunningTime = () => {
+    const morning = hourly.slice(8, 11); // 8~10시
+    const afternoon = hourly.slice(16, 19); // 16~18시
+    const evening = hourly.slice(20, 24); // 20시 이후
+
+    const evaluateTimeSlot = (slot) => {
+      const avgTemp =
+        slot.reduce((acc, hour) => acc + hour.temp, 0) / slot.length;
+      const avgUVI =
+        slot.reduce((acc, hour) => acc + hour.uvi, 0) / slot.length;
+      const avgWindSpeed =
+        slot.reduce((acc, hour) => acc + hour.wind_speed, 0) / slot.length;
+
+      // 조건에 따른 적합성 평가
+      if (avgTemp >= 25 || avgUVI >= 8 || avgWindSpeed >= 14) return "avoid"; // 너무 덥거나 자외선 강한 시간 회피
+      if (avgTemp <= 5 || avgWindSpeed >= 10) return "caution"; // 추운 시간대나 바람이 강한 시간대 주의
+      return "good";
+    };
+
+    // 시간대별 추천
+    const morningRating = evaluateTimeSlot(morning);
+    const afternoonRating = evaluateTimeSlot(afternoon);
+    const eveningRating = evaluateTimeSlot(evening);
+
+    return [
+      { time: "오전 8~10시", rating: morningRating },
+      { time: "오후 16~18시", rating: afternoonRating },
+      { time: "저녁 20시 이후", rating: eveningRating },
+    ];
+  };
+
+  // 최종 추천 시간대를 details에 추가
+  details.push({
+    condition: "추천 러닝 시간대",
+    recommendation: recommendRunningTime(),
   });
 
   // Overall Rating Logic

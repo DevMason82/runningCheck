@@ -112,7 +112,7 @@ export default function Weather({ data }: { data: any }) {
         <CardBody className="flex flex-row items-center justify-center gap-3">
           <div className="flex flex-col gap-2">
             <FaPersonRunning
-              size={68}
+              size={88}
               className={
                 weatherData.suitableForRunning.rating === "good"
                   ? "text-success-400"
@@ -123,33 +123,92 @@ export default function Weather({ data }: { data: any }) {
                   : "text-danger-400"
               }
             />
-            <Chip
-              size="sm"
-              className={
-                weatherData.suitableForRunning.rating === "good"
-                  ? "bg-success-400 capitalize"
-                  : weatherData.suitableForRunning.rating === "caution"
-                  ? "bg-amber-300 text-black capitalize"
-                  : weatherData.suitableForRunning.rating === "warning"
-                  ? "bg-warning-400 capitalize"
-                  : "bg-danger-400 capitalize"
-              }
-            >
-              {weatherData.suitableForRunning.rating}
-            </Chip>
+            {/*<Chip*/}
+            {/*  size="sm"*/}
+            {/*  className={*/}
+            {/*    weatherData.suitableForRunning.rating === "good"*/}
+            {/*      ? "bg-success-400 capitalize"*/}
+            {/*      : weatherData.suitableForRunning.rating === "caution"*/}
+            {/*      ? "bg-amber-300 text-black capitalize"*/}
+            {/*      : weatherData.suitableForRunning.rating === "warning"*/}
+            {/*      ? "bg-warning-400 capitalize"*/}
+            {/*      : "bg-danger-400 capitalize"*/}
+            {/*  }*/}
+            {/*>*/}
+            {/*  {weatherData.suitableForRunning.rating}*/}
+            {/*</Chip>*/}
           </div>
 
           <div className="flex flex-col">
             <div className="text-base">{krName}</div>
-            <div className="flex items-center text-3xl">
-              {weatherData.temperature}
-              <TbTemperatureCelsius size={36} />
+            <div className="flex flex-col gap-1">
+              {weatherData.suitableForRunning.details[6].recommendation.map(
+                (item, index) => {
+                  return (
+                    <div
+                      key={index.toString()}
+                      className="flex items-center justify-between gap-2"
+                    >
+                      <span className="text-xs">{item.time}</span>
+                      <Chip
+                        size="sm"
+                        className={
+                          item.rating === "good"
+                            ? "bg-success-400 capitalize"
+                            : item.rating === "caution"
+                            ? "bg-amber-300 text-black capitalize"
+                            : item.rating === "warning"
+                            ? "bg-warning-400 capitalize"
+                            : "bg-danger-400 capitalize"
+                        }
+                      >
+                        {item.rating}
+                      </Chip>
+                    </div>
+                  );
+                },
+              )}
             </div>
-            <div className="flex items-center text-xs text-default-500">
-              <span>체감 온도: {weatherData.feelsLike}</span>
-              <TbTemperatureCelsius />
-            </div>
+            {/*<div className="flex items-center text-3xl">*/}
+            {/*  {weatherData.temperature}*/}
+            {/*  <TbTemperatureCelsius size={36} />*/}
+            {/*</div>*/}
+            {/*<div className="flex items-center text-xs text-default-500">*/}
+            {/*  <span>체감 온도: {weatherData.feelsLike}</span>*/}
+            {/*  <TbTemperatureCelsius />*/}
+            {/*</div>*/}
           </div>
+
+          {/*<div>*/}
+          {/*  <div className="flex flex-col gap-1">*/}
+          {/*    {weatherData.suitableForRunning.details[6].recommendation.map(*/}
+          {/*      (item, index) => {*/}
+          {/*        return (*/}
+          {/*          <div*/}
+          {/*            key={index.toString()}*/}
+          {/*            className="flex items-center gap-2"*/}
+          {/*          >*/}
+          {/*            <span className="text-xs">{item.time}</span>*/}
+          {/*            <Chip*/}
+          {/*              size="sm"*/}
+          {/*              className={*/}
+          {/*                item.rating === "good"*/}
+          {/*                  ? "bg-success-400 capitalize"*/}
+          {/*                  : item.rating === "caution"*/}
+          {/*                  ? "bg-amber-300 text-black capitalize"*/}
+          {/*                  : item.rating === "warning"*/}
+          {/*                  ? "bg-warning-400 capitalize"*/}
+          {/*                  : "bg-danger-400 capitalize"*/}
+          {/*              }*/}
+          {/*            >*/}
+          {/*              {item.rating}*/}
+          {/*            </Chip>*/}
+          {/*          </div>*/}
+          {/*        );*/}
+          {/*      },*/}
+          {/*    )}*/}
+          {/*  </div>*/}
+          {/*</div>*/}
         </CardBody>
       </Card>
 
