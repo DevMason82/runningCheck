@@ -37,7 +37,7 @@ export async function getWeather(city: string | undefined) {
 }
 
 export async function getWeather2(latitude: number, longitude: number) {
-  const endPoint = `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,hourly,daily&appid=${API_KEY}&lang=kr&units=metric`;
+  const endPoint = `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,daily&appid=${API_KEY}&lang=kr&units=metric`;
   try {
     // OpenWeather API로부터 날씨 데이터 가져오기
     const res = await fetch(endPoint, {
@@ -52,7 +52,7 @@ export async function getWeather2(latitude: number, longitude: number) {
     // 날씨 데이터 파싱
     const weatherData = await res.json();
 
-    // console.log("@@@@@", weatherData);
+    console.log("@@@@@", weatherData);
 
     // 결과 반환
     return parseWeatherDataNew(weatherData);
