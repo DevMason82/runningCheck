@@ -13,7 +13,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { getWeather2 } from "@/app/actions";
-import { FaPersonRunning } from "react-icons/fa6";
+import { FaLeaf, FaPersonRunning } from "react-icons/fa6";
 import { MdOutlineRefresh } from "react-icons/md";
 import { useSearchParams } from "next/navigation";
 
@@ -140,7 +140,23 @@ export default function Weather({ data }: { data: any }) {
           </div>
 
           <div className="flex flex-col">
-            <div className="text-base">{krName}</div>
+            <div className="text-base flex items-center justify-between mb-2">
+              <span>{krName}</span>
+              <div>
+                {weatherData.suitableForRunning.details[6].recommendation[0]
+                  .season === "spring" ? (
+                  <FaLeaf className="text-lime-400" />
+                ) : weatherData.suitableForRunning.details[6].recommendation[0]
+                    .season === "summer" ? (
+                  <FaLeaf className="text-green-600" />
+                ) : weatherData.suitableForRunning.details[6].recommendation[0]
+                    .season === "fall" ? (
+                  <FaLeaf className="text-amber-600" />
+                ) : (
+                  <FaLeaf className="text-white" />
+                )}
+              </div>
+            </div>
             <div className="flex flex-col gap-1">
               {weatherData.suitableForRunning.details[6].recommendation.map(
                 (item, index) => {
@@ -149,7 +165,23 @@ export default function Weather({ data }: { data: any }) {
                       key={index.toString()}
                       className="flex items-center justify-between gap-2"
                     >
-                      <span className="text-xs">{item.time}</span>
+                      <span className="text-xs">
+                        {item.season === "spring" || item.season === "fall"
+                          ? item.time === "morning"
+                            ? "오전[8~10시]"
+                            : item.time === "afternoon"
+                            ? "오후[16~18시]"
+                            : "저녁[20시 이후]"
+                          : item.season === "summer"
+                          ? item.time === "morning"
+                            ? "이른 아침[6~8시 (더위를 피해 이른 아침 추천)]"
+                            : "저녁[20시 이후 (해가 진 후 시원한 저녁 시간 추천)]"
+                          : item.season === "winter"
+                          ? item.time === "lateMorning"
+                            ? "늦은 아침[10~12시 (날씨가 추운 겨울엔 늦은 아침 추천)]"
+                            : "오후[14~16시 (온도가 올라가는 오후 시간대 추천)]"
+                          : ""}
+                      </span>
                       <Chip
                         size="sm"
                         className={
