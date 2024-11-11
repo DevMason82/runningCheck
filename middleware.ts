@@ -27,9 +27,9 @@ export function middleware(request: NextRequest) {
   }
 
   // 쿠키가 없고 현재 경로가 /가 아닌 경우에만 리다이렉트
-  // if (!targetCity && currentPath !== "/") {
-  //   return NextResponse.redirect(new URL("/", request.url));
-  // }
+  if (!targetCity && currentPath !== "/") {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
 
   // 위 조건에 해당하지 않으면 요청을 그대로 처리
   return NextResponse.next();
