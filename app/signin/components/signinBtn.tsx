@@ -8,7 +8,7 @@ const SigninBtn = () => {
   const { data: session } = useSession();
   const router = useRouter();
 
-  console.log(session);
+  // console.log(session);
   // 세션이 존재할 경우 홈 페이지로 리다이렉트
   useEffect(() => {
     if (session) {
@@ -32,7 +32,7 @@ const SigninBtn = () => {
       <Button
         className="w-full transform rounded-md bg-yellow-400 tracking-wide text-default font-semibold"
         onPress={() => signIn("kakao", { redirect: true, callbackUrl: "/" })}
-        isDisabled={session !== null}
+        // isDisabled={session !== null}
       >
         KAKAO login
       </Button>
@@ -40,7 +40,7 @@ const SigninBtn = () => {
       <Button
         className="w-full transform rounded-md bg-green-400 tracking-wide text-default font-semibold"
         onPress={() => signIn("naver", { redirect: true, callbackUrl: "/" })}
-        isDisabled={session !== null}
+        // isDisabled={session !== null}
       >
         NAVER login
       </Button>

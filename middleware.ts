@@ -7,12 +7,10 @@ export function middleware(request: NextRequest) {
   const token = request.cookies.get("next-auth.session-token"); // 토큰 가져오기
   const currentPath = request.nextUrl.pathname; // 현재 요청 경로 가져오기
 
-  console.log("Request session token", token);
-
   if (token === undefined) {
-    console.log("sdfsdfsdfsd");
+    // console.log("sdfsdfsdfsd");
     // 토큰이 없으면 `/signing` 경로로 리다이렉트
-    return NextResponse.redirect(new URL("/signin", request.url));
+    return NextResponse.rewrite(new URL("/signin", request.url));
   }
 
   if (currentPath === "/signin") {
@@ -25,5 +23,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/runningStatusInfo/:path*"], // 미들웨어 적용 경로
+  matcher: ["/", "/runningStatusInfo/:path*", "/signin"], // 미들웨어 적용 경로
 };
