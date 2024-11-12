@@ -85,15 +85,16 @@ export default function Weather({ data }: { data: any }) {
 
       <Card className="mb-3">
         <CardHeader
-          className={
-            weatherData.suitableForRunning.rating === "good"
-              ? "text-success-400"
-              : weatherData.suitableForRunning.rating === "warning"
-              ? "text-warning-400"
-              : weatherData.suitableForRunning.rating === "caution"
-              ? "text-amber-300"
-              : "text-danger-400"
-          }
+          className="text-default-700"
+          // className={
+          //   weatherData.suitableForRunning.rating === "good"
+          //     ? "text-success-400"
+          //     : weatherData.suitableForRunning.rating === "warning"
+          //     ? "text-warning-400"
+          //     : weatherData.suitableForRunning.rating === "caution"
+          //     ? "text-amber-300"
+          //     : "text-danger-400"
+          // }
         >
           <div className="w-full flex items-center justify-between">
             <span className="font-semibold">러닝 상태</span>
@@ -110,34 +111,20 @@ export default function Weather({ data }: { data: any }) {
         </CardHeader>
         <Divider />
         <CardBody className="flex flex-row items-center justify-center gap-3">
-          <div className="flex flex-col gap-2">
-            <FaPersonRunning
-              size={88}
-              className={
-                weatherData.suitableForRunning.rating === "good"
-                  ? "text-success-400"
-                  : weatherData.suitableForRunning.rating === "warning"
-                  ? "text-warning-400"
-                  : weatherData.suitableForRunning.rating === "caution"
-                  ? "text-amber-300"
-                  : "text-danger-400"
-              }
-            />
-            {/*<Chip*/}
-            {/*  size="sm"*/}
-            {/*  className={*/}
-            {/*    weatherData.suitableForRunning.rating === "good"*/}
-            {/*      ? "bg-success-400 capitalize"*/}
-            {/*      : weatherData.suitableForRunning.rating === "caution"*/}
-            {/*      ? "bg-amber-300 text-black capitalize"*/}
-            {/*      : weatherData.suitableForRunning.rating === "warning"*/}
-            {/*      ? "bg-warning-400 capitalize"*/}
-            {/*      : "bg-danger-400 capitalize"*/}
-            {/*  }*/}
-            {/*>*/}
-            {/*  {weatherData.suitableForRunning.rating}*/}
-            {/*</Chip>*/}
-          </div>
+          {/*<div className="flex flex-col gap-2">*/}
+          {/*  <FaPersonRunning*/}
+          {/*    size={88}*/}
+          {/*    className={*/}
+          {/*      weatherData.suitableForRunning.rating === "good"*/}
+          {/*        ? "text-success-400"*/}
+          {/*        : weatherData.suitableForRunning.rating === "warning"*/}
+          {/*        ? "text-warning-400"*/}
+          {/*        : weatherData.suitableForRunning.rating === "caution"*/}
+          {/*        ? "text-amber-300"*/}
+          {/*        : "text-danger-400"*/}
+          {/*    }*/}
+          {/*  />*/}
+          {/*</div>*/}
 
           <div className="flex flex-col">
             <div className="text-base flex items-center justify-between mb-2">
@@ -157,7 +144,7 @@ export default function Weather({ data }: { data: any }) {
                 )}
               </div>
             </div>
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-2">
               {weatherData.suitableForRunning.details[6].recommendation.map(
                 (item, index) => {
                   return (
@@ -182,20 +169,34 @@ export default function Weather({ data }: { data: any }) {
                             : "오후[14~16시 (온도가 올라가는 오후 시간대 추천)]"
                           : ""}
                       </span>
-                      <Chip
-                        size="sm"
-                        className={
-                          item.rating === "good"
-                            ? "bg-success-400 capitalize"
-                            : item.rating === "caution"
-                            ? "bg-amber-300 text-black capitalize"
-                            : item.rating === "warning"
-                            ? "bg-warning-400 capitalize"
-                            : "bg-danger-400 capitalize"
-                        }
-                      >
-                        {item.rating}
-                      </Chip>
+                      <div className="flex items-center gap-2">
+                        <Chip
+                          size="sm"
+                          className={
+                            item.rating === "good"
+                              ? "bg-success-400 capitalize"
+                              : item.rating === "caution"
+                              ? "bg-amber-300 text-black capitalize"
+                              : item.rating === "warning"
+                              ? "bg-warning-400 capitalize"
+                              : "bg-danger-400 capitalize"
+                          }
+                        >
+                          {item.rating}
+                        </Chip>
+                        <FaPersonRunning
+                          size={24}
+                          className={
+                            item.rating === "good"
+                              ? "text-success-400"
+                              : item.rating === "warning"
+                              ? "text-warning-400"
+                              : item.rating === "caution"
+                              ? "text-amber-300"
+                              : "text-danger-400"
+                          }
+                        />
+                      </div>
                     </div>
                   );
                 },
