@@ -409,66 +409,6 @@ export const isSuitableForRunningNew = (weatherData) => {
     recommendation: uvRecommendation,
   });
 
-  // Running Time Recommendation Logic
-  // const recommendRunningTime = () => {
-  //   const morning = hourly.slice(8, 11); // 8~10시
-  //   const afternoon = hourly.slice(16, 19); // 16~18시
-  //   const evening = hourly.slice(20, 24); // 20시 이후
-  //
-  //   const evaluateTimeSlot = (slot) => {
-  //     const avgTemp =
-  //       slot.reduce((acc, hour) => acc + hour.temp, 0) / slot.length;
-  //     const avgUVI =
-  //       slot.reduce((acc, hour) => acc + hour.uvi, 0) / slot.length;
-  //     const avgWindSpeed =
-  //       slot.reduce((acc, hour) => acc + hour.wind_speed, 0) / slot.length;
-  //     const avgWeatherCondition = slot[0].weather[0].main; // 시간대별 첫 번째 날씨 상태 기준
-  //
-  //     // 날씨 상태에 따른 조건 추가
-  //     const weatherConditions = {
-  //       Thunderstorm: "danger",
-  //       Snow: "warning",
-  //       Rain: "warning",
-  //       Drizzle: "caution",
-  //       Mist: "caution",
-  //       Haze: "caution",
-  //       Clear: "good",
-  //       Clouds: "good",
-  //     };
-  //
-  //     // 날씨 상태에 따른 초기 등급 설정
-  //     let rating = weatherConditions[avgWeatherCondition] || "caution";
-  //
-  //     // 조건에 따른 등급 업데이트
-  //     if (avgTemp >= 30 || avgUVI >= 10 || avgWindSpeed >= 15) {
-  //       rating = "danger";
-  //     } else if (avgTemp >= 25 || avgUVI >= 8 || avgWindSpeed >= 10) {
-  //       rating = "warning";
-  //     } else if (avgTemp <= 5 || avgUVI >= 6 || avgWindSpeed >= 8) {
-  //       rating = rating === "good" ? "caution" : rating; // 좋은 날씨에서도 주의로 변경
-  //     }
-  //
-  //     return rating;
-  //   };
-  //
-  //   // 시간대별 추천
-  //   const morningRating = evaluateTimeSlot(morning);
-  //   const afternoonRating = evaluateTimeSlot(afternoon);
-  //   const eveningRating = evaluateTimeSlot(evening);
-  //
-  //   return [
-  //     { time: "오전 8~10시", rating: morningRating },
-  //     { time: "오후 16~18시", rating: afternoonRating },
-  //     { time: "저녁 20시 이후", rating: eveningRating },
-  //   ];
-  // };
-  //
-  // // 최종 추천 시간대를 details에 추가
-  // details.push({
-  //   condition: "추천 러닝 시간대",
-  //   recommendation: recommendRunningTime(),
-  // });
-
   // 현재 날짜를 기반으로 계절을 판별합니다.
   const currentMonth = new Date().getMonth() + 1; // JavaScript 월은 0부터 시작하므로 +1
   const season =
