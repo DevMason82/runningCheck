@@ -10,7 +10,7 @@ export function middleware(request: NextRequest) {
   if (token === undefined) {
     // console.log("sdfsdfsdfsd");
     // 토큰이 없으면 `/signing` 경로로 리다이렉트
-    return NextResponse.rewrite(new URL("/signin", request.url));
+    return NextResponse.redirect(new URL("/signin", request.url));
   }
 
   if (currentPath === "/signin") {
@@ -23,5 +23,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/runningStatusInfo/:path*", "/signin"], // 미들웨어 적용 경로
+  matcher: ["/", "/runningStatusInfo/:path*"], // 미들웨어 적용 경로
 };
