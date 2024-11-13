@@ -26,6 +26,8 @@ import { usePathname } from "next/navigation";
 import { siteConfig } from "@/config/site";
 import { deleteCookie, getCookie, setCookie } from "cookies-next";
 import { useRouter } from "next-nprogress-bar";
+import { BiCurrentLocation } from "react-icons/bi";
+import { PiSignOut } from "react-icons/pi";
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -80,27 +82,23 @@ export const Navbar = () => {
         </NavbarBrand>
       </NavbarContent>
 
-      <NavbarContent className="hidden sm:flex gap-6" justify="center">
-        {menuItems.map((item, index) => (
-          <NavbarItem
-            key={`${item}-${index}`}
-            isActive={pathname === item.href}
-          >
-            <Link
-              color={"foreground"}
-              href={item.href}
-              // onPress={() => setIsMenuOpen(false)}
-            >
-              {item.label}
-            </Link>
-          </NavbarItem>
-        ))}
-      </NavbarContent>
+      {/*<NavbarContent className="hidden sm:flex gap-6" justify="center">*/}
+      {/*  {menuItems.map((item, index) => (*/}
+      {/*    <NavbarItem*/}
+      {/*      key={`${item}-${index}`}*/}
+      {/*      isActive={pathname === item.href}*/}
+      {/*    >*/}
+      {/*      <Link*/}
+      {/*        color={"foreground"}*/}
+      {/*        href={item.href}*/}
+      {/*        // onPress={() => setIsMenuOpen(false)}*/}
+      {/*      >*/}
+      {/*        {item.label}*/}
+      {/*      </Link>*/}
+      {/*    </NavbarItem>*/}
+      {/*  ))}*/}
+      {/*</NavbarContent>*/}
       <NavbarContent justify="end">
-        <NavbarItem>
-          <ThemeSwitch />
-        </NavbarItem>
-
         {session && session.user ? (
           <Dropdown placement="bottom-end">
             <DropdownTrigger>
@@ -118,6 +116,7 @@ export const Navbar = () => {
               aria-label="Profile Actions"
               variant="flat"
               className="text-default-700"
+              disabledKeys={["profile"]}
             >
               <DropdownSection title="User Info" showDivider>
                 <DropdownItem
@@ -125,15 +124,25 @@ export const Navbar = () => {
                   className=""
                   textValue={session?.user?.name!}
                 >
-                  <p className="font-semibold">{session?.user?.name!}</p>
+                  {/*<p className="font-semibold text-white">*/}
+                  {session?.user?.name!}
+                  {/*</p>*/}
                 </DropdownItem>
               </DropdownSection>
+
+              {/*<NavbarItem>*/}
+              <DropdownItem textValue="테마변경">
+                <ThemeSwitch />
+              </DropdownItem>
+              {/*</NavbarItem>*/}
 
               <DropdownItem
                 key="myPosition"
                 // color="danger"
                 onPress={handleMyPosition}
-                className="text-right"
+                // className="text-right flex flex-row bg-yellow-500"
+                startContent={<BiCurrentLocation size={18} />}
+                textValue="위치변경"
               >
                 위치변경
               </DropdownItem>
@@ -142,7 +151,9 @@ export const Navbar = () => {
                 key="logout"
                 color="danger"
                 onPress={() => signOut()}
-                className="text-right"
+                // className="text-right"
+                startContent={<PiSignOut size={18} />}
+                textValue="signOut"
               >
                 SignOut
               </DropdownItem>

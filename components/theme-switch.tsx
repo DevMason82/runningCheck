@@ -33,7 +33,9 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
     getWrapperProps,
   } = useSwitch({
     isSelected: theme === "light" || isSSR,
-    "aria-label": `Switch to ${theme === "light" || isSSR ? "dark" : "light"} mode`,
+    "aria-label": `Switch to ${
+      theme === "light" || isSSR ? "dark" : "light"
+    } mode`,
     onChange,
   });
 
@@ -60,20 +62,22 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
               "rounded-lg",
               "flex items-center justify-center",
               "group-data-[selected=true]:bg-transparent",
-              "!text-default-500",
+              "!text-default-700",
               "pt-px",
               "px-0",
               "mx-0",
+              "gap-2",
             ],
             classNames?.wrapper,
           ),
         })}
       >
         {!isSelected || isSSR ? (
-          <BsLightbulbOff size={22} />
+          <BsLightbulbOff size={16} className="text-default-700" />
         ) : (
-          <BsLightbulb size={22} />
+          <BsLightbulb size={16} className="text-default-700" />
         )}
+        테마변경
       </div>
     </Component>
   );
