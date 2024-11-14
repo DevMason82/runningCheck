@@ -15,7 +15,7 @@ export default async function Home() {
       <Divider className="my-5" />
 
       <div className="flex items-end justify-center">
-        <ProductCard data={data} />
+        <ProductCard data={data} recoNum={0} />
       </div>
     </div>
     // <div className="max-w bg-yellow-500 h-screen">

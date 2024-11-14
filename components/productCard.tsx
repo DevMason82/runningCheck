@@ -14,7 +14,7 @@ import { MdOutlineRefresh } from "react-icons/md";
 import { fetchCoupangRecommendations } from "@/app/actions";
 import HvCenterSpinner from "@/components/hvCenterSpinner";
 
-const ProductCard = ({ data }: { data: any }) => {
+const ProductCard = ({ data, recoNum }: { data: any; recoNum: number }) => {
   const [recoData, setRecoData] = useState(data);
   const [isPending, startTransition] = useTransition();
   const [loading, setLoading] = useState(true);
@@ -65,28 +65,30 @@ const ProductCard = ({ data }: { data: any }) => {
         <Card
           // className="max-w-md"
           isPressable
-          onPress={() => window.open(recoData[0].productUrl, "_blank")}
+          onPress={() => window.open(recoData[recoNum].productUrl, "_blank")}
         >
           <CardHeader className="flex text-sm font-semibold items-start gap-1">
-            {recoData[0].isRocket && (
-              <Chip color="primary" size="sm">
-                로켓배송
-              </Chip>
-            )}
-            {recoData[0].productName}
+            {recoData[recoNum].productName}
           </CardHeader>
           <Divider />
           <CardBody className="relative">
             <div className="flex flex-row items-center justify-center">
               <Image
-                src={recoData[0].productImage}
-                alt={recoData[0].productName}
+                src={recoData[recoNum].productImage}
+                alt={recoData[recoNum].productName}
                 width={180}
               />
             </div>
           </CardBody>
-          <CardFooter className="gap-2 flex justify-end">
-            <Chip size="sm">{recoData[0].productPrice.toLocaleString()}원</Chip>
+          <CardFooter className="gap-2 flex justify-between">
+            {recoData[recoNum].isRocket && (
+              <Chip color="primary" size="sm">
+                로켓배송
+              </Chip>
+            )}
+            <Chip size="sm">
+              {recoData[recoNum].productPrice.toLocaleString()}원
+            </Chip>
           </CardFooter>
         </Card>
       </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { SetStateAction, useState, useTransition } from "react";
+import React, { SetStateAction, useState, useTransition } from "react";
 import {
   Button,
   Card,
@@ -83,19 +83,8 @@ export default function Weather({ data }: { data: any }) {
         </div>
       </div>
 
-      <Card className="mb-3">
-        <CardHeader
-          className="text-default-700"
-          // className={
-          //   weatherData.suitableForRunning.rating === "good"
-          //     ? "text-success-400"
-          //     : weatherData.suitableForRunning.rating === "warning"
-          //     ? "text-warning-400"
-          //     : weatherData.suitableForRunning.rating === "caution"
-          //     ? "text-amber-300"
-          //     : "text-danger-400"
-          // }
-        >
+      <Card className="mb-5">
+        <CardHeader className="text-default-700">
           <div className="w-full flex items-center justify-between">
             <span className="font-semibold">러닝 상태</span>
             <Button
@@ -111,21 +100,6 @@ export default function Weather({ data }: { data: any }) {
         </CardHeader>
         <Divider />
         <CardBody className="flex flex-row items-center justify-center gap-3">
-          {/*<div className="flex flex-col gap-2">*/}
-          {/*  <FaPersonRunning*/}
-          {/*    size={88}*/}
-          {/*    className={*/}
-          {/*      weatherData.suitableForRunning.rating === "good"*/}
-          {/*        ? "text-success-400"*/}
-          {/*        : weatherData.suitableForRunning.rating === "warning"*/}
-          {/*        ? "text-warning-400"*/}
-          {/*        : weatherData.suitableForRunning.rating === "caution"*/}
-          {/*        ? "text-amber-300"*/}
-          {/*        : "text-danger-400"*/}
-          {/*    }*/}
-          {/*  />*/}
-          {/*</div>*/}
-
           <div className="flex flex-col">
             <div className="text-base flex items-center justify-between mb-2">
               <span>{krName}</span>
@@ -202,48 +176,28 @@ export default function Weather({ data }: { data: any }) {
                 },
               )}
             </div>
-            {/*<div className="flex items-center text-3xl">*/}
-            {/*  {weatherData.temperature}*/}
-            {/*  <TbTemperatureCelsius size={36} />*/}
-            {/*</div>*/}
-            {/*<div className="flex items-center text-xs text-default-500">*/}
-            {/*  <span>체감 온도: {weatherData.feelsLike}</span>*/}
-            {/*  <TbTemperatureCelsius />*/}
-            {/*</div>*/}
           </div>
-
-          {/*<div>*/}
-          {/*  <div className="flex flex-col gap-1">*/}
-          {/*    {weatherData.suitableForRunning.details[6].recommendation.map(*/}
-          {/*      (item, index) => {*/}
-          {/*        return (*/}
-          {/*          <div*/}
-          {/*            key={index.toString()}*/}
-          {/*            className="flex items-center gap-2"*/}
-          {/*          >*/}
-          {/*            <span className="text-xs">{item.time}</span>*/}
-          {/*            <Chip*/}
-          {/*              size="sm"*/}
-          {/*              className={*/}
-          {/*                item.rating === "good"*/}
-          {/*                  ? "bg-success-400 capitalize"*/}
-          {/*                  : item.rating === "caution"*/}
-          {/*                  ? "bg-amber-300 text-black capitalize"*/}
-          {/*                  : item.rating === "warning"*/}
-          {/*                  ? "bg-warning-400 capitalize"*/}
-          {/*                  : "bg-danger-400 capitalize"*/}
-          {/*              }*/}
-          {/*            >*/}
-          {/*              {item.rating}*/}
-          {/*            </Chip>*/}
-          {/*          </div>*/}
-          {/*        );*/}
-          {/*      },*/}
-          {/*    )}*/}
-          {/*  </div>*/}
-          {/*</div>*/}
         </CardBody>
       </Card>
+
+      <div className="mb-5">
+        <Button
+          href="https://link.coupang.com/a/bZga9r"
+          as={Link}
+          // color="primary"
+          showAnchorIcon
+          size="sm"
+          variant="solid"
+          className="mb-2 font-semibold text-sm bg-red-500"
+          isExternal
+          fullWidth
+        >
+          쿠팡 홈
+        </Button>
+        <p className="text-xs text-default-700 text-center">
+          &quot;쿠팡 파트너스 활동으로, 일정액의 수수료를 제공받습니다.&quot;
+        </p>
+      </div>
 
       <div className="grid grid-cols-2 gap-3">
         <Card isPressable onPress={() => handleModalOpen(0)}>
@@ -446,140 +400,6 @@ export default function Weather({ data }: { data: any }) {
           weatherIndex={weatherIndex}
         />
       )}
-
-      <Card shadow="none" className="hidden">
-        {/*<CardHeader className="flex flex-col justify-center">*/}
-        {/*  <div className="w-full flex items-center justify-end mb-2">*/}
-        {/*    <div className="flex items-center justify-between">*/}
-        {/*      <span className="ml-2 text-xs text-default-500">*/}
-        {/*        {`업데이트: ${weatherData.timestamp}`}*/}
-        {/*      </span>*/}
-        {/*      <Button*/}
-        {/*        isIconOnly*/}
-        {/*        variant="light"*/}
-        {/*        onPress={handleRefresh}*/}
-        {/*        aria-label="새로고침"*/}
-        {/*        size="sm"*/}
-        {/*      >*/}
-        {/*        <MdOutlineRefresh size={20} />*/}
-        {/*      </Button>*/}
-        {/*    </div>*/}
-        {/*  </div>*/}
-        {/*  <h3 className="font-semibold text-lg mt-3">{getCity}</h3>*/}
-
-        {/*  /!*<Select*!/*/}
-        {/*  /!*  id="city"*!/*/}
-        {/*  /!*  selectedKeys={[city]}*!/*/}
-        {/*  /!*  onChange={(e) => handleCityChange(e.target.value)}*!/*/}
-        {/*  /!*  disabled={isPending} // 요청 중일 때 비활성화*!/*/}
-        {/*  /!*  disabledKeys={[city]}*!/*/}
-        {/*  /!*  placeholder="Select a city"*!/*/}
-        {/*  /!*  aria-label="Select city"*!/*/}
-        {/*  /!*>*!/*/}
-        {/*  /!*  {cities.map((city) => (*!/*/}
-        {/*  /!*    <SelectItem*!/*/}
-        {/*  /!*      key={city.name}*!/*/}
-        {/*  /!*      value={city.name}*!/*/}
-        {/*  /!*      className="text-default-700"*!/*/}
-        {/*  /!*    >*!/*/}
-        {/*  /!*      {city.krName}*!/*/}
-        {/*  /!*    </SelectItem>*!/*/}
-        {/*  /!*  ))}*!/*/}
-        {/*  /!*</Select>*!/*/}
-        {/*</CardHeader>*/}
-
-        <CardBody>
-          {/*<div className="flex flex-col items-center mb-5">*/}
-          {/*  <div className="flex items-center mb-5 relative">*/}
-          {/*    <FaPersonRunning*/}
-          {/*      size={100}*/}
-          {/*      className={*/}
-          {/*        weatherData.suitableForRunning.rating === "good"*/}
-          {/*          ? "text-success-500 z-10"*/}
-          {/*          : weatherData.suitableForRunning.rating === "warning"*/}
-          {/*          ? "text-warning-500 z-10"*/}
-          {/*          : weatherData.suitableForRunning.rating === "caution"*/}
-          {/*          ? "text-yellow-500 z-10"*/}
-          {/*          : "text-danger-500 z-10"*/}
-          {/*      }*/}
-          {/*    />*/}
-          {/*    {weatherData.weather[0].iconUrl && (*/}
-          {/*      <div className="absolute -top-10 -left-12 z-0">*/}
-          {/*        <Image*/}
-          {/*          src={weatherData.weather[0].iconUrl}*/}
-          {/*          alt={weatherData.weather[0].description}*/}
-          {/*          width={120}*/}
-          {/*          className="z-10"*/}
-          {/*        />*/}
-          {/*      </div>*/}
-          {/*    )}*/}
-          {/*  </div>*/}
-          {/*  /!*<div className="flex items-center justify-between w-full">*!/*/}
-          {/*  /!*  {weatherData.weatherIcon && (*!/*/}
-          {/*  /!*    <Image*!/*/}
-          {/*  /!*      src={weatherData.weatherIcon}*!/*/}
-          {/*  /!*      alt={weatherData.weatherDescription}*!/*/}
-          {/*  /!*      width={65}*!/*/}
-          {/*  /!*    />*!/*/}
-          {/*  /!*  )}*!/*/}
-
-          {/*  /!*  <p*!/*/}
-          {/*  /!*    className={*!/*/}
-          {/*  /!*      weatherData.suitableForRunning.rating === "good"*!/*/}
-          {/*  /!*        ? "text-success-500 capitalize"*!/*/}
-          {/*  /!*        : weatherData.suitableForRunning.rating === "warning"*!/*/}
-          {/*  /!*        ? "text-warning-500 capitalize"*!/*/}
-          {/*  /!*        : "text-danger-500 capitalize"*!/*/}
-          {/*  /!*    }*!/*/}
-          {/*  /!*  >*!/*/}
-          {/*  /!*    {weatherData.suitableForRunning.rating}*!/*/}
-          {/*  /!*  </p>*!/*/}
-          {/*  /!*</div>*!/*/}
-          {/*  <Divider />*/}
-          {/*</div>*/}
-
-          {/*<div>*/}
-          {/*  {weatherData.suitableForRunning.details.map((item, index) => {*/}
-          {/*    return (*/}
-          {/*      <div key={index.toString()} className="flex flex-col mb-5">*/}
-          {/*        <div className="flex justify-between mb-1">*/}
-          {/*          <span>{item.condition}</span>*/}
-          {/*          <span*/}
-          {/*            className={*/}
-          {/*              item.rating === "good"*/}
-          {/*                ? "text-success-500 capitalize"*/}
-          {/*                : item.rating === "warning"*/}
-          {/*                ? "text-warning-500 capitalize"*/}
-          {/*                : item.rating === "caution"*/}
-          {/*                ? "text-yellow-500 capitalize"*/}
-          {/*                : "text-danger-500 capitalize"*/}
-          {/*            }*/}
-          {/*          >*/}
-          {/*            {item.rating}*/}
-          {/*          </span>*/}
-          {/*        </div>*/}
-
-          {/*        <div*/}
-          {/*          className={*/}
-          {/*            item.rating === "good"*/}
-          {/*              ? "bg-success-500 p-1 px-2 rounded-md"*/}
-          {/*              : item.rating === "warning"*/}
-          {/*              ? "bg-warning-500 p-1 px-2 rounded-md"*/}
-          {/*              : item.rating === "caution"*/}
-          {/*              ? "bg-yellow-500 p-1 px-2 rounded-md"*/}
-          {/*              : "bg-danger-500 p-1 px-2 rounded-md"*/}
-          {/*          }*/}
-          {/*        >*/}
-          {/*          <p className="flex justify-end text-default-50 text-base subpixel-antialiased">*/}
-          {/*            {item.recommendation}*/}
-          {/*          </p>*/}
-          {/*        </div>*/}
-          {/*      </div>*/}
-          {/*    );*/}
-          {/*  })}*/}
-          {/*</div>*/}
-        </CardBody>
-      </Card>
     </>
   );
 }

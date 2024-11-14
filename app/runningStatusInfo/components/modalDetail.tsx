@@ -29,6 +29,7 @@ const ModalDetail = ({ isOpen, onClose, result, weatherIndex }) => {
       className="text-default-700"
       placement="bottom"
       closeButton={<IoClose size={45} color="white" />}
+      scrollBehavior="inside"
     >
       <ModalContent>
         {(onClose) => (
@@ -62,6 +63,19 @@ const ModalDetail = ({ isOpen, onClose, result, weatherIndex }) => {
                 <p className="text-base ml-4 whitespace-pre-wrap">
                   {selectedResult.recommendation.message}
                 </p>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  Nullam pulvinar risus non risus hendrerit venenatis.
+                  Pellentesque sit amet hendrerit risus, sed porttitor quam.
+                </p>
+                <p>
+                  Magna exercitation reprehenderit magna aute tempor cupidatat
+                  consequat elit dolor adipisicing. Mollit dolor eiusmod sunt ex
+                  incididunt cillum quis. Velit duis sit officia eiusmod Lorem
+                  aliqua enim laboris do dolor eiusmod. Et mollit incididunt
+                  nisi consectetur esse laborum eiusmod pariatur proident Lorem
+                  eiusmod et. Culpa deserunt nostrud ad veniam.
+                </p>
               </div>
 
               {selectedResult.recommendation.items !== "" && (
@@ -82,7 +96,7 @@ const ModalDetail = ({ isOpen, onClose, result, weatherIndex }) => {
                 </div>
               )}
 
-              <Divider />
+              {/*<Divider />*/}
 
               {/*<iframe*/}
               {/*  src="https://coupa.ng/cguRSF"*/}
@@ -94,32 +108,26 @@ const ModalDetail = ({ isOpen, onClose, result, weatherIndex }) => {
               {/*  browsingtopics*/}
               {/*></iframe>*/}
             </ModalBody>
-            <ModalFooter>
-              <div>
-                <Button
-                  href="https://link.coupang.com/a/bZga9r"
-                  as={Link}
-                  color="success"
-                  showAnchorIcon
-                  size="sm"
-                  variant="solid"
-                  className="mb-2"
-                  isExternal
-                >
-                  쿠팡 홈
-                </Button>
-                <p className="text-xs">
-                  &quot;쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의
-                  수수료를 제공받습니다.&quot;
-                </p>
-              </div>
-              {/*<Button color="danger" variant="light" onPress={onClose}>*/}
-              {/*  Close*/}
-              {/*</Button>*/}
-              {/*<Button color="primary" onPress={onClose}>*/}
-              {/*  Action*/}
-              {/*</Button>*/}
-            </ModalFooter>
+            {/*<ModalFooter>*/}
+            {/*  <div>*/}
+            {/*    <Button*/}
+            {/*      href="https://link.coupang.com/a/bZga9r"*/}
+            {/*      as={Link}*/}
+            {/*      color="success"*/}
+            {/*      showAnchorIcon*/}
+            {/*      size="sm"*/}
+            {/*      variant="solid"*/}
+            {/*      className="mb-2"*/}
+            {/*      isExternal*/}
+            {/*    >*/}
+            {/*      쿠팡 홈*/}
+            {/*    </Button>*/}
+            {/*    <p className="text-xs">*/}
+            {/*      &quot;쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의*/}
+            {/*      수수료를 제공받습니다.&quot;*/}
+            {/*    </p>*/}
+            {/*  </div>*/}
+            {/*</ModalFooter>*/}
           </>
         )}
       </ModalContent>
