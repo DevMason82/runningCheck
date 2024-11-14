@@ -44,9 +44,9 @@ const ProductCard = ({ data }: { data: any }) => {
   };
 
   return (
-    <div className="-mt-28">
+    <div>
       {isPending && <HvCenterSpinner />}
-      <div className="mx-auto max-w-md">
+      <div className="flex flex-col items-center">
         <div className="flex items-center justify-end">
           <p className="text-xs text-default-400 text-center w-fit">
             &#34;쿠팡 파트너스 활동으로, 일정액의 수수료를 제공받습니다.&#34;
