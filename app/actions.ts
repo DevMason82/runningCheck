@@ -55,7 +55,7 @@ export async function getWeather2(latitude: number, longitude: number) {
     // 날씨 데이터 파싱
     const weatherData = await res.json();
 
-    console.log("@@@@@", weatherData);
+    // console.log("@@@@@", weatherData);
 
     // 결과 반환
     return parseWeatherDataNew(weatherData);
@@ -82,7 +82,7 @@ export async function fetchCoupangRecommendations() {
         Authorization: authHeader,
         "Content-Type": "application/json",
       },
-      cache: "no-store", // 실시간 데이터를 위해 캐시를 사용하지 않음
+      // cache: "no-store", // 실시간 데이터를 위해 캐시를 사용하지 않음
     });
 
     if (!res.ok) {
@@ -91,7 +91,7 @@ export async function fetchCoupangRecommendations() {
 
     // JSON 형태로 응답을 받아 파싱
     const data = await res.json();
-    console.log(data);
+    // console.log(data);
     return data.data || []; // 추천 상품 배열을 반환
   } catch (error) {
     console.error("Error fetching Coupang recommendations:", error);

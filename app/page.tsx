@@ -1,6 +1,6 @@
 import MyPosition from "@/components/myPosition";
 import { fetchCoupangRecommendations } from "@/app/actions";
-import ProductCard from "@/app/coupang/components/productCard";
+import ProductCard from "@/components/productCard";
 import { Divider } from "@nextui-org/react";
 
 export default async function Home() {
