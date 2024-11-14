@@ -7,7 +7,7 @@ export default async function Home() {
   const data = await fetchCoupangRecommendations();
 
   return (
-    <div className="max-w grid grid-rows-2">
+    <div className="max-w grid grid-rows-1">
       <div className="flex items-start justify-center">
         <MyPosition />
       </div>
