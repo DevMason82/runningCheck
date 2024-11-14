@@ -1,31 +1,33 @@
-// import { Skeleton } from "@nextui-org/react";
-// import DeviceDetector from "@/components/deviceDetector";
-//
-// import dynamic from "next/dynamic";
-// import { getWeather } from "@/app/actions";
-// import LocationTracker from "@/components/locationTracker";
-// import Weather from "@/components/weather";
-//
-// const LazyWeather = dynamic(() => import("@/components/weather"), {
-//   loading: () => <Skeleton className="rounded-lg" />,
-//   ssr: false,
-// });
-
 import MyPosition from "@/components/myPosition";
-import LocationTracker from "@/components/locationTracker";
+import { fetchCoupangRecommendations } from "@/app/actions";
+import ProductCard from "@/components/productCard";
+import { Divider } from "@nextui-org/react";
 
 export default async function Home() {
-  // const data = await getWeather("Uijeongbu-si");
-  // console.log("GET WEATHER INFO ==>>", data);
+  const data = await fetchCoupangRecommendations();
 
   return (
-    <div className="max-w">
-      <MyPosition />
-      {/*<div className="grid grid-flow-row auto-rows-max gap-4 md:grid-cols-2 xl:grid-cols-4">*/}
-      {/*<DeviceDetector />*/}
+    <div className="max-w grid grid-rows-2">
+      <div className="flex items-start justify-center">
+        <MyPosition />
+      </div>
 
-      {/*<LazyWeather data={data} />*/}
-      {/*<LazyWeather />*/}
+      <Divider className="my-5" />
+
+      <div className="flex items-end justify-center">
+        <ProductCard data={data} />
+      </div>
     </div>
+    // <div className="max-w bg-yellow-500 h-screen">
+    //   <div className="grid grid-rows-2 grid-flow-col gap-4 bg-green-400">
+    //     <div className="row-end-1">
+    //       <MyPosition />
+    //     </div>
+    //     {/*<Divider className="my-3" />*/}
+    //     <div className="row-end-2">
+    //       <ProductCard data={data} />
+    //     </div>
+    //   </div>
+    // </div>
   );
 }

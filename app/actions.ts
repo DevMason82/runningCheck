@@ -6,10 +6,13 @@ import {
   parseWeatherData,
   parseWeatherDataNew,
 } from "@/libs/helpers";
+import { generateHmac } from "@/libs/coupangAuth";
 import { getStorage } from "@/libs/localStorage";
 import { getCurrentDateTime } from "@/libs/getCurrentDateTime";
 const API_KEY = process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY;
-const API_KEY_KMA = process.env.NEXT_PUBLIC_KMA_API_KEY;
+const COUPANG_PARTNER_API_KEY = process.env.COUPANG_PARTNER_API_KEY;
+const ACCESS_KEY = process.env.COUPANG_ACCESS_KEY;
+const SECRET_KEY = process.env.COUPANG_SECRET_KEY;
 
 export async function getWeather(city: string | undefined) {
   const endPoint = `https://api.openweathermap.org/data/2.5/weather?q=${city}&lang=kr&appid=${API_KEY}&units=metric`;
@@ -52,7 +55,7 @@ export async function getWeather2(latitude: number, longitude: number) {
     // 날씨 데이터 파싱
     const weatherData = await res.json();
 
-    console.log("@@@@@", weatherData);
+    // console.log("@@@@@", weatherData);
 
     // 결과 반환
     return parseWeatherDataNew(weatherData);
@@ -62,28 +65,36 @@ export async function getWeather2(latitude: number, longitude: number) {
   }
 }
 
-// 기상청 API 호출 함수 (격자 X, Y 좌표로 요청)
-// export async function getUltraSrtNcst(nx: number | null, ny: number | null) {
-//   const { baseDate, baseTime } = getCurrentDateTime();
-//   console.log("BASETIME", baseTime);
-//   const url = `https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey=${API_KEY_KMA}&base_date=${baseDate}&base_time=${baseTime}&nx=${nx}&ny=${ny}&dataType=JSON`;
-//
-//   try {
-//     const response = await fetch(url, {
-//       // cache: "no-store", // 캐싱 방지
-//       next: { revalidate: 3600 },
-//     });
-//
-//     if (!response.ok) {
-//       throw new Error("Failed to fetch weather data from KMA");
-//     }
-//
-//     const data = await response.json();
-//     // return data.response.body.items.item;
-//     console.log("KMA data ==>>", data.response.body.items.item);
-//     return parseWeatherKMAData(data.response.body.items.item);
-//   } catch (error) {
-//     console.error("Error fetching KMA weather data:", error);
-//     throw new Error("Failed to fetch weather data.");
-//   }
-// }
+export async function fetchCoupangRecommendations() {
+  const method = "GET";
+  const endPoint =
+    "/v2/providers/affiliate_open_api/apis/openapi/v1/products/reco";
+  const fullUrl = `https://api-gateway.coupang.com${endPoint}`;
+
+  try {
+    // HMAC 인증 헤더 생성
+    const authHeader = generateHmac(method, endPoint, SECRET_KEY, ACCESS_KEY);
+
+    // 쿠팡 API로부터 추천 상품 데이터 가져오기
+    const res = await fetch(fullUrl, {
+      method,
+      headers: {
+        Authorization: authHeader,
+        "Content-Type": "application/json",
+      },
+      // cache: "no-store", // 실시간 데이터를 위해 캐시를 사용하지 않음
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch Coupang recommendations");
+    }
+
+    // JSON 형태로 응답을 받아 파싱
+    const data = await res.json();
+    // console.log(data);
+    return data.data || []; // 추천 상품 배열을 반환
+  } catch (error) {
+    console.error("Error fetching Coupang recommendations:", error);
+    throw new Error("Error fetching Coupang recommendations");
+  }
+}

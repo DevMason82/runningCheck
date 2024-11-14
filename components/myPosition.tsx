@@ -68,7 +68,7 @@ const MyPosition = () => {
   };
 
   return (
-    <Card shadow="sm">
+    <Card shadow="sm" className="w-full mx-auto max-w-md">
       <CardBody>
         <Select
           label="러닝을 주로 하는 지역 선택"

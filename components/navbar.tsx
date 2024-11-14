@@ -28,6 +28,7 @@ import { deleteCookie, getCookie, setCookie } from "cookies-next";
 import { useRouter } from "next-nprogress-bar";
 import { BiCurrentLocation } from "react-icons/bi";
 import { PiSignOut } from "react-icons/pi";
+import { FaPersonRunning } from "react-icons/fa6";
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -58,9 +59,11 @@ export const Navbar = () => {
   ];
 
   const handleMyPosition = () => {
-    // deleteCookie("myPosition");
-    // setCookie("myPosition", "");
     router.push("/");
+  };
+
+  const handleIntro = () => {
+    window.open("https://blog.naver.com/mason-life/223650492066", "_blank");
   };
 
   return (
@@ -130,11 +133,21 @@ export const Navbar = () => {
                 </DropdownItem>
               </DropdownSection>
 
-              {/*<NavbarItem>*/}
-              <DropdownItem textValue="테마변경">
+              <DropdownItem
+                key="intro"
+                // color="danger"
+                onPress={handleIntro}
+                // className="text-right flex flex-row bg-yellow-500"
+                startContent={<FaPersonRunning size={18} />}
+                textValue="러닝체크 소개"
+                // href="https://blog.naver.com/mason-life/223650492066"
+              >
+                소개
+              </DropdownItem>
+
+              <DropdownItem key="themeSwitch" textValue="테마변경">
                 <ThemeSwitch />
               </DropdownItem>
-              {/*</NavbarItem>*/}
 
               <DropdownItem
                 key="myPosition"
