@@ -106,15 +106,19 @@ export default function Weather({ data }: { data: any }) {
               <div>
                 {weatherData.suitableForRunning.details[6].recommendation[0]
                   .season === "spring" ? (
-                  <FaLeaf className="text-lime-400" />
+                  // <FaLeaf className="text-lime-400" />
+                  <span className="text-2xl">🌸</span>
                 ) : weatherData.suitableForRunning.details[6].recommendation[0]
                     .season === "summer" ? (
-                  <FaLeaf className="text-green-600" />
+                  // <FaLeaf className="text-green-600" />
+                  <span className="text-2xl">🌞</span>
                 ) : weatherData.suitableForRunning.details[6].recommendation[0]
                     .season === "fall" ? (
-                  <FaLeaf className="text-amber-600" />
+                  // <FaLeaf className="text-amber-600" />
+                  <span className="text-2xl">🍂</span>
                 ) : (
-                  <FaLeaf className="text-white" />
+                  // <FaLeaf className="text-white" />
+                  <span className="text-2xl">❄️</span>
                 )}
               </div>
             </div>
