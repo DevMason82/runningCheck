@@ -66,6 +66,10 @@ export const Navbar = () => {
     window.open("https://blog.naver.com/mason-life/223650492066", "_blank");
   };
 
+  const handleFeedback = () => {
+    window.open("https://blog.naver.com/mason-life/223651915694", "_blank");
+  };
+
   return (
     <NextUINavbar
       isMenuOpen={isMenuOpen}
@@ -158,6 +162,18 @@ export const Navbar = () => {
                 textValue="위치변경"
               >
                 위치변경
+              </DropdownItem>
+
+              <DropdownItem
+                key="feedback"
+                // color="danger"
+                onPress={handleFeedback}
+                // className="text-right flex flex-row bg-yellow-500"
+                startContent={<FaPersonRunning size={18} />}
+                textValue="러닝체크 소개"
+                // href="https://blog.naver.com/mason-life/223650492066"
+              >
+                피드백/개선사항
               </DropdownItem>
 
               <DropdownItem
