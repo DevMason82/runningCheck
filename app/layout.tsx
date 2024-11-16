@@ -5,6 +5,7 @@ import { Providers } from "@/app/providers";
 import { Navbar } from "@/components/navbar";
 import { siteConfig } from "@/config/site";
 import { Analytics } from "@vercel/analytics/react";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -65,6 +66,13 @@ export default async function RootLayout({
 
   return (
     <html suppressHydrationWarning lang="en">
+      <head>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6610388120940732"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body className={inter.className}>
         <Providers>
           <Navbar />
