@@ -66,13 +66,6 @@ export default async function RootLayout({
 
   return (
     <html suppressHydrationWarning lang="en">
-      <head>
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6610388120940732"
-          crossOrigin="anonymous"
-        />
-      </head>
       <body className={inter.className}>
         <Providers>
           <Navbar />
@@ -80,6 +73,11 @@ export default async function RootLayout({
         </Providers>
         <Analytics />
       </body>
+      <Script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6610388120940732"
+        crossorigin="anonymous"
+      />
     </html>
   );
 }
