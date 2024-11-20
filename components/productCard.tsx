@@ -44,13 +44,10 @@ const ProductCard = ({ data, recoNum }: { data: any; recoNum: number }) => {
   };
 
   return (
-    <div>
+    <div className="relative">
       {isPending && <HvCenterSpinner />}
-      <div className="flex flex-col items-center">
-        <div className="flex items-center justify-end">
-          <p className="text-xs text-default-400 text-center w-fit">
-            &#34;쿠팡 파트너스 활동으로, 일정액의 수수료를 제공받습니다.&#34;
-          </p>
+      <div className="w-full flex flex-col items-center">
+        <div className="w-full flex items-center justify-end">
           <Button
             isIconOnly
             variant="light"
@@ -63,7 +60,7 @@ const ProductCard = ({ data, recoNum }: { data: any; recoNum: number }) => {
         </div>
 
         <Card
-          // className="max-w-md"
+          className="mb-2"
           isPressable
           onPress={() => window.open(recoData[recoNum].productUrl, "_blank")}
         >
@@ -91,6 +88,9 @@ const ProductCard = ({ data, recoNum }: { data: any; recoNum: number }) => {
             </Chip>
           </CardFooter>
         </Card>
+        <p className="text-xs text-default-400 text-center w-fit">
+          &#34;쿠팡 파트너스 활동으로, 일정액의 수수료를 제공받습니다.&#34;
+        </p>
       </div>
     </div>
   );

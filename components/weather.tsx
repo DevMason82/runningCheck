@@ -198,9 +198,9 @@ export default function Weather({ data }: { data: any }) {
         >
           쿠팡 홈
         </Button>
-        <p className="text-xs text-default-700 text-center">
-          &quot;쿠팡 파트너스 활동으로, 일정액의 수수료를 제공받습니다.&quot;
-        </p>
+        {/*<p className="text-xs text-default-700 text-center">*/}
+        {/*  &quot;쿠팡 파트너스 활동으로, 일정액의 수수료를 제공받습니다.&quot;*/}
+        {/*</p>*/}
       </div>
 
       <div className="grid grid-cols-2 gap-3">
