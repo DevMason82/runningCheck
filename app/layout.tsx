@@ -5,7 +5,7 @@ import { Providers } from "@/app/providers";
 import { Navbar } from "@/components/navbar";
 import { siteConfig } from "@/config/site";
 import { Analytics } from "@vercel/analytics/react";
-import Script from "next/script";
+// import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -73,11 +73,11 @@ export default async function RootLayout({
         </Providers>
         <Analytics />
       </body>
-      <Script
-        async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6610388120940732"
-        crossorigin="anonymous"
-      />
+      {/*<Script*/}
+      {/*  async*/}
+      {/*  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6610388120940732"*/}
+      {/*  crossorigin="anonymous"*/}
+      {/*/>*/}
     </html>
   );
 }
